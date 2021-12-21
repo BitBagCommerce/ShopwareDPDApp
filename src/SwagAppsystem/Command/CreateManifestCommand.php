@@ -1,18 +1,28 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\SwagAppsystem\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Twig\Environment;
 
-class CreateManifestCommand extends Command
+final class CreateManifestCommand extends Command
 {
     protected static $defaultName = 'app:create-manifest';
+
+    private static array $consoleArguments = [
+        'Label' => 'BitBag Shopware app',
+        'Description' => 'BitBag Shopware app',
+        'Author' => 'BitBag',
+        'Copyright' => '(c) by BitBag',
+        'Version' => '1.0.0',
+        'License' => 'MIT',
+    ];
 
     /**
      * @var Environment
@@ -22,6 +32,7 @@ class CreateManifestCommand extends Command
     public function __construct(Environment $twig)
     {
         parent::__construct();
+
         $this->twig = $twig;
     }
 
@@ -33,11 +44,6 @@ class CreateManifestCommand extends Command
                 'd',
                 InputOption::VALUE_OPTIONAL,
                 'Define the destination for the manifest.xml.'
-            )
-            ->addArgument(
-                'variables',
-                InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-                'Define variables in your manifest-template.xml'
             );
     }
 
@@ -54,14 +60,12 @@ class CreateManifestCommand extends Command
                 sprintf('File "%s" already exists. Do you want to override the existing file?', $destination),
                 false
             )) {
-                $io->error('Aborting due to user input.');
-
-                return 1;
+                return 0;
             }
         }
 
         $envArguments = $this->getEnvArguments();
-        $consoleArguments = $this->getConsoleArguments($input);
+        $consoleArguments = $this->getConsoleArguments($io);
         $arguments = array_merge($envArguments, $consoleArguments);
 
         $manifest = $this->twig->render('manifest-template.xml', $arguments);
@@ -129,13 +133,14 @@ class CreateManifestCommand extends Command
         ];
     }
 
-    private function getConsoleArguments(InputInterface $input): array
+    private function getConsoleArguments(OutputInterface $io): array
     {
         $consoleArguments = [];
 
-        foreach ($input->getArgument('variables') as $argument) {
-            $explode = explode('=', $argument, 2);
-            $consoleArguments[$explode[0]] = $explode[1];
+        foreach (self::$consoleArguments as $questionLabel => $defaultValue) {
+            $answer = $io->ask($questionLabel, $defaultValue);
+
+            $consoleArguments[\strtoupper($questionLabel)] = $answer;
         }
 
         return $consoleArguments;
