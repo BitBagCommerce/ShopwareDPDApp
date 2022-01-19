@@ -81,9 +81,9 @@ You can adjust the ports as you see fit.
 This is a standard Symfony application that contains hundreds of lines of code that you'd need anyway to create a means of authenticating & authorizing requests coming from a Shopware store.
 It stores the API keys that will later be used in your services to make requests to a Shopware instance.
 
-It also contains argument resolver for your controllers so provided you want to create a controller that listens for some events, actions can the following signature:
+It also contains argument resolvers for your controllers so provided you want to create a controller that listens for some events, actions can have the following signature:
 
-```injectablephp
+```php
 class ProductController extends AbstractController
 {
     public function __invoke(EventInterface $event)
@@ -96,14 +96,16 @@ class ProductController extends AbstractController
 }
 ```
 
-It also contains a client resolver so it's easy to send requests to Shopware directly from your controller or delegating it to other services
+It also contains a client resolver so it's easy to send requests to Shopware directly from your controller or delegating them to other services:
 
-```injectablephp
+```php
 final class CustomerController extends AbstractController
 {
     private const CUSTOMER_WRITTEN_EVENT = 'customer.written';
 
-    private CustomerEmailService $emailService;
+    private AdminEmailServiceInterface $emailService;
+    
+    // ...
 
     public function __invoke(EventInterface $event, ClientInterface $client)
     {
