@@ -2,6 +2,10 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <instanceof id="BitBag\ShopwareAppSkeleton\AppSystem\AppLifecycleHandlerInterface">
+            <tag name="bitbag.shopware_app_skeleton.app_system.app_lifecycle_handler"/>
+        </instanceof>
+
         <service class="BitBag\ShopwareAppSkeleton\AppSystem\Controller\AppLifecycleEventController"
                  id="bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller"
         >
