@@ -3,7 +3,7 @@ controllers:
     type: annotation
 
 swagappsystem_controllers:
-    resource: ../../src/SwagAppsystem/Controller/
+    resource: ../../src/AppSystem/Controller/
     type: annotation
 
 kernel:

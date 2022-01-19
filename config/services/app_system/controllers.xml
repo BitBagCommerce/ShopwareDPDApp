@@ -1,0 +1,33 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service class="BitBag\ShopwareAppSkeleton\AppSystem\Controller\AppLifecycleEventController"
+                 id="bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller"
+        >
+            <argument type="tagged_iterator" tag="bitbag.shopware_app_skeleton.app_system.app_lifecycle_handler"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository"/>
+        </service>
+
+        <service class="BitBag\ShopwareAppSkeleton\AppSystem\Controller\ConfirmationController"
+                 id="bitbag.shopware_skeleton_app.app_system.controller.confirmation_controller"
+        >
+            <argument type="service" id="bitbag.shopware_app_skeleton.app_system.authenticator.authenticator"/>
+            <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="validator"/>
+
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service class="BitBag\ShopwareAppSkeleton\AppSystem\Controller\RegistrationController"
+                 id="bitbag.shopware_app_skeleton.app_system.controller.registration_controller"
+        >
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="bitbag.shopware_app_skeleton.app_system.authenticator.authenticator"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository"/>
+        </service>
+    </services>
+</container>
