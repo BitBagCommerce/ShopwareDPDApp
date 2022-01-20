@@ -1,6 +1,6 @@
 ## Introduction
 
-This repo contain a skeleton for developing new cloud-based app for Shopware. For more information about Shopware apps visit [this page](https://developer.shopware.com/docs/guides/plugins/apps/app-base-guide).
+This repo contains a skeleton for developing new cloud-based apps for Shopware. For more information about Shopware apps visit [this page](https://developer.shopware.com/docs/guides/plugins/apps/app-base-guide).
 
 ## Local development with docker-compose
 
