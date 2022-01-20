@@ -89,7 +89,7 @@ class ProductController extends AbstractController
     public function __invoke(EventInterface $event)
     {
         // Act upon the event based on shop id:
-        if ($event->getShopId === '...') {
+        if ($event->getShopId() === '...') {
             // ...
         }
     }
@@ -131,3 +131,7 @@ It wraps the raw communication between Shopware and your app. Mainly:
   - secret keys,
   - hmac signatures,
   - basically it's a swiss knife.
+
+# Credits
+
+Inspired by the original [template](https://github.com/shopwareLabs/AppTemplate) by Shopware.
