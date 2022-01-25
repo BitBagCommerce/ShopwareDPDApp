@@ -76,6 +76,26 @@ You also need to add containers that your app will use. In the same file add the
 
 You can adjust the ports as you see fit.
 
+
+It's useful to have a script for launching your app's shell:
+
+```shell
+# dev-ops/docker/actions
+
+#!/usr/bin/env bash
+​
+TTY: docker exec -i --env COLUMNS=`tput cols` --env LINES=`tput lines` -t __EXAMPLE_APP_ID__ bash
+```
+
+PSH needs to know how to resolve EXAMPLE_APP_ID. Additionally, for development purposes you can set APP_URL to point to your Shopware instance:
+
+```yaml
+dynamic:
+    EXAMPLE_APP_ID: docker-compose ps -q example_app
+const:
+    APP_URL: "http://shopware"
+```
+
 ## What it does
 
 This is a standard Symfony application that contains hundreds of lines of code that you'd need anyway to create a means of authenticating & authorizing requests coming from a Shopware store.
@@ -121,6 +141,8 @@ final class CustomerController extends AbstractController
 }
 ```
 
+
+
 ## How it works
 
 It wraps the raw communication between Shopware and your app. Mainly:
@@ -130,6 +152,7 @@ It wraps the raw communication between Shopware and your app. Mainly:
 - It handles all authentication and authorization in the background:
   - secret keys,
   - hmac signatures,
+  - automatically refreshes OAuth tokens,
   - basically it's a swiss knife.
 
 # Credits
