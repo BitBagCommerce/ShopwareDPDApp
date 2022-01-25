@@ -8,7 +8,7 @@
         >
             <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository"/>
             <argument type="service" id="bitbag.shopware_app_skeleton.app_system.authenticator.authenticator"/>
-            <argument type="service" id="bitbag.shopware_app_skeleton.app_system.resolver.credentials_resolver"/>
+            <argument type="service" id="bitbag.shopware_app_skeleton.app_system.authenticator.oauth_authenticator"/>
 
             <tag name="controller.argument_value_resolver"/>
         </service>
