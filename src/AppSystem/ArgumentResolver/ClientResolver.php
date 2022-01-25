@@ -37,7 +37,7 @@ final class ClientResolver implements ArgumentValueResolverInterface
             return false;
         }
 
-        if ('POST' === $request->getMethod() && $this->supportsPostRequest($request)) {
+        if ($request->getMethod() === 'POST' && $this->supportsPostRequest($request)) {
             $requestContent = $request->toArray();
 
             /** @var array $source */
@@ -53,7 +53,7 @@ final class ClientResolver implements ArgumentValueResolverInterface
             }
 
             return $this->authenticator->authenticatePostRequest($request, $shopSecret);
-        } elseif ('GET' === $request->getMethod() && $this->supportsGetRequest($request)) {
+        } elseif ($request->getMethod() === 'GET' && $this->supportsGetRequest($request)) {
             $shopId = $request->query->get('shop-id', '');
             $shopSecret = $this->shopRepository->findSecretByShopId($shopId);
 
@@ -69,7 +69,7 @@ final class ClientResolver implements ArgumentValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        if ('POST' === $request->getMethod()) {
+        if ($request->getMethod() === 'POST') {
             $requestContent = $request->toArray();
 
             /** @var array $source */
