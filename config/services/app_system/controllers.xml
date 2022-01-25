@@ -23,10 +23,14 @@
         <service class="BitBag\ShopwareAppSkeleton\AppSystem\Controller\RegistrationController"
                  id="bitbag.shopware_app_skeleton.app_system.controller.registration_controller"
         >
-            <tag name="controller.service_arguments"/>
             <argument type="service" id="bitbag.shopware_app_skeleton.app_system.authenticator.authenticator"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository"/>
+            <argument type="service" id="router"/>
+            <argument type="string" key="$appName">%env(APP_NAME)%</argument>
+            <argument type="string" key="$appSecret">%env(APP_SECRET)%</argument>
+
+            <tag name="controller.service_arguments"/>
         </service>
     </services>
 </container>
