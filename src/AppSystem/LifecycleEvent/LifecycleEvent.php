@@ -6,7 +6,7 @@ namespace BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent;
 
 use BitBag\ShopwareAppSkeleton\AppSystem\Event\EventInterface;
 
-class LifecycleEvent implements LifecycleEventInterface
+final class LifecycleEvent implements LifecycleEventInterface
 {
     private EventInterface $event;
 

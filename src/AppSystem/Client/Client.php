@@ -7,7 +7,7 @@ namespace BitBag\ShopwareAppSkeleton\AppSystem\Client;
 use BitBag\ShopwareAppSkeleton\AppSystem\Exception\ApiException;
 use GuzzleHttp\Client as HttpClient;
 
-class Client implements ClientInterface
+final class Client implements ClientInterface
 {
     private HttpClient $client;
 

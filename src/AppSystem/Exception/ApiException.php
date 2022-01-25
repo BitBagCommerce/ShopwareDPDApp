@@ -6,7 +6,7 @@ namespace BitBag\ShopwareAppSkeleton\AppSystem\Exception;
 
 use Psr\Http\Message\ResponseInterface;
 
-class ApiException extends \Exception
+final class ApiException extends \Exception
 {
     public function __construct(string $shopUrl, string $requestPath, ResponseInterface $response)
     {

@@ -10,7 +10,7 @@ use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ShopRepository extends ServiceEntityRepository implements ShopRepositoryInterface
+final class ShopRepository extends ServiceEntityRepository implements ShopRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

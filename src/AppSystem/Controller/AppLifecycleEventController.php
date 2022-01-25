@@ -9,7 +9,7 @@ use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\LifecycleEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class AppLifecycleEventController
+final class AppLifecycleEventController
 {
     private EventDispatcherInterface $eventDispatcher;
 
