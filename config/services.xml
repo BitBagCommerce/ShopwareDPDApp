@@ -6,9 +6,5 @@
     </imports>
 
     <services>
-        <defaults>
-            <bind key="$appName">%env(APP_NAME)%</bind>
-            <bind key="$appSecret">%env(APP_SECRET)%</bind>
-        </defaults>
     </services>
 </container>
