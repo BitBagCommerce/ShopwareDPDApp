@@ -15,4 +15,6 @@ use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
 interface ShopRepositoryInterface
 {
     public function findSecretByShopId(string $shopId): ?string;
+
+    public function getOneByShopId(string $shopId): ShopInterface;
 }
