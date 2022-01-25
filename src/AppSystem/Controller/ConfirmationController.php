@@ -9,17 +9,15 @@ use BitBag\ShopwareAppSkeleton\AppSystem\Exception\ShopNotFoundException;
 use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
 use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class ConfirmationController extends AbstractController
+final class ConfirmationController
 {
     private AuthenticatorInterface $authenticator;
 
@@ -41,9 +39,6 @@ final class ConfirmationController extends AbstractController
         $this->validator = $validator;
     }
 
-    /**
-     * @Route("/registration/confirm", name="confirm", methods={"POST"})
-     */
     public function __invoke(Request $request): Response
     {
         /** @var array $requestContent */

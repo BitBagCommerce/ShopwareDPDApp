@@ -8,14 +8,13 @@ use BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\AuthenticatorInterface;
 use BitBag\ShopwareAppSkeleton\Entity\Shop;
 use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class RegistrationController extends AbstractController
+class RegistrationController
 {
     private AuthenticatorInterface $authenticator;
 
@@ -23,20 +22,29 @@ class RegistrationController extends AbstractController
 
     private ShopRepositoryInterface $shopRepository;
 
+    private UrlGeneratorInterface $urlGenerator;
+
+    private string $appName;
+
+    private string $appSecret;
+
     public function __construct(
         AuthenticatorInterface $authenticator,
         EntityManagerInterface $entityManager,
-        ShopRepositoryInterface $shopRepository
+        ShopRepositoryInterface $shopRepository,
+        UrlGeneratorInterface $urlGenerator,
+        string $appName,
+        string $appSecret
     ) {
         $this->authenticator = $authenticator;
         $this->entityManager = $entityManager;
         $this->shopRepository = $shopRepository;
+        $this->urlGenerator = $urlGenerator;
+        $this->appName = $appName;
+        $this->appSecret = $appSecret;
     }
 
-    /**
-     * @Route("/registration", name="register", methods={"GET"})
-     */
-    public function __invoke(Request $request, string $appName, string $appSecret): Response
+    public function __invoke(Request $request): Response
     {
         if (!$this->authenticator->authenticateRegisterRequest($request)) {
             return new Response(null, 401);
@@ -66,10 +74,14 @@ class RegistrationController extends AbstractController
         $this->entityManager->persist($shop);
         $this->entityManager->flush();
 
-        $proof = \hash_hmac('sha256', $shopId.$shopUrl.$appName, $appSecret);
-        $body = ['proof' => $proof, 'secret' => $secret, 'confirmation_url' => $this->generateUrl('confirm', [], UrlGeneratorInterface::ABSOLUTE_URL)];
+        $proof = \hash_hmac('sha256', $shopId.$shopUrl.$this->appName, $this->appSecret);
+        $body = [
+            'proof' => $proof,
+            'secret' => $secret,
+            'confirmation_url' => $this->urlGenerator->generate('confirm_registration', [], UrlGeneratorInterface::ABSOLUTE_URL),
+        ];
 
-        return $this->json($body);
+        return new JsonResponse($body);
     }
 
     private function getShopUrl(Request $request): ?string
