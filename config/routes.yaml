@@ -1,3 +1,16 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+registration:
+  methods: ['GET']
+  path: /app/registration
+  controller: bitbag.shopware_app_skeleton.app_system.controller.registration_controller
+
+confirm_registration:
+  methods: ['POST']
+  path: /app/registration/confirm
+  controller: bitbag.shopware_skeleton_app.app_system.controller.confirmation_controller
+
+app_lifecycle:
+  resource: './lifecycle_routes.yaml'
+  prefix: /app/lifecycle
+  methods: ['POST']
+  name_prefix: app_lifecycle_
+  controller: bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller
