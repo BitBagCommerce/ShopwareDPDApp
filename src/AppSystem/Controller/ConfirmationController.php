@@ -54,7 +54,7 @@ final class ConfirmationController
         $shopId = $requestContent['shopId'];
         $shop = $this->shopRepository->find($shopId);
 
-        if (null === $shop) {
+        if ($shop === null) {
             throw new ShopNotFoundException($shopId);
         }
 

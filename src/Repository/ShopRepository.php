@@ -34,7 +34,7 @@ class ShopRepository extends ServiceEntityRepository implements ShopRepositoryIn
     {
         $shop = $this->find($shopId);
 
-        if (null === $shop) {
+        if ($shop === null) {
             throw new ShopNotFoundException($shopId);
         }
 

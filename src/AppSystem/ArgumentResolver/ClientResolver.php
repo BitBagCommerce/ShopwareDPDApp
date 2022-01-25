@@ -48,7 +48,7 @@ final class ClientResolver implements ArgumentValueResolverInterface
 
             $shopSecret = $this->shopRepository->findSecretByShopId($shopId);
 
-            if (null === $shopSecret) {
+            if ($shopSecret === null) {
                 return false;
             }
 
@@ -57,7 +57,7 @@ final class ClientResolver implements ArgumentValueResolverInterface
             $shopId = $request->query->get('shop-id', '');
             $shopSecret = $this->shopRepository->findSecretByShopId($shopId);
 
-            if (null === $shopSecret) {
+            if ($shopSecret === null) {
                 return false;
             }
 

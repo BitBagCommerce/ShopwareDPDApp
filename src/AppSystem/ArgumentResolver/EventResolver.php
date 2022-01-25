@@ -58,7 +58,7 @@ final class EventResolver implements ArgumentValueResolverInterface
 
         $shopSecret = $this->shopRepository->findSecretByShopId($requestContent['source']['shopId']);
 
-        if (null === $shopSecret) {
+        if ($shopSecret === null) {
             return false;
         }
 
