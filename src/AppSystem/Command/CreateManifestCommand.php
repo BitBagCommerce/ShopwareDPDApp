@@ -53,9 +53,9 @@ final class CreateManifestCommand extends Command
         $destinationOption = $destinationOption ?: 'build/dev/manifest.xml';
         $destination = $this->getDestinationPath($destinationOption);
 
-        if (file_exists($destination)) {
+        if (\file_exists($destination)) {
             if (!$io->confirm(
-                sprintf('File "%s" already exists. Do you want to override the existing file?', $destination),
+                \sprintf('File "%s" already exists. Do you want to override the existing file?', $destination),
                 false
             )) {
                 return 0;
@@ -64,12 +64,12 @@ final class CreateManifestCommand extends Command
 
         $envArguments = $this->getEnvArguments();
         $consoleArguments = $this->getConsoleArguments($io);
-        $arguments = array_merge($envArguments, $consoleArguments);
+        $arguments = \array_merge($envArguments, $consoleArguments);
 
         $manifest = $this->twig->render('manifest-template.xml', $arguments);
 
         if (!file_put_contents($destination, $manifest)) {
-            $io->error(sprintf('Unable to write "%s".', $destination));
+            $io->error(\sprintf('Unable to write "%s".', $destination));
 
             return 1;
         }
@@ -79,11 +79,11 @@ final class CreateManifestCommand extends Command
 
     private function getDestinationPath(string $input): string
     {
-        $pathInfo = pathinfo($input);
+        $pathInfo = \pathinfo($input);
         $this->createDestinationDir($pathInfo);
 
-        if (array_key_exists('extension', $pathInfo)) {
-            return sprintf(
+        if (\array_key_exists('extension', $pathInfo)) {
+            return \sprintf(
                 '%s%s%s',
                 $pathInfo['dirname'],
                 DIRECTORY_SEPARATOR,
@@ -91,7 +91,7 @@ final class CreateManifestCommand extends Command
             );
         }
 
-        return sprintf(
+        return \sprintf(
             '%s%s%s%s%s',
             $pathInfo['dirname'],
             DIRECTORY_SEPARATOR,
@@ -106,21 +106,21 @@ final class CreateManifestCommand extends Command
      */
     private function createDestinationDir(array $pathInfo): void
     {
-        if ((array_key_exists('extension', $pathInfo) && is_dir($pathInfo['dirname'])) || (!array_key_exists('extension', $pathInfo) && is_dir($pathInfo['dirname'].DIRECTORY_SEPARATOR.$pathInfo['filename']))) {
+        if ((\array_key_exists('extension', $pathInfo) && \is_dir($pathInfo['dirname'])) || (!\array_key_exists('extension', $pathInfo) && \is_dir($pathInfo['dirname'].DIRECTORY_SEPARATOR.$pathInfo['filename']))) {
             return;
         }
 
-        if (array_key_exists('extension', $pathInfo)) {
-            mkdir($pathInfo['dirname'], 0777, true);
+        if (\array_key_exists('extension', $pathInfo)) {
+            \mkdir($pathInfo['dirname'], 0777, true);
         } else {
-            $pathName = sprintf(
+            $pathName = \sprintf(
                 '%s%s%s',
                 $pathInfo['dirname'],
                 DIRECTORY_SEPARATOR,
                 $pathInfo['filename']
             );
 
-            mkdir($pathName, 0777, true);
+            \mkdir($pathName, 0777, true);
         }
     }
 
