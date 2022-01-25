@@ -5,7 +5,11 @@
         <service class="BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\Authenticator"
                  id="bitbag.shopware_app_skeleton.app_system.authenticator.authenticator">
 
-            <argument type="string" key="$appSecret"/>
+            <argument type="string" key="$appSecret">%env(APP_SECRET)%</argument>
         </service>
+
+        <service class="BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\OAuthAuthenticator"
+                 id="bitbag.shopware_app_skeleton.app_system.authenticator.oauth_authenticator"
+        />
     </services>
 </container>

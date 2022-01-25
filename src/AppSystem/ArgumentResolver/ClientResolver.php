@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace BitBag\ShopwareAppSkeleton\AppSystem\ArgumentResolver;
 
 use BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\AuthenticatorInterface;
+use BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\OAuthAuthenticatorInterface;
 use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientBuilder;
 use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Resolver\CredentialsResolverInterface;
 use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -17,18 +17,18 @@ final class ClientResolver implements ArgumentValueResolverInterface
 {
     private ShopRepositoryInterface $shopRepository;
 
-    private AuthenticatorInterface $authenticator;
+    private OAuthAuthenticatorInterface $apiAuthenticator;
 
-    private CredentialsResolverInterface $credentialsResolver;
+    private AuthenticatorInterface $authenticator;
 
     public function __construct(
         ShopRepositoryInterface $shopRepository,
         AuthenticatorInterface $authenticator,
-        CredentialsResolverInterface $credentialsResolver
+        OAuthAuthenticatorInterface $apiAuthenticator
     ) {
         $this->shopRepository = $shopRepository;
         $this->authenticator = $authenticator;
-        $this->credentialsResolver = $credentialsResolver;
+        $this->apiAuthenticator = $apiAuthenticator;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
@@ -67,10 +67,7 @@ final class ClientResolver implements ArgumentValueResolverInterface
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function resolve(Request $request, ArgumentMetadata $argument)
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if ('POST' === $request->getMethod()) {
             $requestContent = $request->toArray();
@@ -85,9 +82,9 @@ final class ClientResolver implements ArgumentValueResolverInterface
             $shopId = $request->query->get('shop-id');
         }
 
-        $credentials = $this->credentialsResolver->resolveByShopId($shopId);
+        $shop = $this->shopRepository->getOneByShopId($shopId);
 
-        $builder = new ClientBuilder($credentials);
+        $builder = new ClientBuilder($shop, $this->apiAuthenticator);
 
         yield $builder->buildClient();
     }

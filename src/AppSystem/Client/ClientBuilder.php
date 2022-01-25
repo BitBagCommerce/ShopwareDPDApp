@@ -4,29 +4,29 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareAppSkeleton\AppSystem\Client;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Credentials\CredentialsInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Exception\ClientBuilderException;
+use BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\OAuthAuthenticatorInterface;
+use BitBag\ShopwareAppSkeleton\AppSystem\Credentials\OAuthCredentialsInterface;
+use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
 use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\HandlerStack;
 
 final class ClientBuilder implements ClientBuilderInterface
 {
-    private CredentialsInterface $credentials;
+    private ShopInterface $shop;
 
-    private array $headers = [];
+    private OAuthAuthenticatorInterface $authenticator;
 
-    private ?HandlerStack $handlerStack;
+    private array $headers;
 
-    private ?HandlerStack $authenticationHandlerStack;
+    private ?OAuthCredentialsInterface $oauthCredentials = null;
 
     public function __construct(
-        CredentialsInterface $credentials,
-        HandlerStack $handlerStack = null,
-        HandlerStack $authenticationHandlerStack = null
+        ShopInterface $shop,
+        OAuthAuthenticatorInterface $authenticator,
+        array $headers = []
     ) {
-        $this->credentials = $credentials;
-        $this->handlerStack = $handlerStack;
-        $this->authenticationHandlerStack = $authenticationHandlerStack;
+        $this->shop = $shop;
+        $this->authenticator = $authenticator;
+        $this->headers = $headers;
     }
 
     public function withLanguage(string $languageId): self
@@ -41,30 +41,12 @@ final class ClientBuilder implements ClientBuilderInterface
 
     public function withHeader(array $header): self
     {
-        $this->headers = array_merge($this->headers, $header);
+        $headers = array_merge($this->headers, $header);
 
         return new self(
-            $this->credentials,
-            $this->handlerStack,
-            $this->authenticationHandlerStack
-        );
-    }
-
-    public function withHandlerStack(HandlerStack $handlerStack): self
-    {
-        return new self(
-            $this->credentials,
-            $handlerStack,
-            $this->authenticationHandlerStack
-        );
-    }
-
-    public function withAuthenticationHandlerStack(HandlerStack $authenticationHandlerStack): self
-    {
-        return new self(
-            $this->credentials,
-            $this->handlerStack,
-            $authenticationHandlerStack
+            $this->shop,
+            $this->authenticator,
+            $headers
         );
     }
 
@@ -72,32 +54,29 @@ final class ClientBuilder implements ClientBuilderInterface
     {
         $client = $this->getHttpClient();
 
-        return new Client($client, $this->credentials->getShopUrl());
+        return new Client($client, $this->shop->getShopUrl());
     }
 
     private function getHttpClient(): HttpClient
     {
-        $token = $this->credentials->getToken();
-
-        if (null !== $token) {
-            return $this->getGuzzleClient($token);
+        if (null === $this->oauthCredentials || $this->oauthCredentials->isExpired()) {
+            $this->oauthCredentials = $this->authenticator->authenticate($this->shop);
         }
 
-        throw new ClientBuilderException('Empty token.');
+        return $this->getGuzzleClient($this->oauthCredentials->getAccessToken());
     }
 
-    private function getGuzzleClient(string $token): HttpClient
+    private function getGuzzleClient(string $accessToken): HttpClient
     {
         $baseHeaders = [
-            'Authorization' => 'Bearer '.$token,
+            'Authorization' => 'Bearer '.$accessToken,
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
         ];
 
         return new HttpClient([
-            'base_uri' => $this->credentials->getShopUrl(),
+            'base_uri' => $this->shop->getShopUrl(),
             'headers' => array_merge($baseHeaders, $this->headers),
-            'handler' => $this->handlerStack,
         ]);
     }
 }
