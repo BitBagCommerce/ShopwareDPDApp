@@ -40,7 +40,7 @@ final class OAuthAuthenticator implements OAuthAuthenticatorInterface
         /** @var array{
                 token_type: string,
          *      access_token: string,
-         *      expires_in: string
+         *      expires_in: int
          * } $jsonResponse
          */
         $jsonResponse = json_decode($response->getBody()->getContents(), true);
