@@ -1,0 +1,24 @@
+installed:
+  path: /installed
+  defaults:
+    eventType: installed
+
+updated:
+  path: /updated
+  defaults:
+    eventType: updated
+
+activated:
+  path: /activated
+  defaults:
+    eventType: activated
+
+deactivated:
+  path: /deactivated
+  defaults:
+    eventType: deactivated
+
+deleted:
+  path: /deleted
+  defaults:
+    eventType: deleted

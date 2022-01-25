@@ -2,16 +2,11 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <instanceof id="BitBag\ShopwareAppSkeleton\AppSystem\AppLifecycleHandlerInterface">
-            <tag name="bitbag.shopware_app_skeleton.app_system.app_lifecycle_handler"/>
-        </instanceof>
-
         <service class="BitBag\ShopwareAppSkeleton\AppSystem\Controller\AppLifecycleEventController"
                  id="bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller"
         >
-            <argument type="tagged_iterator" tag="bitbag.shopware_app_skeleton.app_system.app_lifecycle_handler"/>
-            <argument type="service" id="doctrine.orm.entity_manager"/>
-            <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository"/>
+            <argument type="service" id="event_dispatcher"/>
+            <tag name="controller.service_arguments"/>
         </service>
 
         <service class="BitBag\ShopwareAppSkeleton\AppSystem\Controller\ConfirmationController"
