@@ -6,6 +6,8 @@
                  id="bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller"
         >
             <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="bitbag.shopware_app_skeleton.app_system.factory.lifecycle_event.lifecycle_event_factory"/>
+
             <tag name="controller.service_arguments"/>
         </service>
 

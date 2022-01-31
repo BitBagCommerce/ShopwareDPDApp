@@ -13,4 +13,3 @@ app_lifecycle:
   prefix: /app/lifecycle
   methods: ['POST']
   name_prefix: app_lifecycle_
-  controller: bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller

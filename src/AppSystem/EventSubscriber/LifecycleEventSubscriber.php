@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareAppSkeleton\AppSystem\EventSubscriber;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\LifecycleEvent;
-use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\LifecycleEventInterface;
+use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\AppDeletedEvent;
 use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -27,16 +26,12 @@ final class LifecycleEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            LifecycleEvent::class => 'onLifecycleEvent',
+            AppDeletedEvent::class => 'onLifecycleEvent',
         ];
     }
 
-    public function onLifecycleEvent(LifecycleEventInterface $event): void
+    public function onLifecycleEvent(AppDeletedEvent $event): void
     {
-        if (LifecycleEventInterface::APP_DELETED !== $event->getEventType()) {
-            return;
-        }
-
         $shopId = $event->getShopwareEvent()->getShopId();
         $shop = $this->shopRepository->getOneByShopId($shopId);
 
