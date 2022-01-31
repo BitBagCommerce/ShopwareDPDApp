@@ -26,11 +26,11 @@ final class LifecycleEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            AppDeletedEvent::class => 'onLifecycleEvent',
+            AppDeletedEvent::class => 'onAppDeleted',
         ];
     }
 
-    public function onLifecycleEvent(AppDeletedEvent $event): void
+    public function onAppDeleted(AppDeletedEvent $event): void
     {
         $shopId = $event->getShopwareEvent()->getShopId();
         $shop = $this->shopRepository->getOneByShopId($shopId);
