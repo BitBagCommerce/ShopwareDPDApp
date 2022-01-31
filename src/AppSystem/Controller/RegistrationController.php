@@ -53,13 +53,13 @@ final class RegistrationController
         $shopUrl = $this->getShopUrl($request);
         $shopId = $this->getShopId($request);
 
-        if ($shopUrl === null || $shopId === null) {
+        if (null === $shopUrl || null === $shopId) {
             throw new BadRequestHttpException('Missing query parameters.');
         }
 
         $shop = $this->shopRepository->find($shopId);
 
-        if ($shop !== null) {
+        if (null !== $shop) {
             throw new BadRequestHttpException('Shop already exists.');
         }
 

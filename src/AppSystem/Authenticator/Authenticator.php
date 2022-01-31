@@ -45,7 +45,7 @@ final class Authenticator implements AuthenticatorInterface
         /** @var string|null $shopSignature */
         $shopSignature = $query['shopware-shop-signature'];
 
-        if ($shopSignature === null) {
+        if (null === $shopSignature) {
             return false;
         }
 

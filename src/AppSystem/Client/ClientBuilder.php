@@ -59,7 +59,7 @@ final class ClientBuilder implements ClientBuilderInterface
 
     private function getHttpClient(): HttpClient
     {
-        if ($this->oauthCredentials === null || $this->oauthCredentials->isExpired()) {
+        if (null === $this->oauthCredentials || $this->oauthCredentials->isExpired()) {
             $this->oauthCredentials = $this->authenticator->authenticate($this->shop);
         }
 
