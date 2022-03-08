@@ -1,6 +1,6 @@
-## Introduction
+## ShopwareDPDApp
 
-This repo contains a skeleton for developing new cloud-based apps for Shopware. For more information about Shopware apps visit [this page](https://developer.shopware.com/docs/guides/plugins/apps/app-base-guide).
+This repo contains an application for DPD shipping in Shopware.
 
 ## Local development with docker-compose
 

@@ -11,10 +11,5 @@
 
             <tag name="kernel.event_subscriber"/>
         </service>
-
-        <service class="BitBag\ShopwareAppSkeleton\EventSubscriber\SubscriberWithClient" id="bitbag.shopware_app_skeleton.event_subscriber.subscriber_with_client">
-            <tag name="kernel.event_subscriber"/>
-        </service>
-
     </services>
 </container>
