@@ -69,6 +69,9 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
         ];
 
         $rule = $client->searchIds('rule', $filterRule);
+        if (!$rule) {
+            $rule = $client->searchIds('rule', []);
+        }
 
         $currentDateTime = new DateTime('now');
 
