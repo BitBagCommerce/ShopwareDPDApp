@@ -18,3 +18,13 @@ get_order:
   methods: ['POST']
   path: /app/send-order
   controller: bitbag.shopware_skeleton_app.controller.order
+
+get_label_pdf:
+  methods: ['GET']
+  path: /app/label/{orderId}
+  controller: bitbag.shopware_skeleton_app.controller.label
+
+configuration_module_show:
+  methods: ['GET', 'POST']
+  path: /app/modules/configuration
+  controller: bitbag.shopware_skeleton_app.controller.configuration_module

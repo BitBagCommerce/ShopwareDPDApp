@@ -1,0 +1,24 @@
+bitbag:
+    shopware_skeleton_app:
+        ui:
+            apiLogin: 'API Login'
+            apiPassword: 'API Password'
+            apiFid: 'API FID'
+            senderFirstLastName: 'Sender first last name'
+            senderStreet: 'Sender street'
+            senderZipCode: 'Sender zip code'
+            senderCity: 'Sender city'
+            senderPhoneNumber: 'Sender phone number'
+            senderLocale: 'Sender locale'
+            save: 'Save'
+        order:
+            dpd_custom_fields_not_found: 'Please add required fields for generate DPD label in "DPD Custom fields set"'
+            config_not_found: 'Please add configuration (My apps -> DPD - Configuration)'
+            config_dpd_data_not_found: 'Please add dpd data (My apps -> DPD - Configuration)'
+            config_sender_data_not_found: 'Please add sender data (My apps -> DPD - Configuration)'
+            order_weight_null: 'Order weight can not be null'
+            shipping_address_not_found: 'Shipping address not found or is not correctly'
+            email_not_found: 'Customer e-mail can not be null'
+        label:
+            not_found_parcel_id: 'Parcel id was not found. Try again'
+            error_while_create_package: 'Something went wrong while create package. Try again'

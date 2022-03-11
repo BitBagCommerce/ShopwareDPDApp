@@ -30,10 +30,49 @@
         <read>rule</read>
     </permissions>
 
+    <custom-fields>
+        <custom-field-set>
+            <name>dpd_configurator</name>
+            <label>DPD Custom fields set</label>
+            <related-entities>
+                <order/>
+            </related-entities>
+            <fields>
+                <int name="dpd_package_height">
+                    <position>1</position>
+                    <label>Height</label>
+                </int>
+                <int name="dpd_package_width">
+                    <position>2</position>
+                    <label>Width</label>
+                </int>
+                <int name="dpd_package_depth">
+                    <position>3</position>
+                    <label>Depth</label>
+                </int>
+                <text name="dpd_package_countryCode">
+                    <position>4</position>
+                    <label>Sender country code</label>
+                </text>
+                <text name="dpd_package_description">
+                    <position>5</position>
+                    <label>Description</label>
+                </text>
+            </fields>
+        </custom-field-set>
+    </custom-fields>
+
     <admin>
         <action-button action="getLabel" entity="order" view="detail" url="http://example-app/app/send-order">
             <label>Get shipping label</label>
         </action-button>
+
+        <module name="dpd_configuration"
+                source="http://localhost:7777/app/modules/configuration"
+                parent="sw-settings"
+        >
+            <label>Configuration</label>
+        </module>
     </admin>
 
     <webhooks>

@@ -5,33 +5,60 @@ declare(strict_types=1);
 namespace BitBag\ShopwareAppSkeleton\Controller;
 
 use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareAppSkeleton\Generator\LabelGenerator;
+use BitBag\ShopwareAppSkeleton\Model\Order;
 use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareAppSkeleton\Validator\ValidateRequestData;
 use Exception;
 use JsonException;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class OrderController
 {
     private ShopRepositoryInterface $shopRepository;
 
-    public function __construct(ShopRepositoryInterface $shopRepository)
-    {
+    private RouterInterface $router;
+
+    private TranslatorInterface $translator;
+
+    private ValidateRequestData $validateRequestData;
+
+    private LabelGenerator $labelGenerator;
+
+    public function __construct(
+        ShopRepositoryInterface $shopRepository,
+        RouterInterface $router,
+        TranslatorInterface $translator,
+        ValidateRequestData $validateRequestData,
+        LabelGenerator $labelGenerator
+    ) {
         $this->shopRepository = $shopRepository;
+        $this->router = $router;
+        $this->translator = $translator;
+        $this->validateRequestData = $validateRequestData;
+        $this->labelGenerator = $labelGenerator;
     }
 
     /**
      * @throws Exception
      */
-    public function __invoke(ClientInterface $client, Request $request): Response
-    {
+    public function __invoke(
+        ClientInterface $client,
+        Request $request
+    ): Response {
         $this->checkSignature($request);
 
         $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $orderId = $data['data']['ids'][0];
+
+        $shopId = $data['source']['shopId'];
 
         $orderAddressFilter = [
             'filter' => [
@@ -52,27 +79,35 @@ final class OrderController
         ];
 
         $order = $client->search('order', $orderAddressFilter);
-        $lineItems = $order['data'][0]['lineItems'];
 
-        $totalWeight = 0;
+        $orderModel = new Order($order, $shopId);
 
-        foreach ($lineItems as $item) {
-            $weight = $item['quantity'] * $item['product']['weight'];
-            $totalWeight += $weight;
+        $validator = $this->validateRequestData->validate($client, $orderModel);
+        if (true === $validator['error']) {
+            $response = [
+                'actionType' => 'notification',
+                'payload' => [
+                    'status' => 'error',
+                    'message' => $this->translator->trans($validator['messageKey']),
+                ],
+            ];
+
+            return $this->sign($response, $shopId);
         }
 
-        $shippingAddress = $order['data'][0]['deliveries'][0]['shippingOrderAddress'];
+        $generateLabel = $this->labelGenerator->generateLabel($orderModel);
+        if (isset($generateLabel['actionType'])) {
+            return $this->sign($generateLabel, $shopId);
+        }
 
+        // @TODO Generate route wants to generate example-app instead of localhost:7777 or something like this
         $response = [
             'actionType' => 'openNewTab',
             'payload' => [
-                'redirectUrl' => 'http://localhost',
+                'redirectUrl' => "http://localhost:7777/app/label/${orderId}",
+//                'redirectUrl' => $this->router->generate('get_label_pdf', ['orderId' => $orderId], UrlGeneratorInterface::ABSOLUTE_URL),
             ],
         ];
-
-        # https://developer.shopware.com/docs/guides/plugins/apps/administration/add-custom-action-button
-
-        $shopId = $data['source']['shopId'];
 
         return $this->sign($response, $shopId);
     }

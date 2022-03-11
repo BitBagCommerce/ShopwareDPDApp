@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+
+    <style>
+        .float-right {
+            float: right;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="sw-page__main-content">
+        <div class="sw-page__main-content-inner">
+            <div class="sw-card-view">
+                <div class="sw-card-view__content">
+                    <div class="sw-promotion-v2-detail-base">
+                        {{ form_start(form) }}
+
+                        <div>
+                            <div class="sw-card has--header has--title sw-promotion-v2-detail-base__card-general">
+                                <div class="sw-card__header">
+                                    <div class="sw-card__titles">
+                                        <div class="sw-card__title">
+                                            API DPD settings
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sw-card__content">
+                                    <div class="sw-container"
+                                         style="grid-template-columns: 3fr 3fr 3fr; gap: 0px 32px; place-items: stretch;">
+                                        <div class="sw-field sw-block-field sw-contextual-field sw-field--number sw-field--default">
+                                            <div class="sw-field__label">
+                                                {{ form_label(form.apiLogin) }}
+                                                {{ form_errors(form.apiLogin) }}
+                                            </div>
+                                            <div class="sw-block-field__block">
+                                                {{ form_widget(form.apiLogin) }}
+                                            </div>
+                                        </div>
+                                        <div class="sw-field sw-block-field sw-contextual-field sw-field--number sw-field--default">
+                                            <div class="sw-field__label">
+                                                {{ form_label(form.apiPassword) }}
+                                                {{ form_errors(form.apiPassword) }}
+                                            </div>
+                                            <div class="sw-block-field__block">
+                                                {{ form_widget(form.apiPassword) }}
+                                            </div>
+                                        </div>
+                                        <div class="sw-field sw-block-field sw-contextual-field sw-field--number sw-field--default">
+                                            <div class="sw-field__label">
+                                                {{ form_label(form.apiFid) }}
+                                                {{ form_errors(form.apiFid) }}
+                                            </div>
+                                            <div class="sw-block-field__block">
+                                                {{ form_widget(form.apiFid) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sw-card has--header has--title sw-promotion-v2-detail-base__card-general">
+                                <div class="sw-card__header">
+                                    <div class="sw-card__titles">
+                                        <div class="sw-card__title">
+                                            Sender settings (for DPD label)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sw-card__content">
+                                    <div class="sw-container">
+                                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-promotion-v2-detail-base__field-name sw-field--default">
+                                            <div class="sw-field__label">
+                                                {{ form_label(form.senderFirstLastName) }}
+                                                {{ form_errors(form.senderFirstLastName) }}
+                                            </div>
+                                            <div class="sw-block-field__block">
+                                                {{ form_widget(form.senderFirstLastName) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sw-container"
+                                         style="grid-template-columns: 5fr 3fr 2fr; gap: 0px 32px; place-items: stretch;">
+                                        <div class="sw-container">
+                                            <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-promotion-v2-detail-base__field-name sw-field--default">
+                                                <div class="sw-field__label">
+                                                    {{ form_label(form.senderStreet) }}
+                                                    {{ form_errors(form.senderStreet) }}
+                                                </div>
+                                                <div class="sw-block-field__block">
+                                                    {{ form_widget(form.senderStreet) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="sw-container">
+                                            <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-promotion-v2-detail-base__field-name sw-field--default">
+                                                <div class="sw-field__label">
+                                                    {{ form_label(form.senderCity) }}
+                                                    {{ form_errors(form.senderCity) }}
+                                                </div>
+                                                <div class="sw-block-field__block">
+                                                    {{ form_widget(form.senderCity) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="sw-container">
+                                            <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-promotion-v2-detail-base__field-name sw-field--default">
+                                                <div class="sw-field__label">
+                                                    {{ form_label(form.senderZipCode) }}
+                                                    {{ form_errors(form.senderZipCode) }}
+                                                </div>
+                                                <div class="sw-block-field__block">
+                                                    {{ form_widget(form.senderZipCode) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sw-container">
+                                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-promotion-v2-detail-base__field-name sw-field--default">
+                                            <div class="sw-field__label">
+                                                {{ form_label(form.senderPhoneNumber) }}
+                                                {{ form_errors(form.senderPhoneNumber) }}
+                                            </div>
+                                            <div class="sw-block-field__block">
+                                                {{ form_widget(form.senderPhoneNumber) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sw-container">
+                                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-promotion-v2-detail-base__field-name sw-field--default">
+                                            <div class="sw-field__label">
+                                                {{ form_label(form.senderLocale) }}
+                                                {{ form_errors(form.senderLocale) }}
+                                            </div>
+                                            <div class="sw-block-field__block">
+                                                {{ form_widget(form.senderLocale) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="sw-button sw-button--primary float-right">
+                                        {{ 'bitbag.shopware_skeleton_app.ui.save'|trans }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

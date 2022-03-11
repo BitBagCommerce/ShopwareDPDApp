@@ -7,5 +7,17 @@
         >
             <argument type="service" id="doctrine"/>
         </service>
+
+        <service class="BitBag\ShopwareAppSkeleton\Repository\ConfigRepository"
+                 id="bitbag.shopware_app_skeleton.repository.config_repository"
+                 >
+            <argument type="service" id="doctrine" />
+        </service>
+
+        <service class="BitBag\ShopwareAppSkeleton\Repository\OrderRepository"
+                 id="bitbag.shopware_app_skeleton.repository.order_repository"
+        >
+            <argument type="service" id="doctrine" />
+        </service>
     </services>
 </container>
