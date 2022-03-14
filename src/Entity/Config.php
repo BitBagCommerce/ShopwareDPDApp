@@ -66,6 +66,12 @@ class Config implements ConfigInterface
      */
     protected string $senderLocale;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="BitBag\ShopwareAppSkeleton\Entity\Shop")
+     * @ORM\JoinColumn(name="shop_id", referencedColumnName="shop_id")
+     */
+    protected ShopInterface $shop;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -173,5 +179,15 @@ class Config implements ConfigInterface
     public function setSenderLocale(string $senderLocale): void
     {
         $this->senderLocale = $senderLocale;
+    }
+
+    public function getShop(): ?ShopInterface
+    {
+        return $this->shop;
+    }
+
+    public function setShop(ShopInterface $shop): void
+    {
+        $this->shop = $shop;
     }
 }

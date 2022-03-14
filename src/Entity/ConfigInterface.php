@@ -45,4 +45,8 @@ interface ConfigInterface
     public function getSenderLocale(): ?string;
 
     public function setSenderLocale(string $senderLocale): void;
+
+    public function getShop(): ?ShopInterface;
+
+    public function setShop(ShopInterface $shop): void;
 }

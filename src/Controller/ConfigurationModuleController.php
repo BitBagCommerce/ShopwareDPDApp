@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace BitBag\ShopwareAppSkeleton\Controller;
 
 use BitBag\ShopwareAppSkeleton\Entity\Config;
+use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
 use BitBag\ShopwareAppSkeleton\Form\Type\ConfigType;
 use BitBag\ShopwareAppSkeleton\Repository\ConfigRepositoryInterface;
+use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,16 +28,20 @@ class ConfigurationModuleController
 
     private EntityManagerInterface $entityManager;
 
+    private ShopRepositoryInterface $shopRepository;
+
     public function __construct(
         Environment $template,
         FormFactory $form,
         ConfigRepositoryInterface $configRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ShopRepositoryInterface $shopRepository
     ) {
         $this->template = $template;
         $this->form = $form;
         $this->configRepository = $configRepository;
         $this->entityManager = $entityManager;
+        $this->shopRepository = $shopRepository;
     }
 
     /**
@@ -47,7 +53,10 @@ class ConfigurationModuleController
     {
         $em = $this->entityManager;
 
-        $config = $this->configRepository->findOneBy([]);
+        /** @var ShopInterface $shop */
+        $shop = $this->shopRepository->find($request->get('shop-id'));
+
+        $config = $this->configRepository->findOneBy(['shop' => $shop]);
         if (!$config) {
             $config = new Config();
         }
@@ -56,6 +65,7 @@ class ConfigurationModuleController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $config->setShop($shop);
             $em->persist($config);
             $em->flush();
         }

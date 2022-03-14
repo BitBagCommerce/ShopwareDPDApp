@@ -31,6 +31,7 @@
             <argument type="service" id="form.factory" />
             <argument type="service" id="bitbag.shopware_app_skeleton.repository.config_repository" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository" />
 
             <tag name="controller.service_arguments"/>
         </service>
