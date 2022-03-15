@@ -2,6 +2,7 @@
 
 namespace BitBag\ShopwareAppSkeleton\EventSubscriber;
 
+use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
 use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\AppActivatedEvent;
 use DateTime;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,7 +21,12 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
     public function onAppActivated(AppActivatedEvent $event): void
     {
         $client = $event->getClient();
+        $this->createShippingMethod($client);
+        $this->createCustomFieldsForPackageDetailsInOrder($client);
+    }
 
+    private function createShippingMethod(ClientInterface $client): void
+    {
         $filterForShippingMethod = [
             'filter' => [
                 [
@@ -78,7 +84,7 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
         $dpdShippingMethod = [
             'name' => self::SHIPPING_KEY,
             'active' => true,
-            'description' => self::SHIPPING_KEY . " shipping method",
+            'description' => self::SHIPPING_KEY.' shipping method',
             'taxType' => 'auto',
             'translated' => [
                 'name' => self::SHIPPING_KEY,
@@ -104,5 +110,115 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
         }
 
         $client->createEntity('shipping-method', $dpdShippingMethod);
+    }
+
+    private function createCustomFieldsForPackageDetailsInOrder(ClientInterface $client): void
+    {
+        $customFieldSetFilter = [
+            'filter' => [
+                [
+                    'type' => 'equals',
+                    'field' => 'name',
+                    'value' => 'package_details',
+                ],
+            ],
+        ];
+
+        $customFieldNames = [
+            [
+                'name' => 'height',
+                'label' => 'Height',
+                'type' => 'int',
+            ],
+            [
+                'name' => 'width',
+                'label' => 'Width',
+                'type' => 'int',
+            ],
+            [
+                'name' => 'depth',
+                'label' => 'Depth',
+                'type' => 'int',
+            ],
+            [
+                'name' => 'description',
+                'label' => 'Description',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'countryCode',
+                'label' => 'Sender country code',
+                'type' => 'text',
+            ],
+        ];
+
+        $customFieldPrefix = 'package_details';
+
+        foreach ($customFieldNames as $key => $item) {
+            $customFieldSetId = null;
+            $type = $item['type'];
+
+            $customFieldName = $customFieldPrefix.'_'.$item['name'];
+
+            $customFieldFilter = [
+                'filter' => [
+                    [
+                        'type' => 'equals',
+                        'field' => 'name',
+                        'value' => $customFieldName,
+                    ],
+                ],
+            ];
+
+            $customField = $client->searchIds('custom-field', $customFieldFilter);
+            if (!$customField || 0 === $customField['total']) {
+                $customFieldSet = $client->search('custom-field-set', $customFieldSetFilter);
+                if (!$customFieldSet || 0 === $customFieldSet['total']) {
+                    $customFieldSet = [
+                        'name' => $customFieldPrefix,
+                        'relations' => [
+                            [
+                                'entityName' => 'order',
+                            ],
+                        ],
+                        'config' => [
+                            'label' => ['en-GB' => 'Package details'],
+                            'translated' => true,
+                        ],
+                    ];
+                } else {
+                    $customFieldSetId = $customFieldSet['data'][0]['id'];
+                }
+
+                $customFieldArr = [
+                    'name' => $customFieldName,
+                    'type' => $type,
+                    'position' => $key,
+                    'config' => [
+                        'type' => $item['type'],
+                        'label' => ['en-GB' => $item['label']],
+                        'helpText' => [],
+                        'placeholder' => [],
+                        'componentName' => 'sw-field',
+                        'customFieldType' => $item['type'],
+                        'customFieldPosition' => $key,
+                    ],
+                ];
+
+                if ($customFieldSetId) {
+                    $customFieldArr['customFieldSetId'] = $customFieldSetId;
+                } else {
+                    $customFieldArr['customFieldSet'] = $customFieldSet;
+                }
+
+                if ('int' === $type) {
+                    $customFieldArr['config']['type'] = 'number';
+                    $customFieldArr['config']['numberType'] = $type;
+                    $customFieldArr['config']['customFieldType'] = 'number';
+                }
+
+                $client->createEntity('custom-field', $customFieldArr);
+            }
+        }
     }
 }

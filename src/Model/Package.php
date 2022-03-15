@@ -15,22 +15,22 @@ class Package implements PackageInterface, ModelValidInterface
 
     public function getHeight(): ?int
     {
-        return (int) $this->shippingAddressData['dpd_package_height'] ?? null;
+        return (int) ($this->shippingAddressData['package_details_height'] ?? null);
     }
 
     public function getWidth(): ?int
     {
-        return (int) $this->shippingAddressData['dpd_package_width'] ?? null;
+        return (int) ($this->shippingAddressData['package_details_width'] ?? null);
     }
 
     public function getDepth(): ?int
     {
-        return (int) $this->shippingAddressData['dpd_package_depth'] ?? null;
+        return (int) ($this->shippingAddressData['package_details_depth'] ?? null);
     }
 
     public function getDescription(): ?string
     {
-        return $this->shippingAddressData['dpd_package_description'] ?? null;
+        return $this->shippingAddressData['package_details_description'] ?? null;
     }
 
     public function isValid(): bool

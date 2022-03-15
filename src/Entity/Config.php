@@ -67,7 +67,7 @@ class Config implements ConfigInterface
     protected string $senderLocale;
 
     /**
-     * @ORM\ManyToOne(targetEntity="BitBag\ShopwareAppSkeleton\Entity\Shop")
+     * @ORM\ManyToOne(targetEntity="BitBag\ShopwareAppSkeleton\Entity\Shop", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="shop_id", referencedColumnName="shop_id")
      */
     protected ShopInterface $shop;
