@@ -52,7 +52,7 @@ class ShippingAddress implements ShippingAddressInterface, ModelValidInterface
 
     public function getCountryCode(): ?string
     {
-        return $this->countryCode;
+        return strtoupper($this->countryCode);
     }
 
     public function getPhoneNumber(): ?string
