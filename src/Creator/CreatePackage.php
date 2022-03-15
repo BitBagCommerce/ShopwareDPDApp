@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Generator;
+namespace BitBag\ShopwareAppSkeleton\Creator;
 
 use BitBag\ShopwareAppSkeleton\Entity\ConfigInterface;
 use BitBag\ShopwareAppSkeleton\Entity\Order as OrderEntity;
@@ -21,7 +21,7 @@ use T3ko\Dpd\Objects\Sender;
 use T3ko\Dpd\Request\GeneratePackageNumbersRequest;
 use Twig\Environment;
 
-class LabelGenerator
+class CreatePackage
 {
     private ShopRepositoryInterface $shopRepository;
 
@@ -51,7 +51,7 @@ class LabelGenerator
         $this->orderRepository = $orderRepository;
     }
 
-    public function generateLabel(Order $orderModel): array
+    public function create(Order $orderModel): array
     {
         $translator = $this->translator;
         $em = $this->entityManager;

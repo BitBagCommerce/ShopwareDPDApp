@@ -6,7 +6,7 @@ namespace BitBag\ShopwareAppSkeleton\Controller;
 
 use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
 use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
-use BitBag\ShopwareAppSkeleton\Generator\LabelGenerator;
+use BitBag\ShopwareAppSkeleton\Creator\CreatePackage;
 use BitBag\ShopwareAppSkeleton\Model\Order;
 use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareAppSkeleton\Validator\ValidateRequestData;
@@ -30,20 +30,20 @@ final class OrderController
 
     private ValidateRequestData $validateRequestData;
 
-    private LabelGenerator $labelGenerator;
+    private CreatePackage $createPackage;
 
     public function __construct(
         ShopRepositoryInterface $shopRepository,
         RouterInterface $router,
         TranslatorInterface $translator,
         ValidateRequestData $validateRequestData,
-        LabelGenerator $labelGenerator
+        CreatePackage $createPackage
     ) {
         $this->shopRepository = $shopRepository;
         $this->router = $router;
         $this->translator = $translator;
         $this->validateRequestData = $validateRequestData;
-        $this->labelGenerator = $labelGenerator;
+        $this->createPackage = $createPackage;
     }
 
     /**
@@ -105,17 +105,21 @@ final class OrderController
             return $this->sign($response, $shopId);
         }
 
-        $generateLabel = $this->labelGenerator->generateLabel($orderModel);
-        if (isset($generateLabel['actionType'])) {
-            return $this->sign($generateLabel, $shopId);
+        $createPackage = $this->createPackage->create($orderModel);
+        if (isset($createPackage['actionType'])) {
+            return $this->sign($createPackage, $shopId);
         }
 
-        // @TODO Generate route wants to generate example-app instead of localhost:7777 or something like this
+        $redirectUrl = $this->router->generate(
+            'get_label_pdf',
+            ['orderId' => $orderId],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
         $response = [
             'actionType' => 'openNewTab',
             'payload' => [
-                'redirectUrl' => "http://localhost:7777/app/label/${orderId}",
-//                'redirectUrl' => $this->router->generate('get_label_pdf', ['orderId' => $orderId], UrlGeneratorInterface::ABSOLUTE_URL),
+                'redirectUrl' => $redirectUrl,
             ],
         ];
 
