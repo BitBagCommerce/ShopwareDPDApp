@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BitBag\ShopwareAppSkeleton\Controller;
 
 use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
 use BitBag\ShopwareAppSkeleton\Generator\LabelGenerator;
 use BitBag\ShopwareAppSkeleton\Model\Order;
 use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
@@ -74,11 +75,20 @@ final class OrderController
                         'product' => [],
                     ],
                 ],
-                'deliveries' => [],
+                'deliveries' => [
+                    'associations' => [
+                        'shippingMethod' => [],
+                    ],
+                ],
             ],
         ];
 
         $order = $client->search('order', $orderAddressFilter);
+
+        $shippingMethodName = $order['data'][0]['deliveries'][0]['shippingMethod']['name'];
+        if (ShopInterface::SHIPPING_KEY !== $shippingMethodName) {
+            exit;
+        }
 
         $orderModel = new Order($order, $shopId);
 

@@ -4,13 +4,12 @@ namespace BitBag\ShopwareAppSkeleton\EventSubscriber;
 
 use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
 use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\AppActivatedEvent;
+use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
 use DateTime;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class AppActivatedEventSubscriber implements EventSubscriberInterface
 {
-    public const SHIPPING_KEY = 'DPD';
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -27,12 +26,13 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
 
     private function createShippingMethod(ClientInterface $client): void
     {
+        $shippingKey = ShopInterface::SHIPPING_KEY;
         $filterForShippingMethod = [
             'filter' => [
                 [
                     'type' => 'contains',
                     'field' => 'name',
-                    'value' => self::SHIPPING_KEY,
+                    'value' => $shippingKey,
                 ],
             ],
         ];
@@ -82,12 +82,12 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
         $currentDateTime = new DateTime('now');
 
         $dpdShippingMethod = [
-            'name' => self::SHIPPING_KEY,
+            'name' => $shippingKey,
             'active' => true,
-            'description' => self::SHIPPING_KEY.' shipping method',
+            'description' => $shippingKey.' shipping method',
             'taxType' => 'auto',
             'translated' => [
-                'name' => self::SHIPPING_KEY,
+                'name' => $shippingKey,
             ],
             'availabilityRuleId' => $rule['data'][0],
             'createdAt' => $currentDateTime,
