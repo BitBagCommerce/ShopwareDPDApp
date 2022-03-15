@@ -21,7 +21,7 @@ class ValidateRequestData implements ValidatorRequestDataInterface
     public function validate(ClientInterface $client, Order $orderModel): array
     {
         /** @var ConfigInterface|null $config */
-        $config = $this->configRepository->findOneBy([]);
+        $config = $this->configRepository->findByShopId($orderModel->getShopId());
         if (!$config) {
             return $this->returnErrorNotificationMessage(
                 'bitbag.shopware_skeleton_app.order.config_not_found'

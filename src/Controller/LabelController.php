@@ -42,7 +42,7 @@ final class LabelController
         }
 
         /** @var ConfigInterface $config */
-        $config = $this->configRepository->findOneBy([]);
+        $config = $this->configRepository->findByShopId($order->getShopId());
 
         $login = $config->getApiLogin();
         $password = $config->getApiPassword();

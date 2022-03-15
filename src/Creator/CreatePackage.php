@@ -57,7 +57,7 @@ class CreatePackage
         $em = $this->entityManager;
 
         /** @var ConfigInterface $config */
-        $config = $this->configRepository->findOneBy([]);
+        $config = $this->configRepository->findByShopId($orderModel->getShopId());
 
         $orderId = $orderModel->getOrderId();
         if (!$orderId) {
