@@ -27,8 +27,6 @@
         <service class="BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController"
                  id="bitbag.shopware_dpd_app.controller.configuration_module"
         >
-            <argument type="service" id="twig" />
-            <argument type="service" id="form.factory" />
             <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />

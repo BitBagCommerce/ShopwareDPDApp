@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Controller;
 
 use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 use BitBag\ShopwareDpdApp\Creator\CreatePackage;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 use BitBag\ShopwareDpdApp\Model\Order;
 use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareDpdApp\Validator\ValidateRequestData;
-use Exception;
-use JsonException;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,9 +44,6 @@ final class OrderController
         $this->createPackage = $createPackage;
     }
 
-    /**
-     * @throws Exception
-     */
     public function __invoke(
         ClientInterface $client,
         Request $request
@@ -126,10 +121,6 @@ final class OrderController
         return $this->sign($response, $shopId);
     }
 
-    /**
-     * @throws JsonException
-     * @throws Exception
-     */
     private function checkSignature(Request $request): void
     {
         $requestContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
