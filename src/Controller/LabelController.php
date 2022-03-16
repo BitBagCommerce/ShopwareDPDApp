@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Controller;
 
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
+use BitBag\ShopwareDpdApp\Exception\OrderNotFoundException;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\OrderRepositoryInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,13 +33,15 @@ final class LabelController
 
     public function __invoke(string $orderId): Response
     {
+        $translator = $this->translator;
+
         $order = $this->orderRepository->findByOrderId($orderId);
         if (!$order) {
-            return new Response('Not found order');
+            throw new OrderNotFoundException($translator->trans('bitbag.shopware_dpd_app.order.not_found'));
         }
 
         if (!$order->getParcelId()) {
-            return new Response('Not found parcelId');
+            throw new OrderNotFoundException($translator->trans('bitbag.shopware_dpd_app.label.not_found_parcel_id'));
         }
 
         /** @var ConfigInterface $config */
@@ -49,7 +52,7 @@ final class LabelController
         $fid = $config->getApiFid();
 
         if (!$login || !$password || !$fid) {
-            return new Response($this->translator->trans('bitbag.shopware_dpd_app.order.config_not_found'));
+            return new Response($translator->trans('bitbag.shopware_dpd_app.order.config_not_found'));
         }
 
         $api = new Api($login, $password, $fid);

@@ -19,6 +19,7 @@ bitbag:
             order_weight_null: 'Order weight can not be null'
             shipping_address_not_found: 'Shipping address not found or is not correctly'
             email_not_found: 'Customer e-mail can not be null'
+            not_found: 'Order was not found'
         label:
-            not_found_parcel_id: 'Parcel id was not found. Try again'
+            not_found_parcel_id: 'Parcel was not found. Try generate label one more time'
             error_while_create_package: 'Something went wrong while create package. Try again'
