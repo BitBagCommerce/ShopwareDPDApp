@@ -4,31 +4,30 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Controller;
 
-use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
+use BitBag\ShopwareDpdApp\Exception\ConfigNotFoundException;
 use BitBag\ShopwareDpdApp\Exception\OrderNotFoundException;
-use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\OrderRepositoryInterface;
+use BitBag\ShopwareDpdApp\Service\ApiService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use T3ko\Dpd\Api;
 use T3ko\Dpd\Request\GenerateLabelsRequest;
 
 final class LabelController
 {
-    private ConfigRepositoryInterface $configRepository;
-
     private OrderRepositoryInterface $orderRepository;
 
     private TranslatorInterface $translator;
 
+    private ApiService $apiService;
+
     public function __construct(
-        ConfigRepositoryInterface $configRepository,
         OrderRepositoryInterface $orderRepository,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        ApiService $apiService
     ) {
-        $this->configRepository = $configRepository;
         $this->orderRepository = $orderRepository;
         $this->translator = $translator;
+        $this->apiService = $apiService;
     }
 
     public function __invoke(string $orderId): Response
@@ -44,19 +43,11 @@ final class LabelController
             throw new OrderNotFoundException($translator->trans('bitbag.shopware_dpd_app.label.not_found_parcel_id'));
         }
 
-        /** @var ConfigInterface $config */
-        $config = $this->configRepository->findByShopId($order->getShopId());
-
-        $login = $config->getApiLogin();
-        $password = $config->getApiPassword();
-        $fid = $config->getApiFid();
-
-        if (!$login || !$password || !$fid) {
-            return new Response($translator->trans('bitbag.shopware_dpd_app.order.config_not_found'));
+        try {
+            $api = $this->apiService->getApi($order->getShopId());
+        } catch (ConfigNotFoundException $exception) {
+            throw new ConfigNotFoundException($exception->getMessage());
         }
-
-        $api = new Api($login, $password, $fid);
-        $api->setSandboxMode(true);
 
         $requestLabels = GenerateLabelsRequest::fromParcelIds([$order->getParcelId()]);
 

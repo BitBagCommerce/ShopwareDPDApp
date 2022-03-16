@@ -6,14 +6,15 @@ namespace BitBag\ShopwareDpdApp\Creator;
 
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Entity\Order as OrderEntity;
+use BitBag\ShopwareDpdApp\Exception\ConfigNotFoundException;
 use BitBag\ShopwareDpdApp\Model\Order;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\OrderRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareDpdApp\Service\ApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use T3ko\Dpd\Api;
 use T3ko\Dpd\Objects\Package;
 use T3ko\Dpd\Objects\Parcel;
 use T3ko\Dpd\Objects\Receiver;
@@ -35,13 +36,16 @@ class CreatePackage
 
     private OrderRepositoryInterface $orderRepository;
 
+    private ApiService $apiService;
+
     public function __construct(
         ShopRepositoryInterface $shopRepository,
         Environment $template,
         ConfigRepositoryInterface $configRepository,
         EntityManagerInterface $entityManager,
         TranslatorInterface $translator,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        ApiService $apiService
     ) {
         $this->shopRepository = $shopRepository;
         $this->template = $template;
@@ -49,6 +53,7 @@ class CreatePackage
         $this->entityManager = $entityManager;
         $this->translator = $translator;
         $this->orderRepository = $orderRepository;
+        $this->apiService = $apiService;
     }
 
     public function create(Order $orderModel): array
@@ -79,19 +84,16 @@ class CreatePackage
             $order = new OrderEntity();
         }
 
-        $login = $config->getApiLogin();
-        $password = $config->getApiPassword();
         $fid = $config->getApiFid();
 
-        if (!$login || !$password || !$fid) {
+        try {
+            $api = $this->apiService->getApi($orderModel->getShopId());
+        } catch (ConfigNotFoundException $exception) {
             return [
                 'error' => true,
-                'value' => $translator->trans('bitbag.shopware_dpd_app.order.config_not_found'),
+                'value' => $translator->trans($exception->getMessage())
             ];
         }
-
-        $api = new Api($login, $password, $fid);
-        $api->setSandboxMode(true);
 
         $sender = new Sender(
             $fid,

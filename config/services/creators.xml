@@ -10,6 +10,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="translator" />
             <argument type="service" id="bitbag.shopware_dpd_app.repository.order_repository" />
+            <argument type="service" id="bitbag.shopware_dpd_app.service.api_service" />
         </service>
     </services>
 </container>

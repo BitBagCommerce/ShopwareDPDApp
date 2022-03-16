@@ -17,9 +17,9 @@
         <service class="BitBag\ShopwareDpdApp\Controller\LabelController"
                  id="bitbag.shopware_dpd_app.controller.label"
         >
-            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
             <argument type="service" id="bitbag.shopware_dpd_app.repository.order_repository" />
             <argument type="service" id="translator" />
+            <argument type="service" id="bitbag.shopware_dpd_app.service.api_service" />
 
             <tag name="controller.service_arguments"/>
         </service>
