@@ -3,7 +3,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service class="BitBag\ShopwareAppSkeleton\Controller\OrderController"
-                 id="bitbag.shopware_skeleton_app.controller.order"
+                 id="bitbag.shopware_dpd_app.controller.order"
         >
             <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository" />
             <argument type="service" id="router" />
@@ -15,7 +15,7 @@
         </service>
 
         <service class="BitBag\ShopwareAppSkeleton\Controller\LabelController"
-                 id="bitbag.shopware_skeleton_app.controller.label"
+                 id="bitbag.shopware_dpd_app.controller.label"
         >
             <argument type="service" id="bitbag.shopware_app_skeleton.repository.config_repository" />
             <argument type="service" id="bitbag.shopware_app_skeleton.repository.order_repository" />
@@ -25,7 +25,7 @@
         </service>
 
         <service class="BitBag\ShopwareAppSkeleton\Controller\ConfigurationModuleController"
-                 id="bitbag.shopware_skeleton_app.controller.configuration_module"
+                 id="bitbag.shopware_dpd_app.controller.configuration_module"
         >
             <argument type="service" id="twig" />
             <argument type="service" id="form.factory" />

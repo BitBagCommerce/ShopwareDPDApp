@@ -86,7 +86,7 @@ class CreatePackage
         if (!$login || !$password || !$fid) {
             return [
                 'error' => true,
-                'value' => $translator->trans('bitbag.shopware_skeleton_app.order.config_not_found'),
+                'value' => $translator->trans('bitbag.shopware_dpd_app.order.config_not_found'),
             ];
         }
 
@@ -133,7 +133,7 @@ class CreatePackage
                 'actionType' => 'notification',
                 'payload' => [
                     'status' => 'error',
-                    'message' => $translator->trans('bitbag.shopware_skeleton_app.label.error_while_create_package'),
+                    'message' => $translator->trans('bitbag.shopware_dpd_app.label.error_while_create_package'),
                 ],
             ];
         }
@@ -144,7 +144,7 @@ class CreatePackage
                 'actionType' => 'notification',
                 'payload' => [
                     'status' => 'error',
-                    'message' => $translator->trans('bitbag.shopware_skeleton_app.label.not_found_parcel_id'),
+                    'message' => $translator->trans('bitbag.shopware_dpd_app.label.not_found_parcel_id'),
                 ],
             ];
         }

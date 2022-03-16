@@ -12,7 +12,7 @@
         </service>
 
         <service class="BitBag\ShopwareAppSkeleton\AppSystem\Controller\ConfirmationController"
-                 id="bitbag.shopware_skeleton_app.app_system.controller.confirmation_controller"
+                 id="bitbag.shopware_dpd_app.app_system.controller.confirmation_controller"
         >
             <argument type="service" id="bitbag.shopware_app_skeleton.app_system.authenticator.authenticator"/>
             <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository"/>

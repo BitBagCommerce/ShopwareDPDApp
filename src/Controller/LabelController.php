@@ -49,7 +49,7 @@ final class LabelController
         $fid = $config->getApiFid();
 
         if (!$login || !$password || !$fid) {
-            return new Response($this->translator->trans('bitbag.shopware_skeleton_app.order.config_not_found'));
+            return new Response($this->translator->trans('bitbag.shopware_dpd_app.order.config_not_found'));
         }
 
         $api = new Api($login, $password, $fid);

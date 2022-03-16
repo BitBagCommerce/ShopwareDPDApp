@@ -24,13 +24,13 @@ class ValidateRequestData implements ValidatorRequestDataInterface
         $config = $this->configRepository->findByShopId($orderModel->getShopId());
         if (!$config) {
             return $this->returnErrorNotificationMessage(
-                'bitbag.shopware_skeleton_app.order.config_not_found'
+                'bitbag.shopware_dpd_app.order.config_not_found'
             );
         }
 
         if (!$config->getApiLogin() || !$config->getApiPassword() || !$config->getApiFid()) {
             return $this->returnErrorNotificationMessage(
-                'bitbag.shopware_skeleton_app.order.config_dpd_data_not_found'
+                'bitbag.shopware_dpd_app.order.config_dpd_data_not_found'
             );
         }
 
@@ -38,31 +38,31 @@ class ValidateRequestData implements ValidatorRequestDataInterface
             !$config->getSenderCity() || !$config->getSenderPhoneNumber() || !$config->getSenderLocale()
         ) {
             return $this->returnErrorNotificationMessage(
-                'bitbag.shopware_skeleton_app.order.config_sender_data_not_found'
+                'bitbag.shopware_dpd_app.order.config_sender_data_not_found'
             );
         }
 
         if (!$orderModel->getWeight()) {
             return $this->returnErrorNotificationMessage(
-                'bitbag.shopware_skeleton_app.order.order_weight_null'
+                'bitbag.shopware_dpd_app.order.order_weight_null'
             );
         }
 
         if (!$orderModel->getEmail()) {
             return $this->returnErrorNotificationMessage(
-                'bitbag.shopware_skeleton_app.order.email_not_found',
+                'bitbag.shopware_dpd_app.order.email_not_found',
             );
         }
 
         if (!$orderModel->getPackage()->isValid()) {
             return $this->returnErrorNotificationMessage(
-                'bitbag.shopware_skeleton_app.order.dpd_custom_fields_not_found'
+                'bitbag.shopware_dpd_app.order.dpd_custom_fields_not_found'
             );
         }
 
         if (!$orderModel->getShippingAddress()->isValid()) {
             return $this->returnErrorNotificationMessage(
-                'bitbag.shopware_skeleton_app.order.shipping_address_not_found',
+                'bitbag.shopware_dpd_app.order.shipping_address_not_found',
             );
         }
 

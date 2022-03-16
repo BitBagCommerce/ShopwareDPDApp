@@ -6,7 +6,7 @@ registration:
 confirm_registration:
   methods: ['POST']
   path: /app/registration/confirm
-  controller: bitbag.shopware_skeleton_app.app_system.controller.confirmation_controller
+  controller: bitbag.shopware_dpd_app.app_system.controller.confirmation_controller
 
 app_lifecycle:
   resource: './lifecycle_routes.yaml'
@@ -17,14 +17,14 @@ app_lifecycle:
 get_order:
   methods: ['POST']
   path: /app/send-order
-  controller: bitbag.shopware_skeleton_app.controller.order
+  controller: bitbag.shopware_dpd_app.controller.order
 
 get_label_pdf:
   methods: ['GET']
   path: /app/label/{orderId}
-  controller: bitbag.shopware_skeleton_app.controller.label
+  controller: bitbag.shopware_dpd_app.controller.label
 
 configuration_module_show:
   methods: ['GET', 'POST']
   path: /app/modules/configuration
-  controller: bitbag.shopware_skeleton_app.controller.configuration_module
+  controller: bitbag.shopware_dpd_app.controller.configuration_module
