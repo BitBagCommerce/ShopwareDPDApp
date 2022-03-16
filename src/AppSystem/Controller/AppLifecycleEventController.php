@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Controller;
+namespace BitBag\ShopwareDpdApp\AppSystem\Controller;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Event\EventInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Factory\LifecycleEvent\LifecycleEventFactoryInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Event\EventInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Factory\LifecycleEvent\LifecycleEventFactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 

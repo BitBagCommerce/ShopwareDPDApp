@@ -1,7 +1,7 @@
 registration:
   methods: ['GET']
   path: /app/registration
-  controller: bitbag.shopware_app_skeleton.app_system.controller.registration_controller
+  controller: bitbag.shopware_dpd_app.app_system.controller.registration_controller
 
 confirm_registration:
   methods: ['POST']

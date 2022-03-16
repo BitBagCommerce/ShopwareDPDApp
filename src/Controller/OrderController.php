@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Controller;
+namespace BitBag\ShopwareDpdApp\Controller;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
-use BitBag\ShopwareAppSkeleton\Creator\CreatePackage;
-use BitBag\ShopwareAppSkeleton\Model\Order;
-use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
-use BitBag\ShopwareAppSkeleton\Validator\ValidateRequestData;
+use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\Creator\CreatePackage;
+use BitBag\ShopwareDpdApp\Model\Order;
+use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareDpdApp\Validator\ValidateRequestData;
 use Exception;
 use JsonException;
 use RuntimeException;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Repository;
+namespace BitBag\ShopwareDpdApp\Repository;
 
-use BitBag\ShopwareAppSkeleton\Entity\Config;
-use BitBag\ShopwareAppSkeleton\Entity\ConfigInterface;
+use BitBag\ShopwareDpdApp\Entity\Config;
+use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;

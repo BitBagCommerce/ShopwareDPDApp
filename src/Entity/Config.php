@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Entity;
+namespace BitBag\ShopwareDpdApp\Entity;
 
-use BitBag\ShopwareAppSkeleton\Repository\ConfigRepository;
+use BitBag\ShopwareDpdApp\Repository\ConfigRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -67,7 +67,7 @@ class Config implements ConfigInterface
     protected string $senderLocale;
 
     /**
-     * @ORM\ManyToOne(targetEntity="BitBag\ShopwareAppSkeleton\Entity\Shop", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="BitBag\ShopwareDpdApp\Entity\Shop", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="shop_id", referencedColumnName="shop_id")
      */
     protected ShopInterface $shop;

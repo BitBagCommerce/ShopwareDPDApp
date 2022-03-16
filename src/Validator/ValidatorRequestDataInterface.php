@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Validator;
+namespace BitBag\ShopwareDpdApp\Validator;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareAppSkeleton\Model\Order;
+use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareDpdApp\Model\Order;
 
 interface ValidatorRequestDataInterface
 {

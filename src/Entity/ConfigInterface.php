@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Entity;
+namespace BitBag\ShopwareDpdApp\Entity;
 
 interface ConfigInterface
 {

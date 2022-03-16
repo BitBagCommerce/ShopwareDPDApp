@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Event;
+namespace BitBag\ShopwareDpdApp\AppSystem\Event;
 
 final class Event implements EventInterface
 {

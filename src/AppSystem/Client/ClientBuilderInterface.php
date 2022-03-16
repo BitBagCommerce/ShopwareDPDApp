@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Client;
+namespace BitBag\ShopwareDpdApp\AppSystem\Client;
 
 interface ClientBuilderInterface
 {

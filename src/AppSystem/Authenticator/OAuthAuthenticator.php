@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Authenticator;
+namespace BitBag\ShopwareDpdApp\AppSystem\Authenticator;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Credentials\OAuthCredentials;
-use BitBag\ShopwareAppSkeleton\AppSystem\Credentials\OAuthCredentialsInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Exception\AuthenticationException;
-use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Credentials\OAuthCredentials;
+use BitBag\ShopwareDpdApp\AppSystem\Credentials\OAuthCredentialsInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Exception\AuthenticationException;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 

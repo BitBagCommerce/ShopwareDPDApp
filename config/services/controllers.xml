@@ -2,36 +2,36 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service class="BitBag\ShopwareAppSkeleton\Controller\OrderController"
+        <service class="BitBag\ShopwareDpdApp\Controller\OrderController"
                  id="bitbag.shopware_dpd_app.controller.order"
         >
-            <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />
             <argument type="service" id="router" />
             <argument type="service" id="translator" />
-            <argument type="service" id="bitbag.shopware_app_skeleton.validator.validate_request_data" />
-            <argument type="service" id="bitbag.shopware_app_skeleton.generator.label_generator" />
+            <argument type="service" id="bitbag.shopware_dpd_app.validator.validate_request_data" />
+            <argument type="service" id="bitbag.shopware_dpd_app.generator.label_generator" />
 
             <tag name="controller.service_arguments"/>
         </service>
 
-        <service class="BitBag\ShopwareAppSkeleton\Controller\LabelController"
+        <service class="BitBag\ShopwareDpdApp\Controller\LabelController"
                  id="bitbag.shopware_dpd_app.controller.label"
         >
-            <argument type="service" id="bitbag.shopware_app_skeleton.repository.config_repository" />
-            <argument type="service" id="bitbag.shopware_app_skeleton.repository.order_repository" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.order_repository" />
             <argument type="service" id="translator" />
 
             <tag name="controller.service_arguments"/>
         </service>
 
-        <service class="BitBag\ShopwareAppSkeleton\Controller\ConfigurationModuleController"
+        <service class="BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController"
                  id="bitbag.shopware_dpd_app.controller.configuration_module"
         >
             <argument type="service" id="twig" />
             <argument type="service" id="form.factory" />
-            <argument type="service" id="bitbag.shopware_app_skeleton.repository.config_repository" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />
 
             <tag name="controller.service_arguments"/>
         </service>

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Controller;
+namespace BitBag\ShopwareDpdApp\AppSystem\Controller;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\AuthenticatorInterface;
-use BitBag\ShopwareAppSkeleton\Entity\Shop;
-use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Authenticator\AuthenticatorInterface;
+use BitBag\ShopwareDpdApp\Entity\Shop;
+use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

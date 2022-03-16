@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Controller;
+namespace BitBag\ShopwareDpdApp\Controller;
 
-use BitBag\ShopwareAppSkeleton\Entity\ConfigInterface;
-use BitBag\ShopwareAppSkeleton\Repository\ConfigRepositoryInterface;
-use BitBag\ShopwareAppSkeleton\Repository\OrderRepositoryInterface;
+use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
+use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
+use BitBag\ShopwareDpdApp\Repository\OrderRepositoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use T3ko\Dpd\Api;

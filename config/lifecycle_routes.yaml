@@ -1,29 +1,29 @@
 installed:
   path: /installed
-  controller: [bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller, 'onEventWithClient']
+  controller: [bitbag.shopware_dpd_app.app_system.controller.app_lifecycle_event_controller, 'onEventWithClient']
   defaults:
     eventType: installed
 
 updated:
   path: /updated
-  controller: [bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller, 'onEventWithClient']
+  controller: [bitbag.shopware_dpd_app.app_system.controller.app_lifecycle_event_controller, 'onEventWithClient']
   defaults:
     eventType: updated
 
 activated:
   path: /activated
-  controller: [bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller, 'onEventWithClient']
+  controller: [bitbag.shopware_dpd_app.app_system.controller.app_lifecycle_event_controller, 'onEventWithClient']
   defaults:
     eventType: activated
 
 deactivated:
   path: /deactivated
-  controller: [bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller, 'onEvent']
+  controller: [bitbag.shopware_dpd_app.app_system.controller.app_lifecycle_event_controller, 'onEvent']
   defaults:
     eventType: deactivated
 
 deleted:
   path: /deleted
-  controller: [bitbag.shopware_app_skeleton.app_system.controller.app_lifecycle_event_controller, 'onEvent']
+  controller: [bitbag.shopware_dpd_app.app_system.controller.app_lifecycle_event_controller, 'onEvent']
   defaults:
     eventType: deleted

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Creator;
+namespace BitBag\ShopwareDpdApp\Creator;
 
-use BitBag\ShopwareAppSkeleton\Entity\ConfigInterface;
-use BitBag\ShopwareAppSkeleton\Entity\Order as OrderEntity;
-use BitBag\ShopwareAppSkeleton\Model\Order;
-use BitBag\ShopwareAppSkeleton\Repository\ConfigRepositoryInterface;
-use BitBag\ShopwareAppSkeleton\Repository\OrderRepositoryInterface;
-use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
+use BitBag\ShopwareDpdApp\Entity\Order as OrderEntity;
+use BitBag\ShopwareDpdApp\Model\Order;
+use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
+use BitBag\ShopwareDpdApp\Repository\OrderRepositoryInterface;
+use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;

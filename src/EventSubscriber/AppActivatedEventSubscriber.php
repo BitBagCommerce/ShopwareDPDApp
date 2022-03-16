@@ -1,10 +1,10 @@
 <?php
 
-namespace BitBag\ShopwareAppSkeleton\EventSubscriber;
+namespace BitBag\ShopwareDpdApp\EventSubscriber;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\AppActivatedEvent;
-use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareDpdApp\AppSystem\LifecycleEvent\AppActivatedEvent;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 use DateTime;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

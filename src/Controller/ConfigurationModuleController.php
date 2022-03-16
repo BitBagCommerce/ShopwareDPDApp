@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Controller;
+namespace BitBag\ShopwareDpdApp\Controller;
 
-use BitBag\ShopwareAppSkeleton\Entity\Config;
-use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
-use BitBag\ShopwareAppSkeleton\Form\Type\ConfigType;
-use BitBag\ShopwareAppSkeleton\Repository\ConfigRepositoryInterface;
-use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareDpdApp\Entity\Config;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\Form\Type\ConfigType;
+use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
+use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;

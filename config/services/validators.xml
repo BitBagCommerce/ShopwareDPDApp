@@ -2,9 +2,9 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service class="BitBag\ShopwareAppSkeleton\Validator\ValidateRequestData"
-                 id="bitbag.shopware_app_skeleton.validator.validate_request_data">
-            <argument type="service" id="bitbag.shopware_app_skeleton.repository.config_repository" />
+        <service class="BitBag\ShopwareDpdApp\Validator\ValidateRequestData"
+                 id="bitbag.shopware_dpd_app.validator.validate_request_data">
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
         </service>
     </services>
 </container>

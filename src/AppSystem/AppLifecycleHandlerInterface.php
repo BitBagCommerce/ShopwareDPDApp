@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem;
+namespace BitBag\ShopwareDpdApp\AppSystem;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Event\EventInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Event\EventInterface;
 
 interface AppLifecycleHandlerInterface
 {

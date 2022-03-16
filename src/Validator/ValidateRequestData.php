@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Validator;
+namespace BitBag\ShopwareDpdApp\Validator;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareAppSkeleton\Entity\ConfigInterface;
-use BitBag\ShopwareAppSkeleton\Model\Order;
-use BitBag\ShopwareAppSkeleton\Repository\ConfigRepositoryInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
+use BitBag\ShopwareDpdApp\Model\Order;
+use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 
 class ValidateRequestData implements ValidatorRequestDataInterface
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Controller;
+namespace BitBag\ShopwareDpdApp\AppSystem\Controller;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\AuthenticatorInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Exception\ShopNotFoundException;
-use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
-use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Authenticator\AuthenticatorInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Exception\ShopNotFoundException;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

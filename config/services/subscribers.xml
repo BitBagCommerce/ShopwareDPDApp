@@ -3,8 +3,8 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
-        <service class="BitBag\ShopwareAppSkeleton\EventSubscriber\AppActivatedEventSubscriber"
-                 id="bitbag.shopware_app_skeleton.event_subscriber.app_activated_subscriber"
+        <service class="BitBag\ShopwareDpdApp\EventSubscriber\AppActivatedEventSubscriber"
+                 id="bitbag.shopware_dpd_app.event_subscriber.app_activated_subscriber"
         >
             <tag name="kernel.event_subscriber"/>
         </service>
