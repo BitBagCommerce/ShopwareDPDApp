@@ -10,7 +10,7 @@ use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 use BitBag\ShopwareDpdApp\Model\Order;
 use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareDpdApp\Validator\ValidateRequestData;
-use RuntimeException;
+use JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,9 +48,11 @@ final class OrderController
         ClientInterface $client,
         Request $request
     ): Response {
-        $this->checkSignature($request);
-
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            throw new JsonException($e->getMessage());
+        }
 
         $orderId = $data['data']['ids'][0];
 
@@ -119,25 +121,6 @@ final class OrderController
         ];
 
         return $this->sign($response, $shopId);
-    }
-
-    private function checkSignature(Request $request): void
-    {
-        $requestContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
-        $shopId = $requestContent['source']['shopId'];
-
-        // get the secret you have saved on registration for this shopId
-        $shopSecret = $this->getSecretByShopId($shopId);
-
-        $signature = $request->headers->get('shopware-shop-signature');
-        if (null === $signature) {
-            throw new RuntimeException('No signature provided signature');
-        }
-
-        $hmac = hash_hmac('sha256', $request->getContent(), $shopSecret);
-        if (!hash_equals($hmac, $signature)) {
-            throw new RuntimeException('Invalid signature');
-        }
     }
 
     private function sign(array $content, string $shopId): JsonResponse
