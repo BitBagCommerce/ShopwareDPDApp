@@ -9,5 +9,5 @@ use BitBag\ShopwareDpdApp\Model\Order;
 
 interface ValidatorRequestDataInterface
 {
-    public function validate(ClientInterface $client, Order $orderModel): array;
+    public function validate(ClientInterface $client, Order $orderModel): void;
 }

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use T3ko\Dpd\Request\GenerateLabelsRequest;
 
-final class LabelController
+final class ShowLabelAction
 {
     private OrderRepositoryInterface $orderRepository;
 

@@ -14,15 +14,15 @@ app_lifecycle:
   methods: ['POST']
   name_prefix: app_lifecycle_
 
-get_order:
+create_package:
   methods: ['POST']
-  path: /app/send-order
-  controller: bitbag.shopware_dpd_app.controller.order
+  path: /app/create-package
+  controller: bitbag.shopware_dpd_app.controller.create_package_action
 
 get_label_pdf:
   methods: ['GET']
   path: /app/label/{orderId}
-  controller: bitbag.shopware_dpd_app.controller.label
+  controller: bitbag.shopware_dpd_app.controller.show_label_action
 
 configuration_module_show:
   methods: ['GET', 'POST']

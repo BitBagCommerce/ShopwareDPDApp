@@ -2,26 +2,30 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service class="BitBag\ShopwareDpdApp\Controller\OrderController"
-                 id="bitbag.shopware_dpd_app.controller.order"
+        <service class="BitBag\ShopwareDpdApp\Controller\CreatePackageAction"
+                 id="bitbag.shopware_dpd_app.controller.create_package_action"
         >
             <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />
-            <argument type="service" id="router" />
             <argument type="service" id="translator" />
             <argument type="service" id="bitbag.shopware_dpd_app.validator.validate_request_data" />
             <argument type="service" id="bitbag.shopware_dpd_app.generator.label_generator" />
+            <argument type="service" id="bitbag.shopware_dpd_app.service.client_api_service" />
 
-            <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+
+            <tag name="controller.service_arguments" />
         </service>
 
-        <service class="BitBag\ShopwareDpdApp\Controller\LabelController"
-                 id="bitbag.shopware_dpd_app.controller.label"
+        <service class="BitBag\ShopwareDpdApp\Controller\ShowLabelAction"
+                 id="bitbag.shopware_dpd_app.controller.show_label_action"
         >
             <argument type="service" id="bitbag.shopware_dpd_app.repository.order_repository" />
             <argument type="service" id="translator" />
             <argument type="service" id="bitbag.shopware_dpd_app.service.api_service" />
 
-            <tag name="controller.service_arguments"/>
+            <tag name="controller.service_arguments" />
         </service>
 
         <service class="BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController"
@@ -31,7 +35,11 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />
 
-            <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+
+            <tag name="controller.service_arguments" />
         </service>
     </services>
 </container>

@@ -7,22 +7,21 @@ namespace BitBag\ShopwareDpdApp\Controller;
 use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
 use BitBag\ShopwareDpdApp\Creator\CreatePackage;
 use BitBag\ShopwareDpdApp\Entity\ShopInterface;
-use BitBag\ShopwareDpdApp\Model\Order;
+use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
+use BitBag\ShopwareDpdApp\Model\Order as OrderModel;
 use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareDpdApp\Service\ClientApiService;
 use BitBag\ShopwareDpdApp\Validator\ValidateRequestData;
-use JsonException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class OrderController
+final class CreatePackageAction extends AbstractController
 {
     private ShopRepositoryInterface $shopRepository;
-
-    private RouterInterface $router;
 
     private TranslatorInterface $translator;
 
@@ -30,84 +29,52 @@ final class OrderController
 
     private CreatePackage $createPackage;
 
+    private ClientApiService $clientApiService;
+
     public function __construct(
         ShopRepositoryInterface $shopRepository,
-        RouterInterface $router,
         TranslatorInterface $translator,
         ValidateRequestData $validateRequestData,
-        CreatePackage $createPackage
+        CreatePackage $createPackage,
+        ClientApiService $clientApiService
     ) {
         $this->shopRepository = $shopRepository;
-        $this->router = $router;
         $this->translator = $translator;
         $this->validateRequestData = $validateRequestData;
         $this->createPackage = $createPackage;
+        $this->clientApiService = $clientApiService;
     }
 
-    public function __invoke(
-        ClientInterface $client,
-        Request $request
-    ): Response {
-        try {
-            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $e) {
-            throw new JsonException($e->getMessage());
-        }
+    public function __invoke(ClientInterface $client, Request $request): Response
+    {
+        $data = $request->toArray();
 
         $orderId = $data['data']['ids'][0];
 
         $shopId = $data['source']['shopId'];
 
-        $orderAddressFilter = [
-            'filter' => [
-                [
-                    'type' => 'equals',
-                    'field' => 'id',
-                    'value' => $orderId,
-                ],
-            ],
-            'associations' => [
-                'lineItems' => [
-                    'associations' => [
-                        'product' => [],
-                    ],
-                ],
-                'deliveries' => [
-                    'associations' => [
-                        'shippingMethod' => [],
-                    ],
-                ],
-            ],
-        ];
+        $order = $this->clientApiService->getOrder($client, $orderId);
 
-        $order = $client->search('order', $orderAddressFilter);
-
-        $shippingMethodName = $order['data'][0]['deliveries'][0]['shippingMethod']['name'];
+        $shippingMethodName = $order['deliveries'][0]['shippingMethod']['name'];
         if (ShopInterface::SHIPPING_KEY !== $shippingMethodName) {
             exit;
         }
 
-        $orderModel = new Order($order, $shopId);
+        $orderModel = new OrderModel($order, $shopId);
 
-        $validator = $this->validateRequestData->validate($client, $orderModel);
-        if (true === $validator['error']) {
-            $response = [
-                'actionType' => 'notification',
-                'payload' => [
-                    'status' => 'error',
-                    'message' => $this->translator->trans($validator['messageKey']),
-                ],
-            ];
-
-            return $this->sign($response, $shopId);
+        try {
+            $this->validateRequestData->validate($client, $orderModel);
+        } catch (ErrorNotificationException $e) {
+            return $this->returnNotificationError($e->getMessage(), $shopId);
         }
 
-        $createPackage = $this->createPackage->create($orderModel);
-        if (isset($createPackage['actionType'])) {
-            return $this->sign($createPackage, $shopId);
+        try {
+            $this->createPackage->create($orderModel);
+        } catch (ErrorNotificationException $e) {
+            return $this->returnNotificationError($e->getMessage(), $shopId);
         }
 
-        $redirectUrl = $this->router->generate(
+        $redirectUrl = $this->generateUrl(
             'get_label_pdf',
             ['orderId' => $orderId],
             UrlGeneratorInterface::ABSOLUTE_URL
@@ -140,5 +107,18 @@ final class OrderController
     private function getSecretByShopId(string $shopId): string
     {
         return (string) $this->shopRepository->findSecretByShopId($shopId);
+    }
+
+    private function returnNotificationError(string $message, string $shopId): Response
+    {
+        $response = [
+            'actionType' => 'notification',
+            'payload' => [
+                'status' => 'error',
+                'message' => $message,
+            ],
+        ];
+
+        return $this->sign($response, $shopId);
     }
 }

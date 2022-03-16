@@ -20,16 +20,15 @@ class Order implements OrderInterface
 
     public function __construct(array $order, string $shopId)
     {
-        $orderData = $order['data'][0];
-        $this->order = $orderData;
+        $this->order = $order;
         $this->shopId = $shopId;
-        $this->orderId = $orderData['orderCustomer']['orderId'] ?? null;
-        $this->package = new Package($orderData['customFields'] ?? []);
+        $this->orderId = $order['orderCustomer']['orderId'] ?? null;
+        $this->package = new Package($order['customFields'] ?? []);
         $this->shippingAddress = new ShippingAddress(
-            $orderData['deliveries'][0]['shippingOrderAddress'] ?? [],
-            $orderData['customFields']['package_details_countryCode'] ?? null
+            $order['deliveries'][0]['shippingOrderAddress'] ?? [],
+            $order['customFields']['package_details_countryCode'] ?? null
         );
-        $this->setWeight($orderData);
+        $this->setWeight($order);
     }
 
     public function getOrderId(): ?string

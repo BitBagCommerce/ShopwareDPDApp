@@ -8,5 +8,8 @@
             <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
             <argument type="service" id="translator" />
         </service>
+
+        <service class="BitBag\ShopwareDpdApp\Service\ClientApiService"
+                 id="bitbag.shopware_dpd_app.service.client_api_service" />
     </services>
 </container>

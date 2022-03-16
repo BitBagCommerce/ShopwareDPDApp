@@ -7,6 +7,7 @@ namespace BitBag\ShopwareDpdApp\Creator;
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Entity\Order as OrderEntity;
 use BitBag\ShopwareDpdApp\Exception\ConfigNotFoundException;
+use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Model\Order;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\OrderRepositoryInterface;
@@ -22,7 +23,7 @@ use T3ko\Dpd\Objects\Sender;
 use T3ko\Dpd\Request\GeneratePackageNumbersRequest;
 use Twig\Environment;
 
-class CreatePackage
+final class CreatePackage
 {
     private ShopRepositoryInterface $shopRepository;
 
@@ -56,7 +57,7 @@ class CreatePackage
         $this->apiService = $apiService;
     }
 
-    public function create(Order $orderModel): array
+    public function create(Order $orderModel): int
     {
         $translator = $this->translator;
         $em = $this->entityManager;
@@ -66,19 +67,13 @@ class CreatePackage
 
         $orderId = $orderModel->getOrderId();
         if (!$orderId) {
-            return [
-                'error' => true,
-                'value' => 'Not found orderId',
-            ];
+            throw new ErrorNotificationException($translator->trans('bitbag.shopware_dpd_app.order.not_found'));
         }
 
         $order = $this->orderRepository->findByOrderId($orderId);
         if ($order) {
             if ($order->getParcelId()) {
-                return [
-                    'error' => false,
-                    'value' => $order->getParcelId(),
-                ];
+                return $order->getParcelId();
             }
         } else {
             $order = new OrderEntity();
@@ -89,10 +84,7 @@ class CreatePackage
         try {
             $api = $this->apiService->getApi($orderModel->getShopId());
         } catch (ConfigNotFoundException $exception) {
-            return [
-                'error' => true,
-                'value' => $translator->trans($exception->getMessage())
-            ];
+            throw new ErrorNotificationException($exception->getMessage());
         }
 
         $sender = new Sender(
@@ -131,24 +123,12 @@ class CreatePackage
         try {
             $response = $api->generatePackageNumbers($request);
         } catch (Exception $exception) {
-            return [
-                'actionType' => 'notification',
-                'payload' => [
-                    'status' => 'error',
-                    'message' => $translator->trans('bitbag.shopware_dpd_app.label.error_while_create_package'),
-                ],
-            ];
+            throw new ErrorNotificationException($translator->trans('bitbag.shopware_dpd_app.label.error_while_create_package'));
         }
 
         $parcelId = $response->getPackages()[0]->getParcels()[0]->getId();
         if (!$parcelId) {
-            return [
-                'actionType' => 'notification',
-                'payload' => [
-                    'status' => 'error',
-                    'message' => $translator->trans('bitbag.shopware_dpd_app.label.not_found_parcel_id'),
-                ],
-            ];
+            throw new ErrorNotificationException($translator->trans('bitbag.shopware_dpd_app.label.not_found_parcel_id'));
         }
 
         $order->setShopId($orderModel->getShopId());
@@ -158,9 +138,6 @@ class CreatePackage
         $em->persist($order);
         $em->flush();
 
-        return [
-            'error' => false,
-            'value' => $parcelId,
-        ];
+        return $parcelId;
     }
 }
