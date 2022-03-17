@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
-use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Entity\Order as OrderEntity;
 use BitBag\ShopwareDpdApp\Exception\ConfigNotFoundException;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
@@ -49,8 +48,10 @@ final class PackageFactory implements PackageFactoryInterface
             throw new ErrorNotificationException('bitbag.shopware_dpd_app.shop.not_found');
         }
 
-        /** @var ConfigInterface $config */
         $config = $this->configRepository->findByShopId($shopId);
+        if (!$config) {
+            throw new ErrorNotificationException('bitbag.shopware_dpd_app.order.config_not_found');
+        }
 
         $orderId = $orderModel->getOrderId();
         if (!$orderId) {
