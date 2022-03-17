@@ -5,7 +5,6 @@
         <service class="BitBag\ShopwareDpdApp\Validator\ValidateRequestData"
                  id="bitbag.shopware_dpd_app.validator.validate_request_data">
             <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
-            <argument type="service" id="translator" />
         </service>
     </services>
 </container>
