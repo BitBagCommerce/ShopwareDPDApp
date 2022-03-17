@@ -46,7 +46,7 @@ final class ShowLabelAction
         try {
             $api = $this->apiService->getApi($order->getShopId());
         } catch (ConfigNotFoundException $exception) {
-            throw new ConfigNotFoundException($exception->getMessage());
+            throw new ConfigNotFoundException($translator->trans($exception->getMessage()));
         }
 
         $requestLabels = GenerateLabelsRequest::fromParcelIds([$order->getParcelId()]);
