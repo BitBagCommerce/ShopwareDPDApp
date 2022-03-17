@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareDpdApp\Creator;
+namespace BitBag\ShopwareDpdApp\Factory;
 
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Entity\Order as OrderEntity;
@@ -11,63 +11,50 @@ use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Model\Order;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\OrderRepositoryInterface;
-use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareDpdApp\Service\ApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use T3ko\Dpd\Objects\Package;
 use T3ko\Dpd\Objects\Parcel;
 use T3ko\Dpd\Objects\Receiver;
 use T3ko\Dpd\Objects\Sender;
 use T3ko\Dpd\Request\GeneratePackageNumbersRequest;
-use Twig\Environment;
 
-final class CreatePackage
+final class PackageFactory implements PackageFactoryInterface
 {
-    private ShopRepositoryInterface $shopRepository;
-
-    private Environment $template;
-
     private ConfigRepositoryInterface $configRepository;
 
     private EntityManagerInterface $entityManager;
-
-    private TranslatorInterface $translator;
 
     private OrderRepositoryInterface $orderRepository;
 
     private ApiService $apiService;
 
     public function __construct(
-        ShopRepositoryInterface $shopRepository,
-        Environment $template,
         ConfigRepositoryInterface $configRepository,
         EntityManagerInterface $entityManager,
-        TranslatorInterface $translator,
         OrderRepositoryInterface $orderRepository,
         ApiService $apiService
     ) {
-        $this->shopRepository = $shopRepository;
-        $this->template = $template;
         $this->configRepository = $configRepository;
         $this->entityManager = $entityManager;
-        $this->translator = $translator;
         $this->orderRepository = $orderRepository;
         $this->apiService = $apiService;
     }
 
     public function create(Order $orderModel): int
     {
-        $translator = $this->translator;
-        $em = $this->entityManager;
+        $shopId = $orderModel->getShopId();
+        if (!$shopId) {
+            throw new ErrorNotificationException('bitbag.shopware_dpd_app.shop.not_found');
+        }
 
         /** @var ConfigInterface $config */
-        $config = $this->configRepository->findByShopId($orderModel->getShopId());
+        $config = $this->configRepository->findByShopId($shopId);
 
         $orderId = $orderModel->getOrderId();
         if (!$orderId) {
-            throw new ErrorNotificationException($translator->trans('bitbag.shopware_dpd_app.order.not_found'));
+            throw new ErrorNotificationException('bitbag.shopware_dpd_app.order.not_found');
         }
 
         $order = $this->orderRepository->findByOrderId($orderId);
@@ -123,20 +110,20 @@ final class CreatePackage
         try {
             $response = $api->generatePackageNumbers($request);
         } catch (Exception $exception) {
-            throw new ErrorNotificationException($translator->trans('bitbag.shopware_dpd_app.label.error_while_create_package'));
+            throw new ErrorNotificationException('bitbag.shopware_dpd_app.label.error_while_create_package');
         }
 
         $parcelId = $response->getPackages()[0]->getParcels()[0]->getId();
         if (!$parcelId) {
-            throw new ErrorNotificationException($translator->trans('bitbag.shopware_dpd_app.label.not_found_parcel_id'));
+            throw new ErrorNotificationException('bitbag.shopware_dpd_app.label.not_found_parcel_id');
         }
 
         $order->setShopId($orderModel->getShopId());
         $order->setOrderId($orderId);
         $order->setParcelId($parcelId);
 
-        $em->persist($order);
-        $em->flush();
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
 
         return $parcelId;
     }

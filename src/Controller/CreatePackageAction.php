@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Controller;
 
 use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareDpdApp\Creator\CreatePackage;
 use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
+use BitBag\ShopwareDpdApp\Factory\PackageFactory;
+use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
 use BitBag\ShopwareDpdApp\Model\Order as OrderModel;
 use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareDpdApp\Service\ClientApiService;
@@ -27,7 +28,7 @@ final class CreatePackageAction extends AbstractController
 
     private ValidateRequestData $validateRequestData;
 
-    private CreatePackage $createPackage;
+    private PackageFactoryInterface $packageFactory;
 
     private ClientApiService $clientApiService;
 
@@ -35,13 +36,13 @@ final class CreatePackageAction extends AbstractController
         ShopRepositoryInterface $shopRepository,
         TranslatorInterface $translator,
         ValidateRequestData $validateRequestData,
-        CreatePackage $createPackage,
+        PackageFactory $packageFactory,
         ClientApiService $clientApiService
     ) {
         $this->shopRepository = $shopRepository;
         $this->translator = $translator;
         $this->validateRequestData = $validateRequestData;
-        $this->createPackage = $createPackage;
+        $this->packageFactory = $packageFactory;
         $this->clientApiService = $clientApiService;
     }
 
@@ -69,7 +70,7 @@ final class CreatePackageAction extends AbstractController
         }
 
         try {
-            $this->createPackage->create($orderModel);
+            $this->packageFactory->create($orderModel);
         } catch (ErrorNotificationException $e) {
             return $this->returnNotificationError($e->getMessage(), $shopId);
         }
@@ -115,7 +116,7 @@ final class CreatePackageAction extends AbstractController
             'actionType' => 'notification',
             'payload' => [
                 'status' => 'error',
-                'message' => $message,
+                'message' => $this->translator->trans($message),
             ],
         ];
 

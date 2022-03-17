@@ -2,13 +2,10 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service class="BitBag\ShopwareDpdApp\Creator\CreatePackage"
-                 id="bitbag.shopware_dpd_app.generator.label_generator">
-            <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />
-            <argument type="service" id="twig" />
+        <service class="BitBag\ShopwareDpdApp\Factory\PackageFactory"
+                 id="bitbag.shopware_dpd_app.factory.package_factory">
             <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="translator" />
             <argument type="service" id="bitbag.shopware_dpd_app.repository.order_repository" />
             <argument type="service" id="bitbag.shopware_dpd_app.service.api_service" />
         </service>

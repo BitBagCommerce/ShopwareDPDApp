@@ -23,3 +23,5 @@ bitbag:
         label:
             not_found_parcel_id: 'Parcel was not found. Try generate label one more time'
             error_while_create_package: 'Something went wrong while create package. Try again'
+        shop:
+            not_found: 'Shop was not found'
