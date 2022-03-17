@@ -9,5 +9,11 @@
             <argument type="service" id="bitbag.shopware_dpd_app.repository.order_repository" />
             <argument type="service" id="bitbag.shopware_dpd_app.service.api_service" />
         </service>
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreateShippingMethodFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_shipping_method_factory" />
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreateCustomFieldFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_custom_field_factory" />
     </services>
 </container>

@@ -4,12 +4,29 @@ namespace BitBag\ShopwareDpdApp\EventSubscriber;
 
 use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
 use BitBag\ShopwareDpdApp\AppSystem\LifecycleEvent\AppActivatedEvent;
-use BitBag\ShopwareDpdApp\Entity\ShopInterface;
-use DateTime;
+use BitBag\ShopwareDpdApp\Factory\CreateCustomFieldFactoryInterface;
+use BitBag\ShopwareDpdApp\Factory\CreateShippingMethodFactoryInterface;
+use BitBag\ShopwareDpdApp\Service\ClientApiService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class AppActivatedEventSubscriber implements EventSubscriberInterface
 {
+    private CreateShippingMethodFactoryInterface $createShippingMethodFactory;
+
+    private ClientApiService $clientApiService;
+
+    private CreateCustomFieldFactoryInterface $createCustomFieldFactory;
+
+    public function __construct(
+        CreateShippingMethodFactoryInterface $createShippingMethodFactory,
+        ClientApiService $clientApiService,
+        CreateCustomFieldFactoryInterface $createCustomFieldFactory
+    ) {
+        $this->createShippingMethodFactory = $createShippingMethodFactory;
+        $this->clientApiService = $clientApiService;
+        $this->createCustomFieldFactory = $createCustomFieldFactory;
+    }
+
     public static function getSubscribedEvents(): array
     {
         return [
@@ -26,103 +43,24 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
 
     private function createShippingMethod(ClientInterface $client): void
     {
-        $shippingKey = ShopInterface::SHIPPING_KEY;
-        $filterForShippingMethod = [
-            'filter' => [
-                [
-                    'type' => 'contains',
-                    'field' => 'name',
-                    'value' => $shippingKey,
-                ],
-            ],
-        ];
-
-        $filterForDeliveryTime = [
-            'filter' => [
-                [
-                    'type' => 'contains',
-                    'field' => 'unit',
-                    'value' => 'day',
-                ],
-                [
-                    'type' => 'equals',
-                    'field' => 'min',
-                    'value' => 1,
-                ],
-                [
-                    'type' => 'equals',
-                    'field' => 'max',
-                    'value' => 3,
-                ],
-            ],
-        ];
-
-        $shippingMethods = $client->searchIds('shipping-method', $filterForShippingMethod);
+        $shippingMethods = $this->clientApiService->findShippingMethodByShippingKey($client);
         if ($shippingMethods['total']) {
             return;
         }
 
-        $deliveryTime = $client->searchIds('delivery-time', $filterForDeliveryTime);
+        $deliveryTime = $this->clientApiService->findDeliveryTimeByMinMax(1, 3, $client);
 
-        $filterRule = [
-            'filter' => [
-                [
-                    'type' => 'equals',
-                    'field' => 'name',
-                    'value' => 'Cart >= 0',
-                ],
-            ],
-        ];
-
-        $rule = $client->searchIds('rule', $filterRule);
+        $rule = $this->clientApiService->findRuleByName('Cart >= 0', $client);
         if (!$rule) {
-            $rule = $client->searchIds('rule', []);
+            $rule = $this->clientApiService->findRandomRule($client);
         }
 
-        $currentDateTime = new DateTime('now');
-
-        $dpdShippingMethod = [
-            'name' => $shippingKey,
-            'active' => true,
-            'description' => $shippingKey.' shipping method',
-            'taxType' => 'auto',
-            'translated' => [
-                'name' => $shippingKey,
-            ],
-            'availabilityRuleId' => $rule['data'][0],
-            'createdAt' => $currentDateTime,
-        ];
-
-        if (isset($deliveryTime['total']) && $deliveryTime['total'] > 0) {
-            $dpdShippingMethod = array_merge($dpdShippingMethod, [
-                'deliveryTimeId' => $deliveryTime['data'][0],
-            ]);
-        } else {
-            $dpdShippingMethod = array_merge($dpdShippingMethod, [
-                'deliveryTime' => [
-                    'name' => '1-3 days',
-                    'min' => 1,
-                    'max' => 3,
-                    'unit' => 'day',
-                    'createdAt' => $currentDateTime,
-                ],
-            ]);
-        }
-
-        $client->createEntity('shipping-method', $dpdShippingMethod);
+        $this->createShippingMethodFactory->create($rule['data'][0], $deliveryTime, $client);
     }
 
     private function createCustomFieldsForPackageDetailsInOrder(ClientInterface $client): void
     {
-        $customFieldSetFilter = [
-            'filter' => [
-                [
-                    'type' => 'equals',
-                    'field' => 'name',
-                    'value' => 'package_details',
-                ],
-            ],
-        ];
+        $customFieldPrefix = 'package_details';
 
         $customFieldNames = [
             [
@@ -152,28 +90,16 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
             ],
         ];
 
-        $customFieldPrefix = 'package_details';
-
         foreach ($customFieldNames as $key => $item) {
             $customFieldSetId = null;
             $type = $item['type'];
 
             $customFieldName = $customFieldPrefix.'_'.$item['name'];
 
-            $customFieldFilter = [
-                'filter' => [
-                    [
-                        'type' => 'equals',
-                        'field' => 'name',
-                        'value' => $customFieldName,
-                    ],
-                ],
-            ];
-
-            $customField = $client->searchIds('custom-field', $customFieldFilter);
-            if (!$customField || 0 === $customField['total']) {
-                $customFieldSet = $client->search('custom-field-set', $customFieldSetFilter);
-                if (!$customFieldSet || 0 === $customFieldSet['total']) {
+            $customField = $this->clientApiService->findIdsCustomFieldByName($customFieldName, $client);
+            if (0 === $customField['total']) {
+                $customFieldSet = $this->clientApiService->findCustomFieldSetByName($customFieldPrefix, $client);
+                if (0 === $customFieldSet['total']) {
                     $customFieldSet = [
                         'name' => $customFieldPrefix,
                         'relations' => [
@@ -190,34 +116,15 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
                     $customFieldSetId = $customFieldSet['data'][0]['id'];
                 }
 
-                $customFieldArr = [
-                    'name' => $customFieldName,
-                    'type' => $type,
-                    'position' => $key,
-                    'config' => [
-                        'type' => $item['type'],
-                        'label' => ['en-GB' => $item['label']],
-                        'helpText' => [],
-                        'placeholder' => [],
-                        'componentName' => 'sw-field',
-                        'customFieldType' => $item['type'],
-                        'customFieldPosition' => $key,
-                    ],
-                ];
-
-                if ($customFieldSetId) {
-                    $customFieldArr['customFieldSetId'] = $customFieldSetId;
-                } else {
-                    $customFieldArr['customFieldSet'] = $customFieldSet;
-                }
-
-                if ('int' === $type) {
-                    $customFieldArr['config']['type'] = 'number';
-                    $customFieldArr['config']['numberType'] = $type;
-                    $customFieldArr['config']['customFieldType'] = 'number';
-                }
-
-                $client->createEntity('custom-field', $customFieldArr);
+                $this->createCustomFieldFactory->create(
+                    $customFieldName,
+                    $type,
+                    $key,
+                    $item['label'],
+                    $client,
+                    $customFieldSetId,
+                    $customFieldSet
+                );
             }
         }
     }
