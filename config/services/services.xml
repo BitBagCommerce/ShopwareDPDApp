@@ -9,6 +9,7 @@
         </service>
 
         <service class="BitBag\ShopwareDpdApp\Service\ClientApiService"
-                 id="bitbag.shopware_dpd_app.service.client_api_service" />
+                 id="bitbag.shopware_dpd_app.service.client_api_service"
+        />
     </services>
 </container>

@@ -12,7 +12,7 @@
 
         <service class="BitBag\ShopwareDpdApp\Repository\ConfigRepository"
                  id="bitbag.shopware_dpd_app.repository.config_repository"
-                 >
+        >
             <argument type="service" id="doctrine" />
 
             <tag name="doctrine.repository_service" />
