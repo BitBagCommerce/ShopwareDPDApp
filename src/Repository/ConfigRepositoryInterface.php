@@ -9,7 +9,5 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface ConfigRepositoryInterface extends ServiceEntityRepositoryInterface
 {
-    public function findOneBy(array $criteria, ?array $orderBy = null);
-
     public function findByShopId(string $shopId): ?ConfigInterface;
 }
