@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Service;
 
 use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareDpdApp\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\Factory\ShippingMethodFactoryInterface;
 
 final class ClientApiService
 {
@@ -63,7 +63,7 @@ final class ClientApiService
 
     public function findShippingMethodByShippingKey(ClientInterface $client): array
     {
-        $shippingKey = ShopInterface::SHIPPING_KEY;
+        $shippingKey = ShippingMethodFactoryInterface::SHIPPING_KEY;
         $filterForShippingMethod = [
             'filter' => [
                 [

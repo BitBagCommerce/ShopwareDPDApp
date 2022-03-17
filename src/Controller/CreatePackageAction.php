@@ -9,6 +9,7 @@ use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactory;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
+use BitBag\ShopwareDpdApp\Factory\ShippingMethodFactoryInterface;
 use BitBag\ShopwareDpdApp\Model\Order as OrderModel;
 use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareDpdApp\Service\ClientApiService;
@@ -57,7 +58,7 @@ final class CreatePackageAction extends AbstractController
         $order = $this->clientApiService->getOrder($client, $orderId);
 
         $shippingMethodName = $order['deliveries'][0]['shippingMethod']['name'];
-        if (ShopInterface::SHIPPING_KEY !== $shippingMethodName) {
+        if (ShippingMethodFactoryInterface::SHIPPING_KEY !== $shippingMethodName) {
             exit;
         }
 

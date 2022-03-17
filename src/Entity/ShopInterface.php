@@ -6,8 +6,6 @@ namespace BitBag\ShopwareDpdApp\Entity;
 
 interface ShopInterface
 {
-    public const SHIPPING_KEY = 'DPD';
-
     public function getShopId(): string;
 
     public function setShopId(string $shopId): void;

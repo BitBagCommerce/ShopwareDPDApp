@@ -114,8 +114,9 @@ final class PackageFactory implements PackageFactoryInterface
             throw new ErrorNotificationException('bitbag.shopware_dpd_app.label.error_while_create_package');
         }
 
-        $parcelId = $response->getPackages()[0]->getParcels()[0]->getId();
-        if (!$parcelId) {
+        if (empty($response->getPackages()) || empty($response->getPackages()[0]->getParcels()) ||
+            !$parcelId = $response->getPackages()[0]->getParcels()[0]->getId()
+        ) {
             throw new ErrorNotificationException('bitbag.shopware_dpd_app.label.not_found_parcel_id');
         }
 

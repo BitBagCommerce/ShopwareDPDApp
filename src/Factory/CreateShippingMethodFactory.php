@@ -12,7 +12,7 @@ final class CreateShippingMethodFactory implements CreateShippingMethodFactoryIn
 {
     public function create(string $ruleId, array $deliveryTime, ClientInterface $client): void
     {
-        $shippingKey = ShopInterface::SHIPPING_KEY;
+        $shippingKey = ShippingMethodFactoryInterface::SHIPPING_KEY;
         $currentDateTime = new DateTime('now');
 
         $dpdShippingMethod = [
