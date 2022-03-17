@@ -7,7 +7,7 @@ namespace BitBag\ShopwareDpdApp\Factory;
 use BitBag\ShopwareDpdApp\Entity\Order as OrderEntity;
 use BitBag\ShopwareDpdApp\Exception\ConfigNotFoundException;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
-use BitBag\ShopwareDpdApp\Model\Order;
+use BitBag\ShopwareDpdApp\Model\OrderModel;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\OrderRepositoryInterface;
 use BitBag\ShopwareDpdApp\Service\ApiService;
@@ -41,7 +41,7 @@ final class PackageFactory implements PackageFactoryInterface
         $this->apiService = $apiService;
     }
 
-    public function create(Order $orderModel): int
+    public function create(OrderModel $orderModel): int
     {
         $shopId = $orderModel->getShopId();
         if (!$shopId) {

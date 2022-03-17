@@ -7,7 +7,7 @@ namespace BitBag\ShopwareDpdApp\Validator;
 use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
-use BitBag\ShopwareDpdApp\Model\Order;
+use BitBag\ShopwareDpdApp\Model\OrderModel;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 
 final class ValidateRequestData implements ValidatorRequestDataInterface
@@ -19,7 +19,7 @@ final class ValidateRequestData implements ValidatorRequestDataInterface
         $this->configRepository = $configRepository;
     }
 
-    public function validate(ClientInterface $client, Order $orderModel): void
+    public function validate(ClientInterface $client, OrderModel $orderModel): void
     {
         /** @var ConfigInterface|null $config */
         $config = $this->configRepository->findByShopId($orderModel->getShopId());

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Controller;
 
 use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareDpdApp\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Event\EventInterface;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactory;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\ShippingMethodFactoryInterface;
-use BitBag\ShopwareDpdApp\Model\Order as OrderModel;
+use BitBag\ShopwareDpdApp\Model\OrderModel;
 use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareDpdApp\Service\ClientApiService;
 use BitBag\ShopwareDpdApp\Validator\ValidateRequestData;
@@ -47,13 +47,13 @@ final class CreatePackageAction extends AbstractController
         $this->clientApiService = $clientApiService;
     }
 
-    public function __invoke(ClientInterface $client, Request $request): Response
+    public function __invoke(ClientInterface $client, Request $request, EventInterface $event): Response
     {
         $data = $request->toArray();
 
         $orderId = $data['data']['ids'][0];
 
-        $shopId = $data['source']['shopId'];
+        $shopId = $event->getShopId();
 
         $order = $this->clientApiService->getOrder($client, $orderId);
 

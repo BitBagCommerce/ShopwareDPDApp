@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Model;
 
-interface OrderInterface
+interface OrderModelInterface
 {
     public function getOrderId(): ?string;
 
     public function getShopId(): string;
 
-    public function getPackage(): Package;
+    public function getPackage(): PackageModel;
 
-    public function getShippingAddress(): ShippingAddress;
+    public function getShippingAddress(): ShippingAddressModel;
 
     public function getEmail(): ?string;
 }

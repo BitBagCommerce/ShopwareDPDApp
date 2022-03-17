@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Model;
 
-class ShippingAddress implements ShippingAddressInterface, ModelValidInterface
+class ShippingAddressModel implements ShippingAddressModelInterface, ModelValidInterface
 {
     private array $dpdPackageData;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Model;
 
-interface PackageInterface
+interface PackageModelInterface
 {
     public function getHeight(): ?int;
 

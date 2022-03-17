@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Model;
 
-class Order implements OrderInterface
+class OrderModel implements OrderModelInterface
 {
     private array $order;
 
@@ -12,9 +12,9 @@ class Order implements OrderInterface
 
     private string $shopId;
 
-    protected Package $package;
+    protected PackageModel $package;
 
-    protected ShippingAddress $shippingAddress;
+    protected ShippingAddressModel $shippingAddress;
 
     private ?float $weight;
 
@@ -23,8 +23,8 @@ class Order implements OrderInterface
         $this->order = $order;
         $this->shopId = $shopId;
         $this->orderId = $order['orderCustomer']['orderId'] ?? null;
-        $this->package = new Package($order['customFields'] ?? []);
-        $this->shippingAddress = new ShippingAddress(
+        $this->package = new PackageModel($order['customFields'] ?? []);
+        $this->shippingAddress = new ShippingAddressModel(
             $order['deliveries'][0]['shippingOrderAddress'] ?? [],
             $order['customFields']['package_details_countryCode'] ?? null
         );
@@ -41,12 +41,12 @@ class Order implements OrderInterface
         return $this->shopId;
     }
 
-    public function getPackage(): Package
+    public function getPackage(): PackageModel
     {
         return $this->package;
     }
 
-    public function getShippingAddress(): ShippingAddress
+    public function getShippingAddress(): ShippingAddressModel
     {
         return $this->shippingAddress;
     }

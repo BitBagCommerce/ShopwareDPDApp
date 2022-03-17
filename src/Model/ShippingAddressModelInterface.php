@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Model;
 
-interface ShippingAddressInterface
+interface ShippingAddressModelInterface
 {
     public function getFirstName(): ?string;
 
