@@ -6,11 +6,9 @@ namespace BitBag\ShopwareDpdApp\Model;
 
 interface PackageModelInterface
 {
-    public function getHeight(): ?int;
+    public function getHeight(): int;
 
-    public function getWidth(): ?int;
+    public function getWidth(): int;
 
-    public function getDepth(): ?int;
-
-    public function getDescription(): ?string;
+    public function getDepth(): int;
 }

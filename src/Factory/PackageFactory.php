@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Factory;
 
 use BitBag\ShopwareDpdApp\Entity\Order as OrderEntity;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
-use BitBag\ShopwareDpdApp\Model\OrderModel;
+use BitBag\ShopwareDpdApp\Model\OrderModelInterface;
 use BitBag\ShopwareDpdApp\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -28,7 +28,7 @@ final class PackageFactory implements PackageFactoryInterface
         $this->createPackageFactory = $createPackageFactory;
     }
 
-    public function create(OrderModel $orderModel): int
+    public function create(OrderModelInterface $orderModel): int
     {
         $shopId = $orderModel->getShopId();
         if (!$shopId) {

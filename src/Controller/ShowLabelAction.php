@@ -32,21 +32,19 @@ final class ShowLabelAction
 
     public function __invoke(string $orderId): Response
     {
-        $translator = $this->translator;
-
         $order = $this->orderRepository->findByOrderId($orderId);
         if (!$order) {
-            throw new OrderNotFoundException($translator->trans('bitbag.shopware_dpd_app.order.not_found'));
+            throw new OrderNotFoundException($this->translator->trans('bitbag.shopware_dpd_app.order.not_found'));
         }
 
         if (!$order->getParcelId()) {
-            throw new OrderNotFoundException($translator->trans('bitbag.shopware_dpd_app.label.not_found_parcel_id'));
+            throw new OrderNotFoundException($this->translator->trans('bitbag.shopware_dpd_app.label.not_found_parcel_id'));
         }
 
         try {
             $api = $this->apiService->getApi($order->getShopId());
         } catch (ConfigNotFoundException $exception) {
-            throw new ConfigNotFoundException($translator->trans($exception->getMessage()));
+            throw new ConfigNotFoundException($this->translator->trans($exception->getMessage()));
         }
 
         $requestLabels = GenerateLabelsRequest::fromParcelIds([$order->getParcelId()]);

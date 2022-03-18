@@ -10,10 +10,9 @@ use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactory;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\ShippingMethodFactoryInterface;
-use BitBag\ShopwareDpdApp\Model\OrderModel;
 use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareDpdApp\Service\ClientApiService;
-use BitBag\ShopwareDpdApp\Validator\ValidateRequestData;
+use BitBag\ShopwareDpdApp\Validator\ValidateOrderModelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,24 +26,24 @@ final class CreatePackageAction extends AbstractController
 
     private TranslatorInterface $translator;
 
-    private ValidateRequestData $validateRequestData;
-
     private PackageFactoryInterface $packageFactory;
 
     private ClientApiService $clientApiService;
 
+    private ValidateOrderModelInterface $validateOrderModel;
+
     public function __construct(
         ShopRepositoryInterface $shopRepository,
         TranslatorInterface $translator,
-        ValidateRequestData $validateRequestData,
         PackageFactory $packageFactory,
-        ClientApiService $clientApiService
+        ClientApiService $clientApiService,
+        ValidateOrderModelInterface $validateOrderModel
     ) {
         $this->shopRepository = $shopRepository;
         $this->translator = $translator;
-        $this->validateRequestData = $validateRequestData;
         $this->packageFactory = $packageFactory;
         $this->clientApiService = $clientApiService;
+        $this->validateOrderModel = $validateOrderModel;
     }
 
     public function __invoke(ClientInterface $client, Request $request, EventInterface $event): Response
@@ -62,10 +61,8 @@ final class CreatePackageAction extends AbstractController
             exit;
         }
 
-        $orderModel = new OrderModel($order, $shopId);
-
         try {
-            $this->validateRequestData->validate($client, $orderModel);
+            $orderModel = $this->validateOrderModel->validate($order, $orderId, $shopId);
         } catch (ErrorNotificationException $e) {
             return $this->returnNotificationError($e->getMessage(), $shopId);
         }

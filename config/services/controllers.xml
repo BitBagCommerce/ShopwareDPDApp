@@ -7,9 +7,9 @@
         >
             <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />
             <argument type="service" id="translator" />
-            <argument type="service" id="bitbag.shopware_dpd_app.validator.validate_request_data" />
             <argument type="service" id="bitbag.shopware_dpd_app.factory.package_factory" />
             <argument type="service" id="bitbag.shopware_dpd_app.service.client_api_service" />
+            <argument type="service" id="bitbag.shopware_dpd_app.validator.validate_order_model" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />

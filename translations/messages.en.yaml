@@ -25,3 +25,21 @@ bitbag:
             error_while_create_package: 'Something went wrong while create package. Try again'
         shop:
             not_found: 'Shop was not found'
+        validator:
+            order_model:
+                order_id: 'Order id was not found'
+                shop_id: 'Shop id was not found'
+                email: 'Email was not found'
+                weight: 'Weight can not be null'
+                package:
+                    height: 'Package details - height can not be null'
+                    width: 'Package details - width can not be null'
+                    depth: 'Package details - depth can not be null'
+                shipping_address:
+                    first_name: 'Shipping address - first name can not be null'
+                    last_name: 'Shipping address -  last name can not be null'
+                    street: 'Shipping address -  street can not be null'
+                    zip_code: 'Shipping address -  zip code can not be null'
+                    city: 'Shipping address -  city can not be null'
+                    phone_number: 'Shipping address - phone number can not be null'
+                    country_code: 'Shipping address - country code can not be null'

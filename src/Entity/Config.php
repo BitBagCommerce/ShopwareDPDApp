@@ -173,12 +173,12 @@ class Config implements ConfigInterface
 
     public function getSenderLocale(): ?string
     {
-        return strtoupper($this->senderLocale);
+        return $this->senderLocale;
     }
 
     public function setSenderLocale(string $senderLocale): void
     {
-        $this->senderLocale = $senderLocale;
+        $this->senderLocale = strtoupper($senderLocale);
     }
 
     public function getShop(): ?ShopInterface

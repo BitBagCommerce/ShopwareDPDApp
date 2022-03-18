@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BitBag\ShopwareDpdApp\EventSubscriber;
 
 use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Provider;
 
-class CustomFieldNamesProvider implements CustomFieldNamesProviderInterface
+final class CustomFieldNamesProvider implements CustomFieldNamesProviderInterface
 {
     public function getFields(): array
     {
@@ -23,11 +23,6 @@ class CustomFieldNamesProvider implements CustomFieldNamesProviderInterface
                 'name' => 'depth',
                 'label' => 'Depth',
                 'type' => 'int',
-            ],
-            [
-                'name' => 'description',
-                'label' => 'Description',
-                'type' => 'text',
             ],
             [
                 'name' => 'countryCode',

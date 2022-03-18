@@ -4,34 +4,58 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Model;
 
-class OrderModel implements OrderModelInterface
+use Symfony\Component\Validator\Constraints as Assert;
+
+final class OrderModel implements OrderModelInterface
 {
-    private array $order;
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.order_id")
+     */
+    private string $orderId;
 
-    private ?string $orderId;
-
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.shop_id")
+     */
     private string $shopId;
 
-    protected PackageModel $package;
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.email")
+     */
+    private string $email;
 
-    protected ShippingAddressModel $shippingAddress;
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.weight")
+     * @Assert\GreaterThan(value="0.0", message="bitbag.shopware_dpd_app.validator.order_model.weight")
+     */
+    private float $weight;
 
-    private ?float $weight;
+    /**
+     * @Assert\Valid()
+     */
+    private PackageModelInterface $package;
 
-    public function __construct(array $order, string $shopId)
-    {
-        $this->order = $order;
+    /**
+     * @Assert\Valid()
+     */
+    private ShippingAddressModelInterface $shippingAddress;
+
+    public function __construct(
+        ?string $orderId,
+        ?string $shopId,
+        ?string $email,
+        ?float $weight,
+        ?PackageModelInterface $package,
+        ?ShippingAddressModelInterface $shippingAddress
+    ) {
+        $this->orderId = $orderId;
         $this->shopId = $shopId;
-        $this->orderId = $order['orderCustomer']['orderId'] ?? null;
-        $this->package = new PackageModel($order['customFields'] ?? []);
-        $this->shippingAddress = new ShippingAddressModel(
-            $order['deliveries'][0]['shippingOrderAddress'] ?? [],
-            $order['customFields']['package_details_countryCode'] ?? null
-        );
-        $this->setWeight($order);
+        $this->email = $email;
+        $this->weight = $weight;
+        $this->package = $package;
+        $this->shippingAddress = $shippingAddress;
     }
 
-    public function getOrderId(): ?string
+    public function getOrderId(): string
     {
         return $this->orderId;
     }
@@ -41,37 +65,23 @@ class OrderModel implements OrderModelInterface
         return $this->shopId;
     }
 
-    public function getPackage(): PackageModel
+    public function getPackage(): PackageModelInterface
     {
         return $this->package;
     }
 
-    public function getShippingAddress(): ShippingAddressModel
+    public function getShippingAddress(): ShippingAddressModelInterface
     {
         return $this->shippingAddress;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
-        return $this->order['orderCustomer']['email'] ?? null;
+        return $this->email;
     }
 
-    public function getWeight(): ?float
+    public function getWeight(): float
     {
         return $this->weight;
-    }
-
-    private function setWeight(array $orderData): void
-    {
-        $lineItems = $orderData['lineItems'];
-
-        $totalWeight = 0;
-
-        foreach ($lineItems as $item) {
-            $weight = $item['quantity'] * $item['product']['weight'];
-            $totalWeight += $weight;
-        }
-
-        $this->weight = $totalWeight;
     }
 }

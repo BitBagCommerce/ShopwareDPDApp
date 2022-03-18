@@ -6,13 +6,13 @@ namespace BitBag\ShopwareDpdApp\Model;
 
 interface OrderModelInterface
 {
-    public function getOrderId(): ?string;
+    public function getOrderId(): string;
 
     public function getShopId(): string;
 
-    public function getPackage(): PackageModel;
+    public function getPackage(): PackageModelInterface;
 
-    public function getShippingAddress(): ShippingAddressModel;
+    public function getShippingAddress(): ShippingAddressModelInterface;
 
-    public function getEmail(): ?string;
+    public function getEmail(): string;
 }

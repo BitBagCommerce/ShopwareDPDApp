@@ -6,17 +6,17 @@ namespace BitBag\ShopwareDpdApp\Model;
 
 interface ShippingAddressModelInterface
 {
-    public function getFirstName(): ?string;
+    public function getFirstName(): string;
 
-    public function getLastName(): ?string;
+    public function getLastName(): string;
 
-    public function getStreet(): ?string;
+    public function getStreet(): string;
 
-    public function getZipCode(): ?string;
+    public function getZipCode(): string;
 
-    public function getCity(): ?string;
+    public function getCity(): string;
 
-    public function getCountryCode(): ?string;
+    public function getCountryCode(): string;
 
-    public function getPhoneNumber(): ?string;
+    public function getPhoneNumber(): string;
 }

@@ -4,70 +4,95 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Model;
 
-class ShippingAddressModel implements ShippingAddressModelInterface, ModelValidInterface
+use Symfony\Component\Validator\Constraints as Assert;
+
+class ShippingAddressModel implements ShippingAddressModelInterface
 {
-    private array $dpdPackageData;
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.shipping_address.first_name")
+     */
+    private string $firstName;
 
-    private ?string $countryCode;
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.shipping_address.last_name")
+     */
+    private string $lastName;
 
-    public function __construct(array $dpdPackageData, ?string $countryCode)
-    {
-        $this->dpdPackageData = $dpdPackageData;
-        $this->countryCode = $countryCode;
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.shipping_address.street")
+     */
+    private string $street;
+
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.shipping_address.zip_code")
+     */
+    private string $zipCode;
+
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.shipping_address.city")
+     */
+    private string $city;
+
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.shipping_address.phone_number")
+     */
+    private string $phoneNumber;
+
+    /**
+     * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.shipping_address.country_code")
+     */
+    private string $countryCode;
+
+    public function __construct(
+        ?string $firstName,
+        ?string $lastName,
+        ?string $street,
+        ?string $zipCode,
+        ?string $city,
+        ?string $countryCode,
+        ?string $phoneNumber
+    ) {
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->street = $street;
+        $this->zipCode = str_replace(['-', ' ',], '', $zipCode);
+        $this->city = $city;
+        $this->countryCode = $countryCode ? strtoupper($countryCode) : null;
+        $this->phoneNumber = $phoneNumber;
     }
 
-    public function getFirstName(): ?string
+    public function getFirstName(): string
     {
-        return $this->dpdPackageData['firstName'] ?? null;
+        return $this->firstName;
     }
 
-    public function getLastName(): ?string
+    public function getLastName(): string
     {
-        return $this->dpdPackageData['lastName'] ?? null;
+        return $this->lastName;
     }
 
-    public function getStreet(): ?string
+    public function getStreet(): string
     {
-        return $this->dpdPackageData['street'] ?? null;
+        return $this->street;
     }
 
-    public function getZipCode(): ?string
+    public function getZipCode(): string
     {
-        $zipCode = $this->dpdPackageData['zipcode'] ?? null;
-
-        return str_replace(
-            [
-                '-',
-                ' ',
-            ],
-            '',
-            $zipCode
-        );
+        return $this->zipCode;
     }
 
-    public function getCity(): ?string
+    public function getCity(): string
     {
-        return $this->dpdPackageData['city'] ?? null;
+        return $this->city;
     }
 
-    public function getCountryCode(): ?string
+    public function getCountryCode(): string
     {
-        return strtoupper($this->countryCode);
+        return $this->countryCode;
     }
 
-    public function getPhoneNumber(): ?string
+    public function getPhoneNumber(): string
     {
-        return $this->dpdPackageData['phoneNumber'] ?? null;
-    }
-
-    public function isValid(): bool
-    {
-        return $this->getFirstName() &&
-            $this->getLastName() &&
-            $this->getPhoneNumber() &&
-            $this->getStreet() &&
-            $this->getZipCode() &&
-            $this->getCity() &&
-            $this->getCountryCode();
+        return $this->phoneNumber;
     }
 }
