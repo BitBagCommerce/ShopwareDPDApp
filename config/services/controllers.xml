@@ -1,0 +1,45 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service class="BitBag\ShopwareDpdApp\Controller\CreatePackageAction"
+                 id="bitbag.shopware_dpd_app.controller.create_package_action"
+        >
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />
+            <argument type="service" id="translator" />
+            <argument type="service" id="bitbag.shopware_dpd_app.factory.package_factory" />
+            <argument type="service" id="bitbag.shopware_dpd_app.service.client_api_service" />
+            <argument type="service" id="bitbag.shopware_dpd_app.validator.validate_order_model" />
+
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <service class="BitBag\ShopwareDpdApp\Controller\ShowLabelAction"
+                 id="bitbag.shopware_dpd_app.controller.show_label_action"
+        >
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.order_repository" />
+            <argument type="service" id="translator" />
+            <argument type="service" id="bitbag.shopware_dpd_app.service.api_service" />
+
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <service class="BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController"
+                 id="bitbag.shopware_dpd_app.controller.configuration_module"
+        >
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />
+
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+
+            <tag name="controller.service_arguments" />
+        </service>
+    </services>
+</container>

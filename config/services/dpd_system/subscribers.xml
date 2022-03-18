@@ -2,11 +2,32 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-
-        <service class="BitBag\ShopwareAppSkeleton\EventSubscriber\AppActivatedEventSubscriber"
-                 id="bitbag.shopware_app_skeleton.event_subscriber.app_activated_subscriber"
+        <service class="BitBag\ShopwareDpdApp\Validator\ValidateOrderModel"
+                 id="bitbag.shopware_dpd_app.validator.validate_order_model"
         >
-            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="validator" />
+            <argument type="service" id="bitbag.shopware_dpd_app.validator.package_model_validator" />
+            <argument type="service" id="bitbag.shopware_dpd_app.validator.shipping_address_model_validator" />
+            <argument type="service" id="bitbag.shopware_dpd_app.validator.order_model_validator" />
+            <argument type="service" id="bitbag.shopware_dpd_app.calculator.order_weight_calculator" />
+        </service>
+
+        <service class="BitBag\ShopwareDpdApp\Validator\PackageModelValidator"
+                 id="bitbag.shopware_dpd_app.validator.package_model_validator"
+        >
+            <argument type="service" id="validator" />
+        </service>
+
+        <service class="BitBag\ShopwareDpdApp\Validator\ShippingAddressModelValidator"
+                 id="bitbag.shopware_dpd_app.validator.shipping_address_model_validator"
+        >
+            <argument type="service" id="validator" />
+        </service>
+
+        <service class="BitBag\ShopwareDpdApp\Validator\OrderModelValidator"
+                 id="bitbag.shopware_dpd_app.validator.order_model_validator"
+        >
+            <argument type="service" id="validator" />
         </service>
     </services>
 </container>

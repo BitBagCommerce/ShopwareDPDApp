@@ -1,0 +1,45 @@
+bitbag:
+    shopware_dpd_app:
+        ui:
+            apiLogin: 'API Login'
+            apiPassword: 'API Password'
+            apiFid: 'API FID'
+            senderFirstLastName: 'Sender first last name'
+            senderStreet: 'Sender street'
+            senderZipCode: 'Sender zip code'
+            senderCity: 'Sender city'
+            senderPhoneNumber: 'Sender phone number'
+            senderLocale: 'Sender locale'
+            save: 'Save'
+        order:
+            dpd_custom_fields_not_found: 'Please add required fields for generate DPD label in "DPD Custom fields set"'
+            config_not_found: 'Please add configuration (My apps -> DPD - Configuration)'
+            config_dpd_data_not_found: 'Please add dpd data (My apps -> DPD - Configuration)'
+            config_sender_data_not_found: 'Please add sender data (My apps -> DPD - Configuration)'
+            order_weight_null: 'Order weight can not be null'
+            shipping_address_not_found: 'Shipping address not found or is not correctly'
+            email_not_found: 'Customer e-mail can not be null'
+            not_found: 'Order was not found'
+        label:
+            not_found_parcel_id: 'Parcel was not found. Try generate label one more time'
+            error_while_create_package: 'Something went wrong while create package. Try again'
+        shop:
+            not_found: 'Shop was not found'
+        validator:
+            order_model:
+                order_id: 'Order id was not found'
+                shop_id: 'Shop id was not found'
+                email: 'Email was not found'
+                weight: 'Weight can not be null'
+                package:
+                    height: 'Package details - height can not be null'
+                    width: 'Package details - width can not be null'
+                    depth: 'Package details - depth can not be null'
+                shipping_address:
+                    first_name: 'Shipping address - first name can not be null'
+                    last_name: 'Shipping address -  last name can not be null'
+                    street: 'Shipping address -  street can not be null'
+                    zip_code: 'Shipping address -  zip code can not be null'
+                    city: 'Shipping address -  city can not be null'
+                    phone_number: 'Shipping address - phone number can not be null'
+                    country_code: 'Shipping address - country code can not be null'

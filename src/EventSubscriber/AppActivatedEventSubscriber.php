@@ -1,14 +1,33 @@
 <?php
 
-namespace BitBag\ShopwareAppSkeleton\EventSubscriber;
+declare(strict_types=1);
 
-use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\AppActivatedEvent;
-use DateTime;
+namespace BitBag\ShopwareDpdApp\EventSubscriber;
+
+use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareDpdApp\AppSystem\LifecycleEvent\AppActivatedEvent;
+use BitBag\ShopwareDpdApp\Factory\CreateDetailsPackageFieldsFactoryInterface;
+use BitBag\ShopwareDpdApp\Factory\CreateShippingMethodFactoryInterface;
+use BitBag\ShopwareDpdApp\Service\ClientApiService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class AppActivatedEventSubscriber implements EventSubscriberInterface
 {
-    public const SHIPPING_KEY = 'DPD';
+    private CreateShippingMethodFactoryInterface $createShippingMethodFactory;
+
+    private ClientApiService $clientApiService;
+
+    private CreateDetailsPackageFieldsFactoryInterface $createDetailsPackageFieldsFactory;
+
+    public function __construct(
+        CreateShippingMethodFactoryInterface $createShippingMethodFactory,
+        ClientApiService $clientApiService,
+        CreateDetailsPackageFieldsFactoryInterface $createDetailsPackageFieldsFactory
+    ) {
+        $this->createShippingMethodFactory = $createShippingMethodFactory;
+        $this->clientApiService = $clientApiService;
+        $this->createDetailsPackageFieldsFactory = $createDetailsPackageFieldsFactory;
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -20,86 +39,24 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
     public function onAppActivated(AppActivatedEvent $event): void
     {
         $client = $event->getClient();
+        $this->createShippingMethod($client);
+        $this->createDetailsPackageFieldsFactory->create($client);
+    }
 
-        $filterForShippingMethod = [
-            'filter' => [
-                [
-                    'type' => 'contains',
-                    'field' => 'name',
-                    'value' => self::SHIPPING_KEY,
-                ],
-            ],
-        ];
-
-        $filterForDeliveryTime = [
-            'filter' => [
-                [
-                    'type' => 'contains',
-                    'field' => 'unit',
-                    'value' => 'day',
-                ],
-                [
-                    'type' => 'equals',
-                    'field' => 'min',
-                    'value' => 1,
-                ],
-                [
-                    'type' => 'equals',
-                    'field' => 'max',
-                    'value' => 3,
-                ],
-            ],
-        ];
-
-        $shippingMethods = $client->searchIds('shipping-method', $filterForShippingMethod);
+    private function createShippingMethod(ClientInterface $client): void
+    {
+        $shippingMethods = $this->clientApiService->findShippingMethodByShippingKey($client);
         if ($shippingMethods['total']) {
             return;
         }
 
-        $deliveryTime = $client->searchIds('delivery-time', $filterForDeliveryTime);
+        $deliveryTime = $this->clientApiService->findDeliveryTimeByMinMax(1, 3, $client);
 
-        $filterRule = [
-            'filter' => [
-                [
-                    'type' => 'equals',
-                    'field' => 'name',
-                    'value' => 'Cart >= 0',
-                ],
-            ],
-        ];
-
-        $rule = $client->searchIds('rule', $filterRule);
-
-        $currentDateTime = new DateTime('now');
-
-        $dpdShippingMethod = [
-            'name' => self::SHIPPING_KEY,
-            'active' => true,
-            'description' => self::SHIPPING_KEY . " shipping method",
-            'taxType' => 'auto',
-            'translated' => [
-                'name' => self::SHIPPING_KEY,
-            ],
-            'availabilityRuleId' => $rule['data'][0],
-            'createdAt' => $currentDateTime,
-        ];
-
-        if (isset($deliveryTime['total']) && $deliveryTime['total'] > 0) {
-            $dpdShippingMethod = array_merge($dpdShippingMethod, [
-                'deliveryTimeId' => $deliveryTime['data'][0],
-            ]);
-        } else {
-            $dpdShippingMethod = array_merge($dpdShippingMethod, [
-                'deliveryTime' => [
-                    'name' => '1-3 days',
-                    'min' => 1,
-                    'max' => 3,
-                    'unit' => 'day',
-                    'createdAt' => $currentDateTime,
-                ],
-            ]);
+        $rule = $this->clientApiService->findRuleByName('Cart >= 0', $client);
+        if (!$rule) {
+            $rule = $this->clientApiService->findRandomRule($client);
         }
 
-        $client->createEntity('shipping-method', $dpdShippingMethod);
+        $this->createShippingMethodFactory->create($rule['data'][0], $deliveryTime, $client);
     }
 }
