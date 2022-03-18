@@ -1,0 +1,43 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service class="BitBag\ShopwareDpdApp\Factory\PackageFactory"
+                 id="bitbag.shopware_dpd_app.factory.package_factory"
+        >
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.order_repository" />
+            <argument type="service" id="bitbag.shopware_dpd_app.factory.create_package_factory" />
+        </service>
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreateShippingMethodFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_shipping_method_factory"
+        />
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreateCustomFieldFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_custom_field_factory"
+        />
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreateDpdSenderFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_dpd_sender_factory"
+        >
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
+        </service>
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreateDpdReceiverFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_dpd_receiver_factory" />
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreateDpdParcelFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_dpd_parcel_factory"
+        />
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreatePackageFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_package_factory"
+        >
+            <argument type="service" id="bitbag.shopware_dpd_app.service.api_service" />
+            <argument type="service" id="bitbag.shopware_dpd_app.factory.create_dpd_sender_factory" />
+            <argument type="service" id="bitbag.shopware_dpd_app.factory.create_dpd_receiver_factory" />
+            <argument type="service" id="bitbag.shopware_dpd_app.factory.create_dpd_parcel_factory" />
+        </service>
+    </services>
+</container>
