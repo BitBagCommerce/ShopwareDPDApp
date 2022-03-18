@@ -57,7 +57,7 @@ class ConfigurationModuleController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->render('configuration_module.html.twig', [
+        return $this->render('configuration_module/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
