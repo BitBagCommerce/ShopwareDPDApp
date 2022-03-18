@@ -39,5 +39,18 @@
             <argument type="service" id="bitbag.shopware_dpd_app.factory.create_dpd_receiver_factory" />
             <argument type="service" id="bitbag.shopware_dpd_app.factory.create_dpd_parcel_factory" />
         </service>
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreateCustomFieldSetFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_custom_field_set_factory"
+        />
+
+        <service class="BitBag\ShopwareDpdApp\Factory\CreateDetailsPackageFieldsFactory"
+                 id="bitbag.shopware_dpd_app.factory.create_details_package_fields_factory"
+        >
+            <argument type="service" id="bitbag.shopware_dpd_app.provider.custom_field_names_provider" />
+            <argument type="service" id="bitbag.shopware_dpd_app.service.client_api_service" />
+            <argument type="service" id="bitbag.shopware_dpd_app.factory.create_custom_field_set_factory" />
+            <argument type="service" id="bitbag.shopware_dpd_app.factory.create_custom_field_factory" />
+        </service>
     </services>
 </container>
