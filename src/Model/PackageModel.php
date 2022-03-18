@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class PackageModel implements PackageModelInterface
+final class PackageModel implements PackageModelInterface
 {
     /**
      * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.package.height")

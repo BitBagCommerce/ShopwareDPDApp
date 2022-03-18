@@ -18,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Config[]    findAll()
  * @method Config[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ConfigRepository extends ServiceEntityRepository implements ConfigRepositoryInterface
+final class ConfigRepository extends ServiceEntityRepository implements ConfigRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

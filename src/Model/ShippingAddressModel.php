@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ShippingAddressModel implements ShippingAddressModelInterface
+final class ShippingAddressModel implements ShippingAddressModelInterface
 {
     /**
      * @Assert\NotBlank(message="bitbag.shopware_dpd_app.validator.order_model.shipping_address.first_name")

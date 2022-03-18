@@ -9,7 +9,7 @@ use BitBag\ShopwareDpdApp\Exception\ConfigNotFoundException;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use T3ko\Dpd\Api;
 
-class ApiService
+final class ApiService
 {
     private ConfigRepositoryInterface $configRepository;
 

@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Exception;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ErrorNotificationException extends NotFoundHttpException
+final class ErrorNotificationException extends NotFoundHttpException
 {
     public function __construct(?string $message = null)
     {

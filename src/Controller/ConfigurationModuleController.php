@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ConfigurationModuleController extends AbstractController
+final class ConfigurationModuleController extends AbstractController
 {
     private ConfigRepositoryInterface $configRepository;
 
