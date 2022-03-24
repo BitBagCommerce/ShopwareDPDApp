@@ -27,7 +27,7 @@ final class LifecycleEventFactory implements LifecycleEventFactoryInterface
                 return new AppUpdatedEvent($event, $client);
         }
 
-        throw new \InvalidArgumentException('Wrong event name: .'.$eventName);
+        throw new \InvalidArgumentException('Wrong event name: .' . $eventName);
     }
 
     public function createNew(string $eventName, EventInterface $event): LifecycleEventInterface
@@ -39,6 +39,6 @@ final class LifecycleEventFactory implements LifecycleEventFactoryInterface
                 return new AppDeletedEvent($event);
         }
 
-        throw new \InvalidArgumentException('Wrong event name: .'.$eventName);
+        throw new \InvalidArgumentException('Wrong event name: .' . $eventName);
     }
 }

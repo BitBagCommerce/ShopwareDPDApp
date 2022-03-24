@@ -29,8 +29,10 @@ final class Client implements ClientInterface
             throw new ApiException($this->shopUrl, $requestPath, $response);
         }
 
-        /* @var array */
-        return \json_decode($response->getBody()->getContents(), true);
+        /** @var array $result */
+        $result = \json_decode($response->getBody()->getContents(), true);
+
+        return $result;
     }
 
     public function search(string $entityType, array $criteria): array
@@ -43,8 +45,10 @@ final class Client implements ClientInterface
             throw new ApiException($this->shopUrl, $requestPath, $response);
         }
 
-        /* @var array */
-        return \json_decode($response->getBody()->getContents(), true);
+        /** @var array $result */
+        $result = \json_decode($response->getBody()->getContents(), true);
+
+        return $result;
     }
 
     public function searchIds(string $entityType, array $criteria): array
@@ -57,8 +61,10 @@ final class Client implements ClientInterface
             throw new ApiException($this->shopUrl, $requestPath, $response);
         }
 
-        /* @var array */
-        return \json_decode($response->getBody()->getContents(), true);
+        /** @var array $result */
+        $result = \json_decode($response->getBody()->getContents(), true);
+
+        return $result;
     }
 
     public function createEntity(string $entityType, array $entityData): void
