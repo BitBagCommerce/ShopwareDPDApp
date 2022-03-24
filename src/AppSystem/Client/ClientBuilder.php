@@ -69,7 +69,7 @@ final class ClientBuilder implements ClientBuilderInterface
     private function getGuzzleClient(string $accessToken): HttpClient
     {
         $baseHeaders = [
-            'Authorization' => 'Bearer '.$accessToken,
+            'Authorization' => 'Bearer ' . $accessToken,
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
         ];

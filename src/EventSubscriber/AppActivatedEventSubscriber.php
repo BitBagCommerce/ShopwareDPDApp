@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BitBag\ShopwareAppSkeleton\EventSubscriber;
 
 use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\AppActivatedEvent;
@@ -75,7 +77,7 @@ final class AppActivatedEventSubscriber implements EventSubscriberInterface
         $dpdShippingMethod = [
             'name' => self::SHIPPING_KEY,
             'active' => true,
-            'description' => self::SHIPPING_KEY . " shipping method",
+            'description' => self::SHIPPING_KEY . ' shipping method',
             'taxType' => 'auto',
             'translated' => [
                 'name' => self::SHIPPING_KEY,

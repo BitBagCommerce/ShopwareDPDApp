@@ -26,8 +26,10 @@ final class ShopRepository extends ServiceEntityRepository implements ShopReposi
             ->where('shop.shopId = :shopId')
             ->setParameter('shopId', $shopId);
 
-        /* @var ?string */
-        return $queryBuilder->getQuery()->getSingleScalarResult();
+        /** @var ?string $result */
+        $result = $queryBuilder->getQuery()->getSingleScalarResult();
+
+        return $result;
     }
 
     public function getOneByShopId(string $shopId): ShopInterface

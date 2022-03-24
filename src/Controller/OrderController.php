@@ -29,7 +29,7 @@ final class OrderController
     {
         $this->checkSignature($request);
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
 
         $orderId = $data['data']['ids'][0];
 
@@ -70,7 +70,7 @@ final class OrderController
             ],
         ];
 
-        # https://developer.shopware.com/docs/guides/plugins/apps/administration/add-custom-action-button
+        // https://developer.shopware.com/docs/guides/plugins/apps/administration/add-custom-action-button
 
         $shopId = $data['source']['shopId'];
 
@@ -83,7 +83,7 @@ final class OrderController
      */
     private function checkSignature(Request $request): void
     {
-        $requestContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $requestContent = json_decode($request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
         $shopId = $requestContent['source']['shopId'];
 
         // get the secret you have saved on registration for this shopId

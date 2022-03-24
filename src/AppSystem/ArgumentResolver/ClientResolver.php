@@ -53,7 +53,8 @@ final class ClientResolver implements ArgumentValueResolverInterface
             }
 
             return $this->authenticator->authenticatePostRequest($request, $shopSecret);
-        } elseif ('GET' === $request->getMethod() && $this->supportsGetRequest($request)) {
+        }
+        if ('GET' === $request->getMethod() && $this->supportsGetRequest($request)) {
             $shopId = $request->query->get('shop-id', '');
             $shopSecret = $this->shopRepository->findSecretByShopId($shopId);
 

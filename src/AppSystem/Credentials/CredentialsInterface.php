@@ -14,5 +14,5 @@ interface CredentialsInterface
 
     public function getToken(): ?string;
 
-    public function withToken(string $token): CredentialsInterface;
+    public function withToken(string $token): self;
 }

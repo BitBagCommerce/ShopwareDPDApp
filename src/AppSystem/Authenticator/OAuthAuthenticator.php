@@ -37,7 +37,7 @@ final class OAuthAuthenticator implements OAuthAuthenticatorInterface
             throw new AuthenticationException($shopUrl, $key, $response->getBody()->getContents());
         }
 
-        /** @var array{
+        /** @psalm-var array{
                 token_type: string,
          *      access_token: string,
          *      expires_in: int
