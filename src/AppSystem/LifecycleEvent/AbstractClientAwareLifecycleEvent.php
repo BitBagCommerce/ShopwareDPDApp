@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent;
+namespace BitBag\ShopwareDpdApp\AppSystem\LifecycleEvent;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Event\EventInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Event\EventInterface;
 
 abstract class AbstractClientAwareLifecycleEvent extends AbstractLifecycleEvent implements ClientAwareLifecycleEventInterface
 {

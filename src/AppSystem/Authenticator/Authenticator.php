@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Authenticator;
+namespace BitBag\ShopwareDpdApp\AppSystem\Authenticator;
 
 use Symfony\Component\HttpFoundation\Request;
 

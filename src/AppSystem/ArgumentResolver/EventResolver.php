@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\ArgumentResolver;
+namespace BitBag\ShopwareDpdApp\AppSystem\ArgumentResolver;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\AuthenticatorInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Event\Event;
-use BitBag\ShopwareAppSkeleton\AppSystem\Event\EventInterface;
-use BitBag\ShopwareAppSkeleton\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Authenticator\AuthenticatorInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Event\Event;
+use BitBag\ShopwareDpdApp\AppSystem\Event\EventInterface;
+use BitBag\ShopwareDpdApp\Repository\ShopRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

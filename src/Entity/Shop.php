@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Entity;
+namespace BitBag\ShopwareDpdApp\Entity;
 
-use BitBag\ShopwareAppSkeleton\Repository\ShopRepository;
+use BitBag\ShopwareDpdApp\Repository\ShopRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

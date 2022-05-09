@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Credentials;
+namespace BitBag\ShopwareDpdApp\AppSystem\Credentials;
 
 interface CredentialsInterface
 {

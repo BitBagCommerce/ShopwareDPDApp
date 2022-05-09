@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\EventSubscriber;
+namespace BitBag\ShopwareDpdApp\EventSubscriber;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\AppActivatedEvent;
+use BitBag\ShopwareDpdApp\AppSystem\LifecycleEvent\AppActivatedEvent;
 use DateTime;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

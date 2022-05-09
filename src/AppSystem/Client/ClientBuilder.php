@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Client;
+namespace BitBag\ShopwareDpdApp\AppSystem\Client;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Authenticator\OAuthAuthenticatorInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Credentials\OAuthCredentialsInterface;
-use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Authenticator\OAuthAuthenticatorInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Credentials\OAuthCredentialsInterface;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 use GuzzleHttp\Client as HttpClient;
 
 final class ClientBuilder implements ClientBuilderInterface

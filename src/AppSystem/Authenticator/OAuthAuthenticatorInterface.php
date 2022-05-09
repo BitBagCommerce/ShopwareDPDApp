@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Authenticator;
+namespace BitBag\ShopwareDpdApp\AppSystem\Authenticator;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Credentials\OAuthCredentialsInterface;
-use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Credentials\OAuthCredentialsInterface;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 
 interface OAuthAuthenticatorInterface
 {

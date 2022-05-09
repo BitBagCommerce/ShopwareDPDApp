@@ -1,6 +1,6 @@
 <?php
 
-use BitBag\ShopwareAppSkeleton\Kernel;
+use BitBag\ShopwareDpdApp\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 

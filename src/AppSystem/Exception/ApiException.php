@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Exception;
+namespace BitBag\ShopwareDpdApp\AppSystem\Exception;
 
 use Psr\Http\Message\ResponseInterface;
 
