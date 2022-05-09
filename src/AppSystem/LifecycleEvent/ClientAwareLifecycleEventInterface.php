@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent;
+namespace BitBag\ShopwareDpdApp\AppSystem\LifecycleEvent;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
 
 interface ClientAwareLifecycleEventInterface extends LifecycleEventInterface
 {

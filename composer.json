@@ -1,8 +1,8 @@
 {
-    "name": "bitbag/shopware-app-skeleton",
+    "name": "bitbag/shopware-dpd-app",
     "type": "project",
     "license": "MIT",
-    "description": "A minimal Shopware app project recommended to create new apps",
+    "description": "DPD integration for Shopware",
     "require": {
         "php": "^7.4",
         "ext-ctype": "*",
@@ -38,12 +38,12 @@
     },
     "autoload": {
         "psr-4": {
-            "BitBag\\ShopwareAppSkeleton\\": "src/"
+            "BitBag\\ShopwareDpdApp\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "BitBag\\ShopwareAppSkeleton\\Tests\\": "tests/"
+            "BitBag\\ShopwareDpdApp\\Tests\\": "tests/"
         }
     },
     "replace": {

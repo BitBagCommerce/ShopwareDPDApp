@@ -2,10 +2,10 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service class="BitBag\ShopwareAppSkeleton\Controller\OrderController"
+        <service class="BitBag\ShopwareDpdApp\Controller\OrderController"
                  id="bitbag.shopware_skeleton_app.controller.order"
         >
-            <argument type="service" id="bitbag.shopware_app_skeleton.repository.shop_repository" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.shop_repository" />
 
             <tag name="controller.service_arguments"/>
         </service>

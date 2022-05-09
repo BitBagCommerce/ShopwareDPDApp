@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Client;
+namespace BitBag\ShopwareDpdApp\AppSystem\Client;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Exception\ApiException;
+use BitBag\ShopwareDpdApp\AppSystem\Exception\ApiException;
 use GuzzleHttp\Client as HttpClient;
 
 final class Client implements ClientInterface

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Repository;
+namespace BitBag\ShopwareDpdApp\Repository;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Exception\ShopNotFoundException;
-use BitBag\ShopwareAppSkeleton\Entity\Shop;
-use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Exception\ShopNotFoundException;
+use BitBag\ShopwareDpdApp\Entity\Shop;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -34,6 +34,7 @@ final class ShopRepository extends ServiceEntityRepository implements ShopReposi
 
     public function getOneByShopId(string $shopId): ShopInterface
     {
+        /** @var ShopInterface|null $shop */
         $shop = $this->find($shopId);
 
         if (null === $shop) {

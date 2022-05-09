@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\Repository;
+namespace BitBag\ShopwareDpdApp\Repository;
 
-use BitBag\ShopwareAppSkeleton\Entity\ShopInterface;
+use BitBag\ShopwareDpdApp\Entity\ShopInterface;
 
 /**
  * @method ShopInterface|null find($id, $lockMode = null, $lockVersion = null)

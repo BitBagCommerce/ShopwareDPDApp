@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareAppSkeleton\AppSystem\Factory\LifecycleEvent;
+namespace BitBag\ShopwareDpdApp\AppSystem\Factory\LifecycleEvent;
 
-use BitBag\ShopwareAppSkeleton\AppSystem\Client\ClientInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\Event\EventInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\ClientAwareLifecycleEventInterface;
-use BitBag\ShopwareAppSkeleton\AppSystem\LifecycleEvent\LifecycleEventInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Client\ClientInterface;
+use BitBag\ShopwareDpdApp\AppSystem\Event\EventInterface;
+use BitBag\ShopwareDpdApp\AppSystem\LifecycleEvent\ClientAwareLifecycleEventInterface;
+use BitBag\ShopwareDpdApp\AppSystem\LifecycleEvent\LifecycleEventInterface;
 
 interface LifecycleEventFactoryInterface
 {
