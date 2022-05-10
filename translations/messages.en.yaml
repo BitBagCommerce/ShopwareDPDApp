@@ -1,0 +1,4 @@
+bitbag:
+    shopware_dpd_app:
+        order:
+            nullWeight: 'Package weight must be greater than 0.0 kg'
