@@ -1,0 +1,33 @@
+security:
+    enable_authenticator_manager: true
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    providers:
+        user_provider:
+            entity:
+                class: BitBag\ShopwareAppSystemBundle\Entity\Shop
+                property: shopId
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        iframe:
+            custom_authenticators: [ bitbag.shopware_app_system.security.iframe_request_authenticator ]
+            pattern: ^/app/(api-settings|show-label)
+            provider: user_provider
+        webhooks:
+            custom_authenticators: [ bitbag.shopware_app_system.security.webhook_request_authenticator ]
+            pattern: ^/app/
+            provider: user_provider
+        main:
+            lazy: true
+            stateless: true
+
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon

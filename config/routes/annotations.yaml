@@ -2,10 +2,6 @@ controllers:
     resource: ../../src/Controller/
     type: annotation
 
-swagappsystem_controllers:
-    resource: ../../src/AppSystem/Controller/
-    type: annotation
-
 kernel:
     resource: ../../src/Kernel.php
     type: annotation
