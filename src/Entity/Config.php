@@ -51,7 +51,7 @@ class Config implements ConfigInterface
 
     /**
      * @ORM\OneToOne(targetEntity="BitBag\ShopwareAppSystemBundle\Entity\Shop", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="shop_id", referencedColumnName="shop_id", nullable=false)
+    * @ORM\JoinColumn(nullable=false, referencedColumnName="shop_id", onDelete="CASCADE")
      */
     protected ShopInterface $shop;
 
