@@ -3,9 +3,24 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service class="BitBag\ShopwareDpdApp\Controller\OrderController"
-                 id="bitbag.shopware_skeleton_app.controller.order"
+                 id="bitbag.shopware_dpd_app.controller.order"
         >
-            <tag name="controller.service_arguments"/>
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <service class="BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController"
+                 id="bitbag.shopware_dpd_app.controller.configuration_module"
+        >
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="bitbag.shopware_app_system.repository.shop_repository" />
+            <argument type="service" id="translator" />
+
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+
+            <tag name="controller.service_arguments" />
         </service>
     </services>
 </container>

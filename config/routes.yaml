@@ -1,20 +1,12 @@
-registration:
-  methods: ['GET']
-  path: /app/registration
-  controller: bitbag.shopware_dpd_app.app_system.controller.registration_controller
-
-confirm_registration:
-  methods: ['POST']
-  path: /app/registration/confirm
-  controller: bitbag.shopware_skeleton_app.app_system.controller.confirmation_controller
-
-app_lifecycle:
-  resource: './lifecycle_routes.yaml'
-  prefix: /app/lifecycle
-  methods: ['POST']
-  name_prefix: app_lifecycle_
+bitbag_shopware_app_system:
+  resource: '@BitBagShopwareAppSystemBundle/Resources/config/routes.yaml'
 
 get_order:
   methods: ['POST']
   path: /app/send-order
   controller: bitbag.shopware_skeleton_app.controller.order
+
+configuration_module_show:
+  methods: ['GET', 'POST']
+  path: /app/modules/configuration
+  controller: bitbag.shopware_dpd_app.controller.configuration_module
