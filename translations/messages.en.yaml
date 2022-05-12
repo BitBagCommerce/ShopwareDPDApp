@@ -2,3 +2,15 @@ bitbag:
     shopware_dpd_app:
         order:
             nullWeight: 'Package weight must be greater than 0.0 kg'
+        ui:
+            apiLogin: 'API Login'
+            apiPassword: 'API Password'
+            apiFid: 'API FID'
+            senderFirstLastName: 'Sender first last name'
+            senderStreet: 'Sender street'
+            senderZipCode: 'Sender zip code'
+            senderCity: 'Sender city'
+            senderPhoneNumber: 'Sender phone number'
+            senderLocale: 'Sender locale'
+            save: 'Save'
+            saved: 'Successfully saved'

@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="bitbag-sw-container">
+        {{ form_start(form) }}
+            <div class="save-container">
+                <button type="submit" class="sw-button sw-button--primary">
+                    {{ 'bitbag.shopware_dpd_app.ui.save'|trans }}
+                </button>
+            </div>
+
+            {% if app.session is not null and app.session.started %}
+                {% for label, messages in app.session.flashbag.all %}
+                    {% for message in messages %}
+                        <div class="sw-card">
+                            <div class="sw-card__content">
+                                <div class="sw-container">{{ message }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+
+            <div class="sw-card">
+                <div class="sw-card__content">
+                    <div class="sw-container"
+                         style="grid-template-columns: 3fr 3fr 3fr; gap: 0 32px; place-items: stretch;">
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.apiLogin) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.apiLogin) }}
+                            </div>
+                        </div>
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.apiPassword) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.apiPassword) }}
+                            </div>
+                        </div>
+
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.apiFid) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.apiFid) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sw-card">
+                <div class="sw-card__content">
+                    <div class="sw-container"
+                         style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0 30px; place-items: stretch;">
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.senderFirstLastName) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.senderFirstLastName) }}
+                            </div>
+                        </div>
+
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.senderPhoneNumber) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.senderPhoneNumber) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sw-container"
+                         style="grid-template-columns: 3fr 3fr 3fr; gap: 0 32px; place-items: stretch;">
+
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.senderStreet) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.senderStreet) }}
+                            </div>
+                        </div>
+
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.senderCity) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.senderCity) }}
+                            </div>
+                        </div>
+
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.senderZipCode) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.senderZipCode) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sw-container"
+                         style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0 30px; place-items: stretch;">
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.senderLocale) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.senderLocale) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_widget(form._token) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
