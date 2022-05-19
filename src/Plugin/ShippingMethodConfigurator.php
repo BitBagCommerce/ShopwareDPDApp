@@ -54,7 +54,7 @@ final class ShippingMethodConfigurator implements ShippingMethodConfiguratorInte
 
     public function createShippingMethod(Context $context): void
     {
-        $ruleName = 'Cart >= 0';
+        $ruleName = 'Always valid (Default)';
 
         $shippingMethods = $this->shippingMethodFinder->find($context);
 
