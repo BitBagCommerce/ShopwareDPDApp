@@ -93,7 +93,7 @@ final class ShippingMethodConfigurator implements ShippingMethodConfiguratorInte
             throw new RuleNotFoundException('rule.notFound');
         }
 
-        $shippingMethod = $this->shippingMethodPayloadFactory->create($ruleId, $deliveryTime, $context->currencyId);
+        $shippingMethod = $this->shippingMethodPayloadFactory->create($ruleId, $context->currencyId, $deliveryTime);
 
         $this->shippingMethodRepository->create($shippingMethod, $context);
     }

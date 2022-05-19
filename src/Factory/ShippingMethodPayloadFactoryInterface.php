@@ -10,5 +10,5 @@ interface ShippingMethodPayloadFactoryInterface
 {
     public const SHIPPING_KEY = 'DPD';
 
-    public function create(string $ruleId, IdSearchResult $deliveryTime, string $currencyId): array;
+    public function create(string $ruleId, string $currencyId, IdSearchResult $deliveryTime): array;
 }

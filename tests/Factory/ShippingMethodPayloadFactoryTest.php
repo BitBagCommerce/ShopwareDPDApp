@@ -65,7 +65,7 @@ final class ShippingMethodPayloadFactoryTest extends TestCase
                 ],
                 'deliveryTimeId' => $deliveryTimeId,
             ],
-            $shippingMethodPayloadFactory->create($ruleId, $deliveryTime, $currencyId)
+            $shippingMethodPayloadFactory->create($ruleId, $currencyId, $deliveryTime)
         );
     }
 }
