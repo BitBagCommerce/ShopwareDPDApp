@@ -28,5 +28,11 @@
         </service>
 
         <service id="BitBag\ShopwareDpdApp\Factory\ReceiverFactory" />
+
+        <service id="BitBag\ShopwareDpdApp\Factory\CustomFieldsForPackageDetailsPayloadFactory" />
+
+        <service id="BitBag\ShopwareDpdApp\Factory\ShippingMethodPayloadFactory" />
+
+        <service id="BitBag\ShopwareDpdApp\Factory\RulePackageFactory" />
     </services>
 </container>

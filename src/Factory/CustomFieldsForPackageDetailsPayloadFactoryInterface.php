@@ -7,4 +7,6 @@ namespace BitBag\ShopwareDpdApp\Factory;
 interface CustomFieldsForPackageDetailsPayloadFactoryInterface
 {
     public const PACKAGE_DETAILS_KEY = 'package_details';
+
+    public function create(): array;
 }
