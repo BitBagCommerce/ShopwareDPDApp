@@ -18,47 +18,47 @@ final class ConfigType extends AbstractType
     {
         $builder
             ->add('apiLogin', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.apiLogin',
+                'label' => 'bitbag.shopware_dpd_app.config.api_login',
                 'required' => true,
             ])
             ->add('apiPassword', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.apiPassword',
+                'label' => 'bitbag.shopware_dpd_app.config.api_password',
                 'required' => true,
             ])
             ->add('apiFid', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.apiFid',
+                'label' => 'bitbag.shopware_dpd_app.config.api_fid',
                 'required' => true,
             ])
             ->add('apiEnvironment', ChoiceType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.apiEnvironment',
+                'label' => 'bitbag.shopware_dpd_app.config.api_environment',
                 'required' => true,
                 'choices' => [
-                    'bitbag.shopware_dpd_app.config.productionEnvironment' => WebClientInterface::PRODUCTION_ENVIRONMENT,
-                    'bitbag.shopware_dpd_app.config.sandboxEnvironment' => WebClientInterface::SANDBOX_ENVIRONMENT,
+                    'bitbag.shopware_dpd_app.config.production_environment' => WebClientInterface::PRODUCTION_ENVIRONMENT,
+                    'bitbag.shopware_dpd_app.config.sandbox_environment' => WebClientInterface::SANDBOX_ENVIRONMENT,
                 ],
             ])
             ->add('senderFirstLastName', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.senderFirstLastName',
+                'label' => 'bitbag.shopware_dpd_app.config.sender_first_last_name',
                 'required' => true,
             ])
             ->add('senderStreet', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.senderStreet',
+                'label' => 'bitbag.shopware_dpd_app.config.sender_street',
                 'required' => true,
             ])
             ->add('senderZipCode', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.senderZipCode',
+                'label' => 'bitbag.shopware_dpd_app.config.sender_zip_code',
                 'required' => true,
             ])
             ->add('senderCity', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.senderCity',
+                'label' => 'bitbag.shopware_dpd_app.config.sender_city',
                 'required' => true,
             ])
             ->add('senderPhoneNumber', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.senderPhoneNumber',
+                'label' => 'bitbag.shopware_dpd_app.config.sender_phone_number',
                 'required' => true,
             ])
             ->add('senderLocale', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.senderLocale',
+                'label' => 'bitbag.shopware_dpd_app.config.sender_locale',
                 'required' => true,
             ])
         ;

@@ -15,7 +15,7 @@ final class ReceiverFactory implements ReceiverFactoryInterface
         $address = $order->addresses?->first();
 
         if (null === $address) {
-            throw new OrderException('bitbag.shopware_dpd_app.order.shippingAddressNotFound');
+            throw new OrderException('bitbag.shopware_dpd_app.order.shipping_address_not_found');
         }
 
         $phoneNumber = $address->phoneNumber;
@@ -32,7 +32,7 @@ final class ReceiverFactory implements ReceiverFactoryInterface
             null === $zipcode ||
             null === $city
         ) {
-            throw new OrderException('bitbag.shopware_dpd_app.order.shippingAddressValueInvalid');
+            throw new OrderException('bitbag.shopware_dpd_app.order.shipping_address_value_invalid');
         }
 
         return new Receiver(
