@@ -32,6 +32,9 @@ class Config implements ConfigInterface
     protected string $apiFid;
 
     /** @ORM\Column(type="string") */
+    protected string $apiEnvironment;
+
+    /** @ORM\Column(type="string") */
     protected string $senderFirstLastName;
 
     /** @ORM\Column(type="string") */
@@ -93,6 +96,16 @@ class Config implements ConfigInterface
     public function setApiFid(string $apiFid): void
     {
         $this->apiFid = $apiFid;
+    }
+
+    public function getApiEnvironment(): ?string
+    {
+        return $this->apiEnvironment;
+    }
+
+    public function setApiEnvironment(string $apiEnvironment): void
+    {
+        $this->apiEnvironment = $apiEnvironment;
     }
 
     public function getSenderFirstLastName(): ?string

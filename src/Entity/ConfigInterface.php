@@ -24,6 +24,10 @@ interface ConfigInterface
 
     public function setApiFid(string $apiFid): void;
 
+    public function getApiEnvironment(): ?string;
+
+    public function setApiEnvironment(string $apiEnvironment): void;
+
     public function getSenderFirstLastName(): ?string;
 
     public function setSenderFirstLastName(string $senderFirstLastName): void;

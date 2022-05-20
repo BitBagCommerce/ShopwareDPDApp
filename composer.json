@@ -26,6 +26,7 @@
         "symfony/twig-bundle": "^5.4",
         "symfony/validator": "^5.4",
         "symfony/yaml": "^5.4",
+        "t3ko/dpd-pl-api-php": "dev-master",
         "twig/extra-bundle": "^3.3",
         "twig/twig": "^3.3"
     },

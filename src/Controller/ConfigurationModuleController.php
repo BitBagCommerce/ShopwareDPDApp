@@ -66,7 +66,7 @@ final class ConfigurationModuleController extends AbstractController
             $this->entityManager->persist($config);
             $this->entityManager->flush();
 
-            $session->getFlashBag()->add('success', $this->translator->trans('bitbag.shopware_dpd_app.ui.saved'));
+            $session->getFlashBag()->add('success', $this->translator->trans('bitbag.shopware_dpd_app.config.saved'));
         }
 
         return $this->renderForm('configuration_module/index.html.twig', [
