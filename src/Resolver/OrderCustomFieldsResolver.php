@@ -15,7 +15,7 @@ final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterf
         $packageDetailsKey = CustomFieldsForPackageDetailsPayloadFactoryInterface::PACKAGE_DETAILS_KEY;
 
         /**
-         * @psalm-return array<array-key, mixed>|null
+         * @psalm-var array<array-key, mixed>|null
          */
         $orderCustomFields = $order->getCustomFields();
 

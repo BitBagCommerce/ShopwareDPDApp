@@ -8,8 +8,4 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class ConfigNotFoundException extends NotFoundHttpException
 {
-    public function __construct(?string $message = null)
-    {
-        parent::__construct($message ?? 'Config was not found');
-    }
 }

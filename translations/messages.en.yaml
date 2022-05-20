@@ -3,7 +3,7 @@ bitbag:
         order:
             nullWeight: 'Package weight must be greater than 0.0 kg'
             shippingAddressNotFound: 'Shipping address cannot be empty'
-            nullAmount: 'Package amount must be greater than 0.0 zł'
+            shippingAddressValueInvalid: 'One of value in shipping address is invalid'
         config:
             apiLogin: 'API Login'
             apiPassword: 'API Password'

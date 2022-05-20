@@ -6,7 +6,6 @@ namespace BitBag\ShopwareDpdApp\Repository;
 
 use BitBag\ShopwareDpdApp\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class OrderRepository extends ServiceEntityRepository implements OrderRepositoryInterface
@@ -16,9 +15,6 @@ final class OrderRepository extends ServiceEntityRepository implements OrderRepo
         parent::__construct($registry, Order::class);
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     public function findByOrderId(string $orderId): ?Order
     {
         $queryBuilder = $this->createQueryBuilder('o')

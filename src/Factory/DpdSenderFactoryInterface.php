@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Factory;
 
 use T3ko\Dpd\Objects\Sender;
 
-interface CreateDpdSenderFactoryInterface
+interface DpdSenderFactoryInterface
 {
     public function create(string $shopId): Sender;
 }

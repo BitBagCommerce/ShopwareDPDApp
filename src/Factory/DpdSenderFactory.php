@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
-use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use T3ko\Dpd\Objects\Sender;
 
-final class CreateDpdSenderFactory implements CreateDpdSenderFactoryInterface
+final class DpdSenderFactory implements DpdSenderFactoryInterface
 {
     private ConfigRepositoryInterface $configRepository;
 
@@ -19,11 +18,7 @@ final class CreateDpdSenderFactory implements CreateDpdSenderFactoryInterface
 
     public function create(string $shopId): Sender
     {
-        $config = $this->configRepository->findByShopId($shopId);
-
-        if (!$config) {
-            throw new ErrorNotificationException('bitbag.shopware_dpd_app.config.credentialsDataNotFound');
-        }
+        $config = $this->configRepository->getByShopId($shopId);
 
         return new Sender(
             $config->getApiFid(),
