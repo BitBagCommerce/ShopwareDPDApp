@@ -6,9 +6,9 @@ namespace BitBag\ShopwareDpdApp\Repository;
 
 use BitBag\ShopwareDpdApp\Entity\Config;
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
+use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -43,18 +43,21 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
         }
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findByShopId(string $shopId): ?ConfigInterface
+    public function getByShopId(string $shopId): ConfigInterface
     {
         $queryBuilder = $this->createQueryBuilder('c')
                              ->leftJoin('c.shop', 'shop')
                              ->where('shop.shopId = :shopId')
                              ->setParameter('shopId', $shopId);
 
-        return $queryBuilder
+        $config = $queryBuilder
             ->getQuery()
             ->getOneOrNullResult();
+
+        if (null === $config) {
+            throw new ErrorNotificationException('bitbag.shopware_dpd_app.config.credentialsDataNotFound');
+        }
+
+        return $config;
     }
 }

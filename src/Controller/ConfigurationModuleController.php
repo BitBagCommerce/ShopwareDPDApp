@@ -8,6 +8,7 @@ use BitBag\ShopwareAppSystemBundle\Entity\ShopInterface;
 use BitBag\ShopwareAppSystemBundle\Exception\ShopNotFoundException;
 use BitBag\ShopwareAppSystemBundle\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareDpdApp\Entity\Config;
+use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Form\Type\ConfigType;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,9 +52,9 @@ final class ConfigurationModuleController extends AbstractController
             throw new ShopNotFoundException($shopId);
         }
 
-        $config = $this->configRepository->findByShopId($shopId);
-
-        if (!$config) {
+        try {
+            $config = $this->configRepository->getByShopId($shopId);
+        } catch (ErrorNotificationException) {
             $config = new Config();
         }
 
@@ -66,7 +67,7 @@ final class ConfigurationModuleController extends AbstractController
             $this->entityManager->persist($config);
             $this->entityManager->flush();
 
-            $session->getFlashBag()->add('success', $this->translator->trans('bitbag.shopware_dpd_app.ui.saved'));
+            $session->getFlashBag()->add('success', $this->translator->trans('bitbag.shopware_dpd_app.config.saved'));
         }
 
         return $this->renderForm('configuration_module/index.html.twig', [

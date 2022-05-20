@@ -22,31 +22,34 @@ class Config implements ConfigInterface
      */
     protected int $id;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
     protected string $apiLogin;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
     protected string $apiPassword;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
     protected string $apiFid;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
+    protected string $apiEnvironment;
+
+    /** @ORM\Column(type="string", nullable=true) */
     protected string $senderFirstLastName;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
     protected string $senderStreet;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
     protected string $senderZipCode;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
     protected string $senderCity;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
     protected string $senderPhoneNumber;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="string", nullable=true) */
     protected string $senderLocale;
 
     /**
@@ -65,7 +68,7 @@ class Config implements ConfigInterface
         $this->id = $id;
     }
 
-    public function getApiLogin(): ?string
+    public function getApiLogin(): string
     {
         return $this->apiLogin;
     }
@@ -75,7 +78,7 @@ class Config implements ConfigInterface
         $this->apiLogin = $apiLogin;
     }
 
-    public function getApiPassword(): ?string
+    public function getApiPassword(): string
     {
         return $this->apiPassword;
     }
@@ -85,7 +88,7 @@ class Config implements ConfigInterface
         $this->apiPassword = $apiPassword;
     }
 
-    public function getApiFid(): ?int
+    public function getApiFid(): int
     {
         return (int) $this->apiFid;
     }
@@ -95,7 +98,17 @@ class Config implements ConfigInterface
         $this->apiFid = $apiFid;
     }
 
-    public function getSenderFirstLastName(): ?string
+    public function getApiEnvironment(): string
+    {
+        return $this->apiEnvironment;
+    }
+
+    public function setApiEnvironment(string $apiEnvironment): void
+    {
+        $this->apiEnvironment = $apiEnvironment;
+    }
+
+    public function getSenderFirstLastName(): string
     {
         return $this->senderFirstLastName;
     }
@@ -105,7 +118,7 @@ class Config implements ConfigInterface
         $this->senderFirstLastName = $senderFirstLastName;
     }
 
-    public function getSenderStreet(): ?string
+    public function getSenderStreet(): string
     {
         return $this->senderStreet;
     }
@@ -115,7 +128,7 @@ class Config implements ConfigInterface
         $this->senderStreet = $senderStreet;
     }
 
-    public function getSenderZipCode(): ?string
+    public function getSenderZipCode(): string
     {
         return $this->senderZipCode;
     }
@@ -134,7 +147,7 @@ class Config implements ConfigInterface
         $this->senderZipCode = $zipCode;
     }
 
-    public function getSenderCity(): ?string
+    public function getSenderCity(): string
     {
         return $this->senderCity;
     }
@@ -144,7 +157,7 @@ class Config implements ConfigInterface
         $this->senderCity = $senderCity;
     }
 
-    public function getSenderPhoneNumber(): ?string
+    public function getSenderPhoneNumber(): string
     {
         return $this->senderPhoneNumber;
     }
@@ -154,7 +167,7 @@ class Config implements ConfigInterface
         $this->senderPhoneNumber = $senderPhoneNumber;
     }
 
-    public function getSenderLocale(): ?string
+    public function getSenderLocale(): string
     {
         return $this->senderLocale;
     }
@@ -164,7 +177,7 @@ class Config implements ConfigInterface
         $this->senderLocale = strtoupper($senderLocale);
     }
 
-    public function getShop(): ?ShopInterface
+    public function getShop(): ShopInterface
     {
         return $this->shop;
     }

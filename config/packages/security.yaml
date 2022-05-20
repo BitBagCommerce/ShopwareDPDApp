@@ -15,6 +15,9 @@ security:
             custom_authenticators: [ bitbag.shopware_app_system.security.iframe_request_authenticator ]
             pattern: ^/app/(api-settings|show-label)
             provider: user_provider
+        registration:
+            pattern: ^/app/(registration|registration/confirm|lifecycle/deleted)$
+            security: false
         webhooks:
             custom_authenticators: [ bitbag.shopware_app_system.security.webhook_request_authenticator ]
             pattern: ^/app/
