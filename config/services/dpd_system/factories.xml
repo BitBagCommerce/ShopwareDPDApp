@@ -7,12 +7,6 @@
             <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
         </service>
 
-        <service id="BitBag\ShopwareDpdApp\Factory\PackageFactory"
-        >
-            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\PackageRequestFactory" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Api\ApiService" />
-        </service>
-
         <service id="BitBag\ShopwareDpdApp\Factory\PackageRequestFactory"
         >
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\DpdSenderFactory" />
