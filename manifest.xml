@@ -31,8 +31,8 @@
     </permissions>
 
     <admin>
-        <action-button action="getLabel" entity="order" view="detail" url="http://example-app/app/send-order">
-            <label>Get shipping label</label>
+        <action-button action="createPackage" entity="order" view="detail" url="http://example-app/app/create-package">
+            <label>Create package</label>
         </action-button>
 
         <module name="dpd_configuration"

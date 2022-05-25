@@ -9,5 +9,5 @@ use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
 interface ReceiverFactoryInterface
 {
-    public function create(OrderEntity $order, string $currencyCode): Receiver;
+    public function create(OrderEntity $order): Receiver;
 }

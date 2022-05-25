@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
-use BitBag\ShopwareDpdApp\Provider\Defaults;
 use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolverInterface;
 use T3ko\Dpd\Objects\Enum\Currency;
 use T3ko\Dpd\Objects\Package;
@@ -39,11 +38,7 @@ final class PackageRequestFactory implements PackageRequestFactoryInterface
     public function create(string $shopId, OrderEntity $order, Context $context): GeneratePackageNumbersRequest
     {
         $sender = $this->dpdSenderFactory->create($shopId);
-        $customFields = $order->getCustomFields();
-        $receiver = $this->receiverFactory->create(
-            $order,
-            $customFields['package_details_countryCode'] ?? Defaults::CURRENCY_CODE
-        );
+        $receiver = $this->receiverFactory->create($order);
         $parcel = $this->parcelFactory->create($order, $context);
         $package = new Package($sender, $receiver, [$parcel]);
 

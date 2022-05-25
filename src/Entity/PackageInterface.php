@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Entity;
 
-interface OrderInterface
+interface PackageInterface
 {
     public function getId(): ?int;
 

@@ -21,5 +21,10 @@
         >
             <argument type="service" id="shopware.repository.payment_method" />
         </service>
+
+        <service id="BitBag\ShopwareDpdApp\Finder\OrderFinder"
+        >
+            <argument type="service" id="shopware.repository.order" />
+        </service>
     </services>
 </container>

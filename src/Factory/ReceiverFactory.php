@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Factory;
 
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
+use BitBag\ShopwareDpdApp\Provider\Defaults;
 use T3ko\Dpd\Objects\Receiver;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
 final class ReceiverFactory implements ReceiverFactoryInterface
 {
-    public function create(OrderEntity $order, string $currencyCode): Receiver
+    public function create(OrderEntity $order): Receiver
     {
         $address = $order->addresses?->first();
 
@@ -41,7 +42,7 @@ final class ReceiverFactory implements ReceiverFactoryInterface
             $street,
             $zipcode,
             $city,
-            $currencyCode
+            Defaults::CURRENCY_CODE
         );
     }
 }

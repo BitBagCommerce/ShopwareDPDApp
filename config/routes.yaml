@@ -1,10 +1,10 @@
 bitbag_shopware_app_system:
   resource: '@BitBagShopwareAppSystemBundle/Resources/config/routes.yaml'
 
-get_order:
+create_package:
   methods: ['POST']
-  path: /app/send-order
-  controller: bitbag.shopware_skeleton_app.controller.order
+  path: /app/create-package
+  controller: BitBag\ShopwareDpdApp\Controller\CreatePackageController::create
 
 configuration_module_show:
   methods: ['GET', 'POST']

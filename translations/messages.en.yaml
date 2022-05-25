@@ -1,9 +1,12 @@
 bitbag:
     shopware_dpd_app:
         order:
-            nullWeight: 'Package weight must be greater than 0.0 kg'
-            shippingAddressNotFound: 'Shipping address cannot be empty'
-            shippingAddressValueInvalid: 'One of value in shipping address is invalid'
+            null_weight: 'Package weight must be greater than 0.0 kg'
+            shipping_address_not_found: 'Shipping address cannot be empty'
+            shipping_address_value_invalid: 'One of value in shipping address is invalid'
+            not_found: 'Order was not found'
+            shipping_method:
+                not_dpd: 'Selected shipping method is not DPD'
         config:
             api_login: 'API Login'
             api_password: 'API Password'
@@ -20,5 +23,9 @@ bitbag:
             credentials_data_not_found: 'Fill in API credentials'
             sandbox_environment: 'Sandbox'
             production_environment: 'Production'
+            not_found: 'Please add configuration (My apps -> DPD - Configuration)'
+        parcel:
+            not_found: 'Parcel was not found. Try generate package one more time'
+            created: 'Parcel was created. You can fetch the label now'
         package:
-            not_found_parcel_od: 'Parcel was not found. Try generate label one more time'
+            already_created: 'A package has already been created'
