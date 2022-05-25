@@ -32,14 +32,6 @@ class Package implements PackageInterface
     /** @ORM\Column(type="string") */
     protected string $waybill;
 
-    public function __construct(string $shopId, string $orderId, int $parcelId, string $waybill)
-    {
-        $this->shopId = $shopId;
-        $this->orderId = $orderId;
-        $this->parcelId = $parcelId;
-        $this->waybill = $waybill;
-    }
-
     public function getId(): ?int
     {
         return $this->id;

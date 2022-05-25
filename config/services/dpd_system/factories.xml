@@ -28,5 +28,10 @@
         <service id="BitBag\ShopwareDpdApp\Factory\ShippingMethodPayloadFactory" />
 
         <service id="BitBag\ShopwareDpdApp\Factory\RulePackageFactory" />
+
+        <service id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory"
+        >
+            <argument type="service" id="translator" />
+        </service>
     </services>
 </container>

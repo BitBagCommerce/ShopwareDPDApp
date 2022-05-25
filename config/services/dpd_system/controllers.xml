@@ -4,7 +4,7 @@
     <services>
         <service id="BitBag\ShopwareDpdApp\Controller\CreatePackageController"
         >
-            <argument type="service" id="BitBag\ShopwareDpdApp\Provider\NotificationProvider" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Package\PackageService" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />

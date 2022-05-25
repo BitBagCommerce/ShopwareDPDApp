@@ -25,7 +25,6 @@
         <service id="BitBag\ShopwareDpdApp\Finder\OrderFinder"
         >
             <argument type="service" id="shopware.repository.order" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Provider\NotificationProvider" />
         </service>
     </services>
 </container>
