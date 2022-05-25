@@ -56,12 +56,11 @@ final class PackageService implements PackageServiceInterface
 
         $parcel = $package[0]->getParcels()[0];
 
-        $packageEntity = new PackageEntity(
-            $shopId,
-            $order->id,
-            $parcel->getId(),
-            $parcel->getWaybill()
-        );
+        $packageEntity = new PackageEntity();
+        $packageEntity->setShopId($shopId);
+        $packageEntity->setOrderId($order->id);
+        $packageEntity->setParcelId($parcel->getId());
+        $packageEntity->setWaybill($parcel->getWaybill());
 
         $this->entityManager->persist($packageEntity);
         $this->entityManager->flush();
