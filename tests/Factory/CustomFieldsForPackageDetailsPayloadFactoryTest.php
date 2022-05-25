@@ -18,11 +18,11 @@ final class CustomFieldsForPackageDetailsPayloadFactoryTest extends TestCase
 
         self::assertEquals(
             [
-                'name' => 'Package details',
+                'name' => $customFieldPrefix,
                 'config' => [
                     'label' => [
-                        'en-GB' => 'Package details',
-                        'pl-PL' => 'Szczegóły paczki',
+                        'en-GB' => 'Package details (DPD)',
+                        'pl-PL' => 'Szczegóły paczki (DPD)',
                     ],
                     'translated' => true,
                     'technical_name' => $customFieldPrefix,
@@ -42,7 +42,7 @@ final class CustomFieldsForPackageDetailsPayloadFactoryTest extends TestCase
                     [
                         'name' => $customFieldPrefix . '_height',
                         'label' => 'Height (cm)',
-                        'type' => 'float',
+                        'type' => 'int',
                         'config' => [
                             'label' => [
                                 'en-GB' => 'Height (cm)',
@@ -53,7 +53,7 @@ final class CustomFieldsForPackageDetailsPayloadFactoryTest extends TestCase
                     [
                         'name' => $customFieldPrefix . '_width',
                         'label' => 'Width (cm)',
-                        'type' => 'float',
+                        'type' => 'int',
                         'config' => [
                             'label' => [
                                 'en-GB' => 'Width (cm)',
@@ -64,7 +64,7 @@ final class CustomFieldsForPackageDetailsPayloadFactoryTest extends TestCase
                     [
                         'name' => $customFieldPrefix . '_depth',
                         'label' => 'Depth (cm)',
-                        'type' => 'float',
+                        'type' => 'int',
                         'config' => [
                             'label' => [
                                 'en-GB' => 'Depth (cm)',

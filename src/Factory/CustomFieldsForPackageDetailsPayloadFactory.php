@@ -11,11 +11,11 @@ final class CustomFieldsForPackageDetailsPayloadFactory implements CustomFieldsF
         $customFieldPrefix = self::PACKAGE_DETAILS_KEY;
 
         return [
-            'name' => 'Package details',
+            'name' => $customFieldPrefix,
             'config' => [
                 'label' => [
-                    'en-GB' => 'Package details',
-                    'pl-PL' => 'Szczegóły paczki',
+                    'en-GB' => 'Package details (DPD)',
+                    'pl-PL' => 'Szczegóły paczki (DPD)',
                 ],
                 'translated' => true,
                 'technical_name' => $customFieldPrefix,
@@ -35,7 +35,7 @@ final class CustomFieldsForPackageDetailsPayloadFactory implements CustomFieldsF
                 [
                     'name' => $customFieldPrefix . '_height',
                     'label' => 'Height (cm)',
-                    'type' => 'float',
+                    'type' => 'int',
                     'config' => [
                         'label' => [
                             'en-GB' => 'Height (cm)',
@@ -46,7 +46,7 @@ final class CustomFieldsForPackageDetailsPayloadFactory implements CustomFieldsF
                 [
                     'name' => $customFieldPrefix . '_width',
                     'label' => 'Width (cm)',
-                    'type' => 'float',
+                    'type' => 'int',
                     'config' => [
                         'label' => [
                             'en-GB' => 'Width (cm)',
@@ -57,7 +57,7 @@ final class CustomFieldsForPackageDetailsPayloadFactory implements CustomFieldsF
                 [
                     'name' => $customFieldPrefix . '_depth',
                     'label' => 'Depth (cm)',
-                    'type' => 'float',
+                    'type' => 'int',
                     'config' => [
                         'label' => [
                             'en-GB' => 'Depth (cm)',
