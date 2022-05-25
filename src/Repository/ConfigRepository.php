@@ -55,7 +55,7 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
             ->getOneOrNullResult();
 
         if (null === $config) {
-            throw new ErrorNotificationException('bitbag.shopware_dpd_app.config.credentialsDataNotFound');
+            throw new ErrorNotificationException('bitbag.shopware_dpd_app.config.credentials_data_not_found');
         }
 
         return $config;

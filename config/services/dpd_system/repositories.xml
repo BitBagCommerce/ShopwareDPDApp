@@ -9,5 +9,12 @@
 
             <tag name="doctrine.repository_service" />
         </service>
+
+        <service id="BitBag\ShopwareDpdApp\Repository\PackageRepository"
+        >
+            <argument type="service" id="doctrine" />
+
+            <tag name="doctrine.repository_service" />
+        </service>
     </services>
 </container>

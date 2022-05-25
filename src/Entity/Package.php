@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Entity;
 
-use BitBag\ShopwareDpdApp\Repository\OrderRepository;
+use BitBag\ShopwareDpdApp\Repository\PackageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=OrderRepository::class)
- * @ORM\Table(name="orders")
- * @psalm-suppress MissingConstructor
+ * @ORM\Entity(repositoryClass=PackageRepository::class)
+ * @ORM\Table(name="packages")
  */
-class Order implements OrderInterface
+class Package implements PackageInterface
 {
     /**
      * @ORM\Id()
@@ -29,6 +28,17 @@ class Order implements OrderInterface
 
     /** @ORM\Column(type="integer") */
     protected int $parcelId;
+
+    /** @ORM\Column(type="string") */
+    protected string $waybill;
+
+    public function __construct(string $shopId, string $orderId, int $parcelId, string $waybill)
+    {
+        $this->shopId = $shopId;
+        $this->orderId = $orderId;
+        $this->parcelId = $parcelId;
+        $this->waybill = $waybill;
+    }
 
     public function getId(): ?int
     {
@@ -63,5 +73,15 @@ class Order implements OrderInterface
     public function setParcelId(int $parcelId): void
     {
         $this->parcelId = $parcelId;
+    }
+
+    public function getWaybill(): string
+    {
+        return $this->waybill;
+    }
+
+    public function setWaybill(string $waybill): void
+    {
+        $this->waybill = $waybill;
     }
 }

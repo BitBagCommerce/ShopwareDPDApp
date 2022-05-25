@@ -7,4 +7,6 @@ namespace BitBag\ShopwareDpdApp\Provider;
 final class Defaults
 {
     public const CURRENCY_CODE = 'PL';
+
+    public const CURRENCY = 'PLN';
 }
