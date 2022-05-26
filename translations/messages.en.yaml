@@ -7,6 +7,9 @@ bitbag:
             not_found: 'Order was not found'
             shipping_method:
                 not_dpd: 'Selected shipping method is not DPD'
+            address:
+                post_code_invalid: 'Post code is not valid (valid format is: 12345)'
+                phone_number_invalid: 'Phone number is invalid (valid format: 111-222-333)'
         config:
             api_login: 'API Login'
             api_password: 'API Password'
@@ -29,3 +32,6 @@ bitbag:
             created: 'Parcel was created. You can fetch the label now'
         package:
             already_created: 'A package has already been created'
+            fill_required_custom_fields: 'Fill in all required package details before creating the package'
+        api:
+            provided_data_not_valid: 'Provided API data is not valid'

@@ -52,7 +52,9 @@ final class CreatePackageController
 
         $shopId = $action->getSource()->getShopId();
 
-        if (ShippingMethodPayloadFactoryInterface::SHIPPING_KEY !== $order->deliveries?->first()?->shippingMethod?->name) {
+        $technicalName = $order->deliveries?->first()?->shippingMethod?->getTranslated()['customFields']['technical_name'] ?? null;
+
+        if (ShippingMethodPayloadFactoryInterface::SHIPPING_KEY !== $technicalName) {
             return $this->feedbackResponseFactory->returnError(
                 'bitbag.shopware_dpd_app.order.shipping_method.not_dpd',
                 $language
@@ -74,7 +76,7 @@ final class CreatePackageController
             return $this->feedbackResponseFactory->returnError($e->getMessage(), $language);
         }
 
-        return $this->feedbackResponseFactory->returnError(
+        return $this->feedbackResponseFactory->returnSuccess(
             'bitbag.shopware_dpd_app.parcel.created',
             $language
         );
