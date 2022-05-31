@@ -7,6 +7,7 @@
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\PackageRequestFactory" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Api\ApiService" />
         </service>
     </services>
 </container>

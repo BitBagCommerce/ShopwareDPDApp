@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
+use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolverInterface;
 use T3ko\Dpd\Objects\Enum\Currency;
 use T3ko\Dpd\Objects\Package;
@@ -38,7 +39,13 @@ final class PackageRequestFactory implements PackageRequestFactoryInterface
     public function create(string $shopId, OrderEntity $order, Context $context): GeneratePackageNumbersRequest
     {
         $sender = $this->dpdSenderFactory->create($shopId);
-        $receiver = $this->receiverFactory->create($order);
+        $orderAddress = $order->addresses?->first();
+
+        if (null === $orderAddress) {
+            throw new OrderException('bitbag.shopware_dpd_app.order.shipping_address_not_found');
+        }
+
+        $receiver = $this->receiverFactory->create($orderAddress);
         $parcel = $this->parcelFactory->create($order, $context);
         $package = new Package($sender, $receiver, [$parcel]);
 

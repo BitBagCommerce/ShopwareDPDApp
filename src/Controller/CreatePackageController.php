@@ -77,7 +77,7 @@ final class CreatePackageController
         }
 
         return $this->feedbackResponseFactory->returnSuccess(
-            'bitbag.shopware_dpd_app.parcel.created',
+            'bitbag.shopware_dpd_app.package.created',
             $language
         );
     }

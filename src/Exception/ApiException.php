@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Exception;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-final class ApiException extends \LogicException
+final class ApiException extends BadRequestHttpException
 {
     public function getErrorCode(): string
     {

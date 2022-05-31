@@ -33,5 +33,7 @@
         >
             <argument type="service" id="translator" />
         </service>
+
+        <service id="BitBag\ShopwareDpdApp\Factory\ApiClassMapCollectionFactory" />
     </services>
 </container>

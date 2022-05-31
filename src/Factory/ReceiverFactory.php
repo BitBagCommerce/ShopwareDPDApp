@@ -8,7 +8,7 @@ use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
 use T3ko\Dpd\Objects\Receiver;
-use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
+use Vin\ShopwareSdk\Data\Entity\OrderAddress\OrderAddressEntity;
 
 final class ReceiverFactory implements ReceiverFactoryInterface
 {
@@ -16,14 +16,8 @@ final class ReceiverFactory implements ReceiverFactoryInterface
 
     public const PHONE_NUMBER_LENGTH = 9;
 
-    public function create(OrderEntity $order): Receiver
+    public function create(OrderAddressEntity $address): Receiver
     {
-        $address = $order->addresses?->first();
-
-        if (null === $address) {
-            throw new OrderException('bitbag.shopware_dpd_app.order.shipping_address_not_found');
-        }
-
         $phoneNumber = $address->phoneNumber;
         $firstName = $address->firstName;
         $lastName = $address->lastName;
@@ -59,7 +53,9 @@ final class ReceiverFactory implements ReceiverFactoryInterface
     {
         preg_match(self::PHONE_NUMBER_REGEX, $phoneNumber, $phoneNumberMatches);
 
-        if ([] === $phoneNumberMatches || self::PHONE_NUMBER_LENGTH !== strlen($phoneNumberMatches[0])) {
+        $phoneNumberLength = strlen($phoneNumberMatches[0]);
+
+        if ([] === $phoneNumberMatches || self::PHONE_NUMBER_LENGTH !== $phoneNumberLength) {
             throw new PackageException('bitbag.shopware_dpd_app.order.address.phone_number_invalid');
         }
     }
