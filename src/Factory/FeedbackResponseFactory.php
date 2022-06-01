@@ -20,18 +20,18 @@ final class FeedbackResponseFactory implements FeedbackResponseFactoryInterface
         $this->translator = $translator;
     }
 
-    public function returnError(string $messageKey, string $language = self::DEFAULT_LANGUAGE): JsonResponse
+    public function returnError(string $messageKey): JsonResponse
     {
-        return new FeedbackResponse(new Error($this->translator->trans($messageKey, [], null, $language)));
+        return new FeedbackResponse(new Error($this->translator->trans($messageKey)));
     }
 
-    public function returnSuccess(string $messageKey, string $language = self::DEFAULT_LANGUAGE): JsonResponse
+    public function returnSuccess(string $messageKey): JsonResponse
     {
-        return new FeedbackResponse(new Success($this->translator->trans($messageKey, [], null, $language)));
+        return new FeedbackResponse(new Success($this->translator->trans($messageKey, [])));
     }
 
-    public function returnWarning(string $messageKey, string $language = self::DEFAULT_LANGUAGE): JsonResponse
+    public function returnWarning(string $messageKey): JsonResponse
     {
-        return new FeedbackResponse(new Warning($this->translator->trans($messageKey, [], null, $language)));
+        return new FeedbackResponse(new Warning($this->translator->trans($messageKey)));
     }
 }

@@ -6,8 +6,9 @@
         >
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Package\PackageService" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Api\PackageService" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
 
             <tag name="controller.service_arguments" />
         </service>

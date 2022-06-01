@@ -9,5 +9,5 @@ use Vin\ShopwareSdk\Data\Entity\OrderAddress\OrderAddressEntity;
 
 interface ReceiverFactoryInterface
 {
-    public function create(OrderAddressEntity $address): Receiver;
+    public function create(?OrderAddressEntity $address): Receiver;
 }

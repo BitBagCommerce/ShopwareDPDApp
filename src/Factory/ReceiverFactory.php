@@ -16,8 +16,12 @@ final class ReceiverFactory implements ReceiverFactoryInterface
 
     public const PHONE_NUMBER_LENGTH = 9;
 
-    public function create(OrderAddressEntity $address): Receiver
+    public function create(?OrderAddressEntity $address): Receiver
     {
+        if (null === $address) {
+            throw new OrderException('bitbag.shopware_dpd_app.order.shipping_address_not_found');
+        }
+
         $phoneNumber = $address->phoneNumber;
         $firstName = $address->firstName;
         $lastName = $address->lastName;
