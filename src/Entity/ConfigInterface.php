@@ -8,6 +8,10 @@ use BitBag\ShopwareAppSystemBundle\Entity\ShopInterface;
 
 interface ConfigInterface
 {
+    public const SANDBOX_ENVIRONMENT = 'sandbox';
+
+    public const PRODUCTION_ENVIRONMENT = 'production';
+
     public function getId(): ?int;
 
     public function setId(int $id): void;

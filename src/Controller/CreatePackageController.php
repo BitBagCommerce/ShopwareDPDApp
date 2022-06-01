@@ -55,7 +55,15 @@ final class CreatePackageController
 
         $shopId = $action->getSource()->getShopId();
 
-        $technicalName = $order->deliveries?->first()?->shippingMethod?->getTranslated()['customFields']['technical_name'] ?? null;
+        $shippingMethod = $order->deliveries?->first()?->shippingMethod ?? null;
+
+        if (null === $shippingMethod) {
+            return $this->feedbackResponseFactory->returnError(
+                'bitbag.shopware_dpd_app.order.shipping_method.not_found'
+            );
+        }
+
+        $technicalName = $shippingMethod->getTranslated()['customFields']['technical_name'] ?? null;
 
         if (ShippingMethodPayloadFactoryInterface::SHIPPING_KEY !== $technicalName) {
             return $this->feedbackResponseFactory->returnError(

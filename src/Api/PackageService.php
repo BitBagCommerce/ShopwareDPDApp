@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Api;
 
+use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Exception\ApiException;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
+use BitBag\ShopwareDpdApp\Provider\Defaults;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use T3ko\Dpd\Api;
 use T3ko\Dpd\Objects\RegisteredParcel;
@@ -45,16 +47,16 @@ final class PackageService implements PackageServiceInterface
             $config->getApiPassword(),
             $config->getApiFid()
         );
-        $api->setSandboxMode(WebClientInterface::SANDBOX_ENVIRONMENT === $config->getApiEnvironment());
+        $api->setSandboxMode(ConfigInterface::SANDBOX_ENVIRONMENT === $config->getApiEnvironment());
 
         $singlePackageRequest = GeneratePackageNumbersRequest::fromPackage($package);
 
         try {
             $response = $api->generatePackageNumbers($singlePackageRequest);
         } catch (\Exception | ApiException $e) {
-            if (ApiServiceInterface::DISALLOWED_FID === $e->getMessage() ||
-                str_contains($e->getMessage(), ApiServiceInterface::INCORRECT_LOGIN_OR_PASSWORD) ||
-                str_contains(ApiServiceInterface::ACCOUNT_IS_LOCKED, $e->getMessage())
+            if (Defaults::STATUS_DISALLOWED_FID === $e->getMessage() ||
+                str_contains(Defaults::STATUS_INCORRECT_LOGIN_OR_PASSWORD, $e->getMessage()) ||
+                str_contains(Defaults::STATUS_ACCOUNT_IS_LOCKED, $e->getMessage())
             ) {
                 throw new ErrorNotificationException('bitbag.shopware_dpd_app.api.provided_data_not_valid');
             }
@@ -73,18 +75,18 @@ final class PackageService implements PackageServiceInterface
 
     private function getPackagesFromResponse(array $packages): array
     {
-        $packagesArr = [];
+        $result = [];
 
         foreach ($packages as $package) {
             /** @var RegisteredParcel $registeredParcel */
             $registeredParcel = $package->getParcels()[0];
 
-            $packagesArr[] = [
+            $result[] = [
                 'id' => $registeredParcel->getId(),
                 'waybill' => $registeredParcel->getWaybill(),
             ];
         }
 
-        return $packagesArr;
+        return $result;
     }
 }

@@ -6,6 +6,7 @@ bitbag:
             shipping_address_value_invalid: 'One of value in shipping address is invalid'
             not_found: 'Order was not found'
             shipping_method:
+                not_found: 'Shipping method was not found'
                 not_dpd: 'Selected shipping method is not DPD'
             address:
                 post_code_invalid: 'Post code is invalid (valid format is: 12-345)'
