@@ -13,11 +13,5 @@
             <argument type="service" id="shopware.repository.rule" />
             <argument type="service" id="shopware.repository.shipping_method" />
         </service>
-
-        <service id="BitBag\ShopwareDpdApp\Plugin\CustomFieldSetConfigurator"
-        >
-            <argument type="service" id="shopware.repository.custom_field_set" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\CustomFieldsForPackageDetailsPayloadFactory" />
-        </service>
     </services>
 </container>
