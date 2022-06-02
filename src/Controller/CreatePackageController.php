@@ -16,6 +16,7 @@ use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Data\Entity\OrderDelivery\OrderDeliveryEntity;
 use Vin\ShopwareSdk\Repository\RepositoryInterface;
 
 final class CreatePackageController
@@ -30,7 +31,7 @@ final class CreatePackageController
 
     private EntityManagerInterface $entityManager;
 
-    private RepositoryInterface $orderDelivery;
+    private RepositoryInterface $orderDeliveryRepository;
 
     public function __construct(
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
@@ -38,14 +39,14 @@ final class CreatePackageController
         PackageServiceInterface $packageService,
         PackageRepositoryInterface $packageRepository,
         EntityManagerInterface $entityManager,
-        RepositoryInterface $orderDelivery
+        RepositoryInterface $orderDeliveryRepository
     ) {
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->orderFinder = $orderFinder;
         $this->packageService = $packageService;
         $this->packageRepository = $packageRepository;
         $this->entityManager = $entityManager;
-        $this->orderDelivery = $orderDelivery;
+        $this->orderDeliveryRepository = $orderDeliveryRepository;
     }
 
     public function create(ActionInterface $action, Context $context): Response
@@ -89,27 +90,18 @@ final class CreatePackageController
 
             $trackingCode = $packages[0]['waybill'];
 
-            $packageEntity = new PackageEntity();
-            $packageEntity->setShopId($shopId);
-            $packageEntity->setOrderId($order->id);
-            $packageEntity->setParcelId($packages[0]['id']);
-            $packageEntity->setWaybill($trackingCode);
+            $this->createPackageEntity(
+                $shopId,
+                $order->id,
+                $packages[0]['id'],
+                $trackingCode
+            );
 
-            $this->entityManager->persist($packageEntity);
-            $this->entityManager->flush();
-
-            $firstDelivery = $order->deliveries?->first();
-
-            $trackingCodes = $firstDelivery->trackingCodes ?? [];
-
-            if (null !== $firstDelivery &&
-                !in_array($trackingCode, $trackingCodes)
-            ) {
-                $this->orderDelivery->update([
-                    'id' => $firstDelivery->id,
-                    'trackingCodes' => array_merge($trackingCodes, [$trackingCode]),
-                ], $context);
-            }
+            $this->addTrackingCodeToOrderDelivery(
+                $order->deliveries?->first(),
+                $trackingCode,
+                $context
+            );
         } catch (ErrorNotificationException $e) {
             return $this->feedbackResponseFactory->returnError($e->getMessage());
         }
@@ -117,5 +109,38 @@ final class CreatePackageController
         return $this->feedbackResponseFactory->returnSuccess(
             'bitbag.shopware_dpd_app.package.created'
         );
+    }
+
+    private function createPackageEntity(
+        string $shopId,
+        string $orderId,
+        int $parcelId,
+        string $trackingCode
+    ): void {
+        $packageEntity = new PackageEntity();
+        $packageEntity->setShopId($shopId);
+        $packageEntity->setOrderId($orderId);
+        $packageEntity->setParcelId($parcelId);
+        $packageEntity->setWaybill($trackingCode);
+
+        $this->entityManager->persist($packageEntity);
+        $this->entityManager->flush();
+    }
+
+    private function addTrackingCodeToOrderDelivery(
+        ?OrderDeliveryEntity $orderDelivery,
+        string $trackingCode,
+        Context $context
+    ): void {
+        $trackingCodes = $orderDelivery->trackingCodes ?? [];
+
+        if (null !== $orderDelivery &&
+            !in_array($trackingCode, $trackingCodes)
+        ) {
+            $this->orderDeliveryRepository->update([
+                'id' => $orderDelivery->id,
+                'trackingCodes' => array_merge($trackingCodes, [$trackingCode]),
+            ], $context);
+        }
     }
 }
