@@ -16,7 +16,7 @@ security:
             pattern: ^/app/(modules/configuration)
             provider: user_provider
         registration:
-            pattern: ^/app/(registration|registration/confirm|lifecycle/deleted)$
+            pattern: ^/app/(registration|registration/confirm)$
             security: false
         webhooks:
             custom_authenticators: [ bitbag.shopware_app_system.security.webhook_request_authenticator ]
