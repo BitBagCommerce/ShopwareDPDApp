@@ -93,9 +93,7 @@ final class PackageRequestFactoryTest extends WebTestCase
     private function getPackage(): Package
     {
         $sender = $this->getSender();
-
         $receiver = $this->getReceiver();
-
         $parcel = $this->getParcel();
 
         return new Package($sender, $receiver, [$parcel]);

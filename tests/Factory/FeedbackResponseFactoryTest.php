@@ -14,53 +14,40 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class FeedbackResponseFactoryTest extends WebTestCase
 {
-    private TranslatorInterface $translator;
+    private FeedbackResponseFactory $feedbackResponseFactory;
 
     protected function setUp(): void
     {
         $translator = $this->createMock(TranslatorInterface::class);
-        $translator->expects(self::exactly(2))
-                   ->method('trans')
-                   ->willReturnCallback(function ($value) {
+        $translator->method('trans')
+                   ->willReturnCallback(function (string $value) {
                        return $value;
                    });
 
-        $this->translator = $translator;
+        $this->feedbackResponseFactory = new FeedbackResponseFactory($translator);
     }
 
     public function testReturnError(): void
     {
-        $feedbackResponse = new FeedbackResponseFactory($this->translator);
-
-        $messageKey = 'foo';
-
         self::assertEquals(
-            new FeedbackResponse(new Error($this->translator->trans($messageKey))),
-            $feedbackResponse->returnError($messageKey)
+            new FeedbackResponse(new Error('')),
+            $this->feedbackResponseFactory->returnError('')
         );
     }
 
     public function testReturnSuccess(): void
     {
-        $feedbackResponse = new FeedbackResponseFactory($this->translator);
-
-        $messageKey = 'foo';
-
         self::assertEquals(
-            new FeedbackResponse(new Success($this->translator->trans($messageKey))),
-            $feedbackResponse->returnSuccess($messageKey)
+            new FeedbackResponse(new Success('')),
+            $this->feedbackResponseFactory->returnSuccess('')
         );
     }
 
     public function testReturnWarning(): void
     {
-        $feedbackResponse = new FeedbackResponseFactory($this->translator);
-
-        $messageKey = 'foo';
-
         self::assertEquals(
-            new FeedbackResponse(new Warning($this->translator->trans($messageKey))),
-            $feedbackResponse->returnWarning($messageKey)
+            new FeedbackResponse(new Warning('')),
+            $this->feedbackResponseFactory->returnWarning('')
         );
     }
 }

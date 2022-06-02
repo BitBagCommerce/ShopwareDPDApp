@@ -45,16 +45,19 @@ final class ReceiverFactoryTest extends WebTestCase
 
     public function testAddressNotFoundException(): void
     {
-        $receiverFactory = new ReceiverFactory();
-
         $this->expectException(OrderException::class);
         $this->expectExceptionMessage('bitbag.shopware_dpd_app.order.shipping_address_not_found');
+
+        $receiverFactory = new ReceiverFactory();
 
         $receiverFactory->create(new OrderEntity());
     }
 
     public function testAddressInvalidException(): void
     {
+        $this->expectException(OrderException::class);
+        $this->expectExceptionMessage('bitbag.shopware_dpd_app.order.shipping_address_value_invalid');
+
         $receiverFactory = new ReceiverFactory();
 
         $address = new OrderAddressEntity();
@@ -67,9 +70,6 @@ final class ReceiverFactoryTest extends WebTestCase
 
         $order = new OrderEntity();
         $order->addresses = new OrderAddressCollection([$address]);
-
-        $this->expectException(OrderException::class);
-        $this->expectExceptionMessage('bitbag.shopware_dpd_app.order.shipping_address_value_invalid');
 
         $receiverFactory->create($order);
     }
