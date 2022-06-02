@@ -48,7 +48,7 @@ final class OrderWeightCalculatorTest extends WebTestCase
             ->willReturn(
                 new EntitySearchResult(
                     'product',
-                        new SearchResultMeta(1, 1),
+                    new SearchResultMeta(1, 1),
                     new EntityCollection([$product]),
                     new AggregationResultCollection([]),
                     new Criteria(),
