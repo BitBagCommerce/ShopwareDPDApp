@@ -32,14 +32,14 @@ final class ReceiverFactoryTest extends WebTestCase
 
         self::assertEquals(
             new Receiver(
-                '123-123-123',
+                '123123123',
                 'Jan Kowalski',
                 'Jasna 4',
-                '12-123',
+                '12123',
                 'Wrocław',
                 Defaults::CURRENCY_CODE
             ),
-            $receiverFactory->create($order)
+            $receiverFactory->create($order->addresses->first())
         );
     }
 
@@ -50,7 +50,10 @@ final class ReceiverFactoryTest extends WebTestCase
 
         $receiverFactory = new ReceiverFactory();
 
-        $receiverFactory->create(new OrderEntity());
+        $order = new OrderEntity();
+        $order->addresses = new OrderAddressCollection([]);
+
+        $receiverFactory->create($order->addresses->first());
     }
 
     public function testAddressInvalidException(): void
@@ -71,6 +74,6 @@ final class ReceiverFactoryTest extends WebTestCase
         $order = new OrderEntity();
         $order->addresses = new OrderAddressCollection([$address]);
 
-        $receiverFactory->create($order);
+        $receiverFactory->create($order->addresses->first());
     }
 }

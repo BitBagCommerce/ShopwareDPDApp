@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Tests\Factory;
 
-use BitBag\ShopwareDpdApp\Api\WebClientInterface;
 use BitBag\ShopwareDpdApp\Entity\Config;
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Factory\DpdSenderFactory;
@@ -47,7 +46,7 @@ final class DpdSenderFactoryTest extends WebTestCase
         $config->setApiFid('simple_fid');
         $config->setApiLogin('simple_login');
         $config->setApiPassword('s3cr3t');
-        $config->setApiEnvironment(WebClientInterface::SANDBOX_ENVIRONMENT);
+        $config->setApiEnvironment(ConfigInterface::SANDBOX_ENVIRONMENT);
         $config->setSenderFirstLastName('Jan Kowalski');
         $config->setSenderPhoneNumber('123-123-123');
         $config->setSenderStreet('Jasna 4');

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Tests\Factory;
 
 use BitBag\ShopwareDpdApp\Factory\DpdSenderFactoryInterface;
-use BitBag\ShopwareDpdApp\Factory\PackageRequestFactory;
+use BitBag\ShopwareDpdApp\Factory\PackageFactory;
 use BitBag\ShopwareDpdApp\Factory\ParcelFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\ReceiverFactoryInterface;
 use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolverInterface;
@@ -14,12 +14,11 @@ use T3ko\Dpd\Objects\Package;
 use T3ko\Dpd\Objects\Parcel;
 use T3ko\Dpd\Objects\Receiver;
 use T3ko\Dpd\Objects\Sender;
-use T3ko\Dpd\Request\GeneratePackageNumbersRequest;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 use Vin\ShopwareSdk\Data\Uuid\Uuid;
 
-final class PackageRequestFactoryTest extends WebTestCase
+final class PackageFactoryTest extends WebTestCase
 {
     public function testCreate(): void
     {
@@ -43,7 +42,7 @@ final class PackageRequestFactoryTest extends WebTestCase
             ->method('create')
             ->willReturn($this->getReceiver());
 
-        $packageRequestFactory = new PackageRequestFactory(
+        $packageFactory = new PackageFactory(
             $dpdSenderFactory,
             $orderCustomFieldsResolver,
             $parcelFactory,
@@ -55,8 +54,8 @@ final class PackageRequestFactoryTest extends WebTestCase
         $package = $this->getPackage();
 
         self::assertEquals(
-            GeneratePackageNumbersRequest::fromPackage($package),
-            $packageRequestFactory->create(Uuid::randomHex(), new OrderEntity(), $context)
+            $package,
+            $packageFactory->create(Uuid::randomHex(), new OrderEntity(), $context)
         );
     }
 
