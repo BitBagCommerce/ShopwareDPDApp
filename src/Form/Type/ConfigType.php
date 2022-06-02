@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Form\Type;
 
-use BitBag\ShopwareDpdApp\Api\WebClientInterface;
 use BitBag\ShopwareDpdApp\Entity\Config;
+use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -33,8 +33,8 @@ final class ConfigType extends AbstractType
                 'label' => 'bitbag.shopware_dpd_app.config.api_environment',
                 'required' => true,
                 'choices' => [
-                    'bitbag.shopware_dpd_app.config.production_environment' => WebClientInterface::PRODUCTION_ENVIRONMENT,
-                    'bitbag.shopware_dpd_app.config.sandbox_environment' => WebClientInterface::SANDBOX_ENVIRONMENT,
+                    'bitbag.shopware_dpd_app.config.production_environment' => ConfigInterface::PRODUCTION_ENVIRONMENT,
+                    'bitbag.shopware_dpd_app.config.sandbox_environment' => ConfigInterface::SANDBOX_ENVIRONMENT,
                 ],
             ])
             ->add('senderFirstLastName', TextType::class, [

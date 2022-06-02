@@ -20,7 +20,7 @@ final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterf
         $orderCustomFields = $order->getCustomFields();
 
         if (null === $orderCustomFields) {
-            throw new PackageException('package.fillRequiredCustomFields');
+            throw new PackageException('bitbag.shopware_dpd_app.package.fill_required_custom_fields');
         }
 
         $depthKey = $packageDetailsKey . '_depth';
