@@ -6,7 +6,6 @@
         <service class="BitBag\ShopwareDpdApp\EventSubscriber\AppActivatedEventSubscriber"
                  id="bitbag.shopware_dpd_app.event_subscriber.app_activated_subscriber"
         >
-            <argument type="service" id="BitBag\ShopwareDpdApp\Plugin\CustomFieldSetConfigurator" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Plugin\ShippingMethodConfigurator" />
 
             <tag name="kernel.event_subscriber"/>

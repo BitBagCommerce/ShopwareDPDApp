@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Resolver;
 
 use BitBag\ShopwareDpdApp\Exception\PackageException;
-use BitBag\ShopwareDpdApp\Factory\CustomFieldsForPackageDetailsPayloadFactoryInterface;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
 final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterface
 {
     public function resolve(OrderEntity $order): array
     {
-        $packageDetailsKey = CustomFieldsForPackageDetailsPayloadFactoryInterface::PACKAGE_DETAILS_KEY;
+        $packageDetailsKey = 'bitbag_shopware_dpd_app_point_package_details';
 
         /**
          * @psalm-var array<array-key, mixed>|null
