@@ -30,10 +30,7 @@
         <read>rule</read>
         <create>rule</create>
         <create>rule_condition</create>
-        <create>custom_field</create>
         <read>custom_field</read>
-        <create>custom_field_set_relation</create>
-        <create>custom_field_set</create>
         <read>payment_method</read>
         <create>shipping_method_price</create>
     </permissions>
@@ -59,7 +56,7 @@
 
     <custom-fields>
         <custom-field-set>
-            <name>bitbag_inpost_point_package_details</name>
+            <name>bitbag_shopware_dpd_app_point_package_details</name>
             <label>Package details (DPD)</label>
             <label lang="pl-PL">Szczegóły paczki (DPD)</label>
 
@@ -67,22 +64,22 @@
                 <order/>
             </related-entities>
             <fields>
-                <int name="bitbag_inpost_point_package_details_height">
+                <int name="bitbag_shopware_dpd_app_point_package_details_height">
                     <position>1</position>
                     <label>Height (cm)</label>
                     <label lang="pl-PL">Wysokość (cm)</label>
                 </int>
-                <int name="bitbag_inpost_point_package_details_width">
+                <int name="bitbag_shopware_dpd_app_point_package_details_width">
                     <position>2</position>
                     <label>Width (cm)</label>
                     <label lang="pl-PL">Szerokość (cm)</label>
                 </int>
-                <int name="bitbag_inpost_point_package_details_depth">
+                <int name="bitbag_shopware_dpd_app_point_package_details_depth">
                     <position>3</position>
                     <label>Depth (cm)</label>
                     <label lang="pl-PL">Głębokość (cm)</label>
                 </int>
-                <float name="bitbag_inpost_point_package_details_insurance">
+                <float name="bitbag_shopware_dpd_app_point_package_details_insurance">
                     <position>4</position>
                     <label>Insurance value (can be left empty)</label>
                     <label lang="pl-PL">Wartość ubezpieczenia (może zostać puste)</label>
