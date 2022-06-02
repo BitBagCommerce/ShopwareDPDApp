@@ -28,6 +28,11 @@
         <read>order_line_item</read>
         <read>product</read>
         <read>rule</read>
+        <create>rule</create>
+        <create>rule_condition</create>
+        <read>custom_field</read>
+        <read>payment_method</read>
+        <create>shipping_method_price</create>
     </permissions>
 
     <admin>
@@ -36,7 +41,7 @@
         </action-button>
 
         <module name="dpd_configuration"
-                source="http://example-app/app/modules/configuration"
+                source="http://localhost:7777/app/modules/configuration"
                 parent="sw-settings"
         >
             <label>Configuration</label>
@@ -48,4 +53,38 @@
         <webhook name="appLifecycleDeleted" url="http://example-app/app/lifecycle/deleted" event="app.deleted"/>
         <webhook name="appLifecycleActivated" url="http://example-app/app/lifecycle/activated" event="app.activated"/>
     </webhooks>
+
+    <custom-fields>
+        <custom-field-set>
+            <name>bitbag_shopware_dpd_app_point_package_details</name>
+            <label>Package details (DPD)</label>
+            <label lang="pl-PL">Szczegóły paczki (DPD)</label>
+
+            <related-entities>
+                <order/>
+            </related-entities>
+            <fields>
+                <int name="bitbag_shopware_dpd_app_point_package_details_height">
+                    <position>1</position>
+                    <label>Height (cm)</label>
+                    <label lang="pl-PL">Wysokość (cm)</label>
+                </int>
+                <int name="bitbag_shopware_dpd_app_point_package_details_width">
+                    <position>2</position>
+                    <label>Width (cm)</label>
+                    <label lang="pl-PL">Szerokość (cm)</label>
+                </int>
+                <int name="bitbag_shopware_dpd_app_point_package_details_depth">
+                    <position>3</position>
+                    <label>Depth (cm)</label>
+                    <label lang="pl-PL">Głębokość (cm)</label>
+                </int>
+                <float name="bitbag_shopware_dpd_app_point_package_details_insurance">
+                    <position>4</position>
+                    <label>Insurance value (can be left empty)</label>
+                    <label lang="pl-PL">Wartość ubezpieczenia (może zostać puste)</label>
+                </float>
+            </fields>
+        </custom-field-set>
+    </custom-fields>
 </manifest>

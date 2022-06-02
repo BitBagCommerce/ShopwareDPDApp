@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Factory;
 
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
+use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
 use T3ko\Dpd\Objects\Receiver;
-use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
+use Vin\ShopwareSdk\Data\Entity\OrderAddress\OrderAddressEntity;
 
 final class ReceiverFactory implements ReceiverFactoryInterface
 {
-    public function create(OrderEntity $order): Receiver
-    {
-        $address = $order->addresses?->first();
+    public const PHONE_NUMBER_REGEX = "/(?:(?:\+|00)[0-9]{1,3})?(\d{9,12})/";
 
+    public const PHONE_NUMBER_LENGTH = 9;
+
+    public function create(?OrderAddressEntity $address): Receiver
+    {
         if (null === $address) {
             throw new OrderException('bitbag.shopware_dpd_app.order.shipping_address_not_found');
         }
@@ -36,13 +39,28 @@ final class ReceiverFactory implements ReceiverFactoryInterface
             throw new OrderException('bitbag.shopware_dpd_app.order.shipping_address_value_invalid');
         }
 
+        $phoneNumber = str_replace(['+48', '+', '-', ' '], '', $phoneNumber);
+
+        $this->checkPhoneNumberValidity($phoneNumber);
+
         return new Receiver(
             $phoneNumber,
             $firstName . ' ' . $lastName,
             $street,
-            $zipcode,
+            str_replace('-', '', $zipcode),
             $city,
             Defaults::CURRENCY_CODE
         );
+    }
+
+    private function checkPhoneNumberValidity(string $phoneNumber): void
+    {
+        preg_match(self::PHONE_NUMBER_REGEX, $phoneNumber, $phoneNumberMatches);
+
+        $phoneNumberLength = strlen($phoneNumberMatches[0]);
+
+        if ([] === $phoneNumberMatches || self::PHONE_NUMBER_LENGTH !== $phoneNumberLength) {
+            throw new PackageException('bitbag.shopware_dpd_app.order.address.phone_number_invalid');
+        }
     }
 }

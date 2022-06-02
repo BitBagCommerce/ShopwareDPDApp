@@ -7,11 +7,10 @@ namespace BitBag\ShopwareDpdApp\Factory;
 use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolverInterface;
 use T3ko\Dpd\Objects\Enum\Currency;
 use T3ko\Dpd\Objects\Package;
-use T3ko\Dpd\Request\GeneratePackageNumbersRequest;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
-final class PackageRequestFactory implements PackageRequestFactoryInterface
+final class PackageFactory implements PackageFactoryInterface
 {
     public const CASH_PAYMENT_CLASS = 'Shopware\Core\Checkout\Payment\Cart\PaymentHandler\CashPayment';
 
@@ -35,10 +34,11 @@ final class PackageRequestFactory implements PackageRequestFactoryInterface
         $this->receiverFactory = $receiverFactory;
     }
 
-    public function create(string $shopId, OrderEntity $order, Context $context): GeneratePackageNumbersRequest
+    public function create(string $shopId, OrderEntity $order, Context $context): Package
     {
         $sender = $this->dpdSenderFactory->create($shopId);
-        $receiver = $this->receiverFactory->create($order);
+        $orderAddress = $order->addresses?->first();
+        $receiver = $this->receiverFactory->create($orderAddress);
         $parcel = $this->parcelFactory->create($order, $context);
         $package = new Package($sender, $receiver, [$parcel]);
 
@@ -56,6 +56,6 @@ final class PackageRequestFactory implements PackageRequestFactoryInterface
             $package->addDeclaredValueService($insurance, Currency::PLN());
         }
 
-        return GeneratePackageNumbersRequest::fromPackage($package);
+        return $package;
     }
 }

@@ -7,7 +7,7 @@
             <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
         </service>
 
-        <service id="BitBag\ShopwareDpdApp\Factory\PackageRequestFactory"
+        <service id="BitBag\ShopwareDpdApp\Factory\PackageFactory"
         >
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\DpdSenderFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolver" />
@@ -22,8 +22,6 @@
         </service>
 
         <service id="BitBag\ShopwareDpdApp\Factory\ReceiverFactory" />
-
-        <service id="BitBag\ShopwareDpdApp\Factory\CustomFieldsForPackageDetailsPayloadFactory" />
 
         <service id="BitBag\ShopwareDpdApp\Factory\ShippingMethodPayloadFactory" />
 

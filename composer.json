@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
+        "glancu/dpd-pl-api-php": "^1.0.0",
         "guzzlehttp/guzzle": "^7.4",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.4.x-dev",
@@ -27,7 +28,6 @@
         "symfony/twig-bundle": "^5.4",
         "symfony/validator": "^5.4",
         "symfony/yaml": "^5.4",
-        "t3ko/dpd-pl-api-php": "dev-master",
         "twig/extra-bundle": "^3.3",
         "twig/twig": "^3.3"
     },
