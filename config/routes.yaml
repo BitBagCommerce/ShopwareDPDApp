@@ -6,6 +6,16 @@ create_package:
   path: /app/create-package
   controller: BitBag\ShopwareDpdApp\Controller\CreatePackageController::create
 
+get_label:
+  methods: ['POST']
+  path: /app/get-label
+  controller: BitBag\ShopwareDpdApp\Controller\LabelController::getLabel
+
+show_label:
+  methods: ['GET']
+  path: /app/show-label
+  controller: BitBag\ShopwareDpdApp\Controller\LabelController::showLabel
+
 configuration_module_show:
   methods: ['GET', 'POST']
   path: /app/modules/configuration

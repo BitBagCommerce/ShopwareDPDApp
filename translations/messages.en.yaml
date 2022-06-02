@@ -31,8 +31,8 @@ bitbag:
         package:
             already_created: 'A package has already been created'
             fill_required_custom_fields: 'Fill in all required package details before creating the package'
-            not_found: 'Parcel was not found. Try to generate package one more time'
-            created: 'Parcel has been created. You can fetch the label now'
+            not_found: 'Package was not found. Try to generate package one more time'
+            created: 'Package has been created. You can fetch the label now'
         api:
             provided_data_not_valid: 'Provided API data is invalid'
             wsdl_not_found: 'Problem with DPD connection. Try again'

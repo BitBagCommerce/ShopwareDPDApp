@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Repository;
 
 use BitBag\ShopwareDpdApp\Entity\Package;
+use BitBag\ShopwareDpdApp\Exception\PackageException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -15,7 +16,7 @@ final class PackageRepository extends ServiceEntityRepository implements Package
         parent::__construct($registry, Package::class);
     }
 
-    public function findByOrderId(string $orderId): ?Package
+    public function getByOrderId(string $orderId): Package
     {
         $queryBuilder = $this->createQueryBuilder('o')
                              ->where('o.orderId = :orderId')
@@ -23,8 +24,14 @@ final class PackageRepository extends ServiceEntityRepository implements Package
                              ->setParameter('orderId', $orderId)
                              ->setMaxResults(1);
 
-        return $queryBuilder
+        $result = $queryBuilder
             ->getQuery()
             ->getOneOrNullResult();
+
+        if (null === $result) {
+            throw new PackageException('bitbag.shopware_dpd_app.package.not_found');
+        }
+
+        return $result;
     }
 }

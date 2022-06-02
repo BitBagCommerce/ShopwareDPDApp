@@ -9,6 +9,7 @@ use BitBag\ShopwareDpdApp\Api\PackageServiceInterface;
 use BitBag\ShopwareDpdApp\Entity\Package as PackageEntity;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
+use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\ShippingMethodPayloadFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
@@ -77,7 +78,11 @@ final class CreatePackageController
             );
         }
 
-        $package = $this->packageRepository->findByOrderId($orderId);
+        try {
+            $package = $this->packageRepository->getByOrderId($orderId);
+        } catch (PackageException) {
+            $package = null;
+        }
 
         if (null !== $package) {
             return $this->feedbackResponseFactory->returnWarning(
