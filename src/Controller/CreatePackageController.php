@@ -16,6 +16,7 @@ use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Repository\RepositoryInterface;
 
 final class CreatePackageController
 {
@@ -29,18 +30,22 @@ final class CreatePackageController
 
     private EntityManagerInterface $entityManager;
 
+    private RepositoryInterface $orderDelivery;
+
     public function __construct(
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
         OrderFinderInterface $orderFinder,
         PackageServiceInterface $packageService,
         PackageRepositoryInterface $packageRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        RepositoryInterface $orderDelivery
     ) {
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->orderFinder = $orderFinder;
         $this->packageService = $packageService;
         $this->packageRepository = $packageRepository;
         $this->entityManager = $entityManager;
+        $this->orderDelivery = $orderDelivery;
     }
 
     public function create(ActionInterface $action, Context $context): Response
@@ -82,14 +87,29 @@ final class CreatePackageController
         try {
             $packages = $this->packageService->create($order, $shopId, $context);
 
+            $trackingCode = $packages[0]['waybill'];
+
             $packageEntity = new PackageEntity();
             $packageEntity->setShopId($shopId);
             $packageEntity->setOrderId($order->id);
             $packageEntity->setParcelId($packages[0]['id']);
-            $packageEntity->setWaybill($packages[0]['waybill']);
+            $packageEntity->setWaybill($trackingCode);
 
             $this->entityManager->persist($packageEntity);
             $this->entityManager->flush();
+
+            $firstDelivery = $order->deliveries?->first();
+
+            $trackingCodes = $firstDelivery->trackingCodes ?? [];
+
+            if (null !== $firstDelivery &&
+                !in_array($trackingCode, $trackingCodes)
+            ) {
+                $this->orderDelivery->update([
+                    'id' => $firstDelivery->id,
+                    'trackingCodes' => array_merge($trackingCodes, [$trackingCode]),
+                ], $context);
+            }
         } catch (ErrorNotificationException $e) {
             return $this->feedbackResponseFactory->returnError($e->getMessage());
         }
