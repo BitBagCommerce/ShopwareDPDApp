@@ -11,7 +11,7 @@ final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterf
 {
     public function resolve(OrderEntity $order): array
     {
-        $packageDetailsKey = 'bitbag_shopware_dpd_app_point_package_details';
+        $packageDetailsKey = 'bitbag_shopware_dpd_app_package_details';
 
         /**
          * @psalm-var array<array-key, mixed>|null
@@ -28,7 +28,7 @@ final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterf
         $insuranceKey = $packageDetailsKey . '_insurance';
 
         if (!isset($orderCustomFields[$depthKey], $orderCustomFields[$heightKey], $orderCustomFields[$widthKey])) {
-            throw new PackageException('package.fillRequiredCustomFields');
+            throw new PackageException('bitbag.shopware_dpd_app.package.fill_required_custom_fields');
         }
 
         return [

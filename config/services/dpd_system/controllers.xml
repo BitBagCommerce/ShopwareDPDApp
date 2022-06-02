@@ -9,6 +9,7 @@
             <argument type="service" id="BitBag\ShopwareDpdApp\Api\PackageService" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="shopware.repository.order_delivery" />
 
             <tag name="controller.service_arguments" />
         </service>
