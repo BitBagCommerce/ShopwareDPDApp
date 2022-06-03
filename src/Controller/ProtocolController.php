@@ -76,10 +76,10 @@ final class ProtocolController extends AbstractController
         );
         $api->setSandboxMode(ConfigInterface::SANDBOX_ENVIRONMENT === $config->getApiEnvironment());
 
-        try {
-            $package = $this->packageRepository->getByOrderId($orderId);
-        } catch (PackageException $e) {
-            return $this->feedbackResponseFactory->returnError($e->getMessage());
+        $package = $this->packageRepository->findByOrderId($orderId);
+
+        if (null === $package) {
+            return $this->feedbackResponseFactory->returnError('bitbag.shopware_dpd_app.package.not_found');
         }
 
         $protocolRequest = GenerateProtocolRequest::fromWaybills([$package->getWaybill()]);
