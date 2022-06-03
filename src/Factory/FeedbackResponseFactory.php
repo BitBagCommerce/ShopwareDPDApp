@@ -20,17 +20,17 @@ final class FeedbackResponseFactory implements FeedbackResponseFactoryInterface
         $this->translator = $translator;
     }
 
-    public function returnError(string $messageKey): JsonResponse
+    public function createError(string $messageKey): JsonResponse
     {
         return new FeedbackResponse(new Error($this->translator->trans($messageKey)));
     }
 
-    public function returnSuccess(string $messageKey): JsonResponse
+    public function createSuccess(string $messageKey): JsonResponse
     {
         return new FeedbackResponse(new Success($this->translator->trans($messageKey, [])));
     }
 
-    public function returnWarning(string $messageKey): JsonResponse
+    public function createWarning(string $messageKey): JsonResponse
     {
         return new FeedbackResponse(new Warning($this->translator->trans($messageKey)));
     }

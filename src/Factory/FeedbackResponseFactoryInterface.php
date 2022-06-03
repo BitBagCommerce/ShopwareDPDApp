@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 interface FeedbackResponseFactoryInterface
 {
-    public function returnError(string $messageKey): JsonResponse;
+    public function createError(string $messageKey): JsonResponse;
 
-    public function returnSuccess(string $messageKey): JsonResponse;
+    public function createSuccess(string $messageKey): JsonResponse;
 
-    public function returnWarning(string $messageKey): JsonResponse;
+    public function createWarning(string $messageKey): JsonResponse;
 }
