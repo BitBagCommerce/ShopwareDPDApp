@@ -8,5 +8,7 @@ use BitBag\ShopwareDpdApp\Entity\Package;
 
 interface PackageRepositoryInterface
 {
+    public function getByOrderId(string $orderId): Package;
+
     public function findByOrderId(string $orderId): ?Package;
 }

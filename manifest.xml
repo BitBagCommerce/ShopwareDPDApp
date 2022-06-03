@@ -36,6 +36,10 @@
     </permissions>
 
     <admin>
+        <action-button action="getProtocol" entity="order" view="detail" url="http://example-app/app/get-protocol">
+            <label>Get protocol (DPD)</label>
+        </action-button>
+
         <action-button action="createPackage" entity="order" view="detail" url="http://example-app/app/create-package">
             <label>Create package</label>
         </action-button>
