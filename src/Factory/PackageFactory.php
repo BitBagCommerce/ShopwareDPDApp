@@ -41,6 +41,7 @@ final class PackageFactory implements PackageFactoryInterface
         $receiver = $this->receiverFactory->create($orderAddress);
         $parcel = $this->parcelFactory->create($order, $context);
         $package = new Package($sender, $receiver, [$parcel]);
+        $package->addDeclaredValueService($order->amountTotal, Currency::PLN());
 
         $orderPaymentMethodHandlerIdentifier = $order->transactions?->first()?->paymentMethod?->handlerIdentifier;
 
@@ -52,9 +53,9 @@ final class PackageFactory implements PackageFactoryInterface
 
         $insurance = $orderCustomFieldsResolver['insurance'];
 
-        if (null !== $insurance) {
-            $package->addDeclaredValueService($insurance, Currency::PLN());
-        }
+//        if (null !== $insurance) {
+//            $package->addDeclaredValueService($insurance, Currency::PLN());
+//        }
 
         return $package;
     }

@@ -50,7 +50,7 @@ final class CreatePackageController
         try {
             $order = $this->orderFinder->getWithAssociations($orderId, $context);
         } catch (OrderException $e) {
-            return $this->feedbackResponseFactory->returnError($e->getMessage());
+            return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 
         $shopId = $action->getSource()->getShopId();
@@ -58,7 +58,7 @@ final class CreatePackageController
         $shippingMethod = $order->deliveries?->first()?->shippingMethod ?? null;
 
         if (null === $shippingMethod) {
-            return $this->feedbackResponseFactory->returnError(
+            return $this->feedbackResponseFactory->createError(
                 'bitbag.shopware_dpd_app.order.shipping_method.not_found'
             );
         }
@@ -66,7 +66,7 @@ final class CreatePackageController
         $technicalName = $shippingMethod->getTranslated()['customFields']['technical_name'] ?? null;
 
         if (ShippingMethodPayloadFactoryInterface::SHIPPING_KEY !== $technicalName) {
-            return $this->feedbackResponseFactory->returnError(
+            return $this->feedbackResponseFactory->createError(
                 'bitbag.shopware_dpd_app.order.shipping_method.not_dpd'
             );
         }
@@ -74,7 +74,7 @@ final class CreatePackageController
         $package = $this->packageRepository->findByOrderId($orderId);
 
         if (null !== $package) {
-            return $this->feedbackResponseFactory->returnWarning(
+            return $this->feedbackResponseFactory->createWarning(
                 'bitbag.shopware_dpd_app.package.already_created'
             );
         }
@@ -91,10 +91,10 @@ final class CreatePackageController
             $this->entityManager->persist($packageEntity);
             $this->entityManager->flush();
         } catch (ErrorNotificationException $e) {
-            return $this->feedbackResponseFactory->returnError($e->getMessage());
+            return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 
-        return $this->feedbackResponseFactory->returnSuccess(
+        return $this->feedbackResponseFactory->createSuccess(
             'bitbag.shopware_dpd_app.package.created'
         );
     }

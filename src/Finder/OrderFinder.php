@@ -28,6 +28,8 @@ final class OrderFinder implements OrderFinderInterface
             'lineItems.product',
             'deliveries.shippingMethod',
             'addresses',
+            'transactions',
+            'transactions.paymentMethod',
         ]);
 
         $searchOrder = $this->orderRepository->search($orderCriteria, $context);

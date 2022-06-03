@@ -27,27 +27,27 @@ final class FeedbackResponseFactoryTest extends WebTestCase
         $this->feedbackResponseFactory = new FeedbackResponseFactory($translator);
     }
 
-    public function testReturnError(): void
+    public function testCreateError(): void
     {
         self::assertEquals(
             new FeedbackResponse(new Error('')),
-            $this->feedbackResponseFactory->returnError('')
+            $this->feedbackResponseFactory->createError('')
         );
     }
 
-    public function testReturnSuccess(): void
+    public function testCreateSuccess(): void
     {
         self::assertEquals(
             new FeedbackResponse(new Success('')),
-            $this->feedbackResponseFactory->returnSuccess('')
+            $this->feedbackResponseFactory->createSuccess('')
         );
     }
 
-    public function testReturnWarning(): void
+    public function testCreateWarning(): void
     {
         self::assertEquals(
             new FeedbackResponse(new Warning('')),
-            $this->feedbackResponseFactory->returnWarning('')
+            $this->feedbackResponseFactory->createWarning('')
         );
     }
 }
