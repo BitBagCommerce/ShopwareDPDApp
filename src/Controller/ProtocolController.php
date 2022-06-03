@@ -45,7 +45,7 @@ final class ProtocolController extends AbstractController
         try {
             $this->packageRepository->getByOrderId($orderId);
         } catch (PackageException $e) {
-            return $this->feedbackResponseFactory->returnError($e->getMessage());
+            return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 
         $redirectUrl = $this->generateUrl(
@@ -66,7 +66,7 @@ final class ProtocolController extends AbstractController
         try {
             $config = $this->configRepository->getByShopId($shopId);
         } catch (ErrorNotificationException $e) {
-            return $this->feedbackResponseFactory->returnError($e->getMessage());
+            return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 
         $api = new Api(
@@ -79,7 +79,7 @@ final class ProtocolController extends AbstractController
         $package = $this->packageRepository->findByOrderId($orderId);
 
         if (null === $package) {
-            return $this->feedbackResponseFactory->returnError('bitbag.shopware_dpd_app.package.not_found');
+            return $this->feedbackResponseFactory->createError('bitbag.shopware_dpd_app.package.not_found');
         }
 
         $protocolRequest = GenerateProtocolRequest::fromWaybills([$package->getWaybill()]);
