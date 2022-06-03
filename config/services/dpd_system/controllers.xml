@@ -9,6 +9,7 @@
             <argument type="service" id="BitBag\ShopwareDpdApp\Api\PackageService" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="shopware.repository.order_delivery" />
 
             <tag name="controller.service_arguments" />
         </service>
@@ -20,6 +21,19 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="bitbag.shopware_app_system.repository.shop_repository" />
             <argument type="service" id="translator" />
+
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <service id="BitBag\ShopwareDpdApp\Controller\ProtocolController"
+        >
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />

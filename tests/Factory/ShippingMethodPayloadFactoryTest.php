@@ -48,6 +48,7 @@ final class ShippingMethodPayloadFactoryTest extends TestCase
                     'technical_name' => $name,
                 ],
                 'availabilityRuleId' => $ruleId,
+                'trackingUrl' => 'https://tracktrace.dpd.com.pl/parcelDetails?typ=1&p1=%s',
                 'prices' => [
                     [
                         'ruleId' => $ruleId,
