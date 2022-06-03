@@ -29,6 +29,19 @@
             <tag name="controller.service_arguments" />
         </service>
 
+        <service id="BitBag\ShopwareDpdApp\Controller\LabelController"
+        >
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory" />
+            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
+
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+
+            <tag name="controller.service_arguments" />
+        </service>
+      
         <service id="BitBag\ShopwareDpdApp\Controller\ProtocolController"
         >
             <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
