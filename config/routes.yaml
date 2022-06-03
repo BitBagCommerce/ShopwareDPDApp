@@ -16,6 +16,16 @@ show_label:
   path: /app/show-label
   controller: BitBag\ShopwareDpdApp\Controller\LabelController::showLabel
 
+get_protocol:
+  methods: ['POST']
+  path: /app/get-protocol
+  controller: BitBag\ShopwareDpdApp\Controller\ProtocolController::getProtocol
+
+show_protocol:
+  methods: ['GET']
+  path: /app/show-protocol
+  controller: BitBag\ShopwareDpdApp\Controller\ProtocolController::showProtocol
+
 configuration_module_show:
   methods: ['GET', 'POST']
   path: /app/modules/configuration
