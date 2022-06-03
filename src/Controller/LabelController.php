@@ -42,10 +42,10 @@ final class LabelController extends AbstractController
     {
         $orderId = $action->getData()->getIds()[0] ?? '';
 
-        try {
-            $this->packageRepository->getByOrderId($orderId);
-        } catch (PackageException $e) {
-            return $this->feedbackResponseFactory->returnError($e->getMessage());
+        $package = $this->packageRepository->findByOrderId($orderId);
+
+        if (null === $package) {
+            return $this->feedbackResponseFactory->returnError('bitbag.shopware_dpd_app.package.not_found');
         }
 
         $redirectUrl = $this->generateUrl(
