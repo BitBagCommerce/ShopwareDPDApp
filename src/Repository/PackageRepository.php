@@ -34,4 +34,17 @@ final class PackageRepository extends ServiceEntityRepository implements Package
 
         return $result;
     }
+
+    public function findByOrderId(string $orderId): ?Package
+    {
+        $queryBuilder = $this->createQueryBuilder('o')
+                             ->where('o.orderId = :orderId')
+                             ->andWhere('o.parcelId IS NOT NULL')
+                             ->setParameter('orderId', $orderId)
+                             ->setMaxResults(1);
+
+        return $queryBuilder
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
