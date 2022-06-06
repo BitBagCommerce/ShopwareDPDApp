@@ -19,14 +19,14 @@ final class PackageService implements PackageServiceInterface
 {
     private PackageFactoryInterface $packageFactory;
 
-    private ApiServiceInterface $apiService;
+    private ApiClientResolverInterface $apiClientResolver;
 
     public function __construct(
         PackageFactoryInterface $packageFactory,
-        ApiServiceInterface $apiService
+        ApiClientResolverInterface $apiClientResolver
     ) {
         $this->packageFactory = $packageFactory;
-        $this->apiService = $apiService;
+        $this->apiClientResolver = $apiClientResolver;
     }
 
     public function create(OrderEntity $order, string $shopId, Context $context): array
@@ -37,7 +37,7 @@ final class PackageService implements PackageServiceInterface
             throw new ErrorNotificationException($exception->getMessage());
         }
 
-        $api = $this->apiService->getApi($shopId);
+        $api = $this->apiClientResolver->getApi($shopId);
 
         $singlePackageRequest = GeneratePackageNumbersRequest::fromPackage($package);
 

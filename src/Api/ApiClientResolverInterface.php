@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Api;
 
 use T3ko\Dpd\Api;
 
-interface ApiServiceInterface
+interface ApiClientResolverInterface
 {
     public function getApi(string $shopId): Api;
 }

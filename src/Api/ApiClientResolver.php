@@ -8,7 +8,7 @@ use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use T3ko\Dpd\Api;
 
-final class ApiService implements ApiServiceInterface
+final class ApiClientResolver implements ApiClientResolverInterface
 {
     private ConfigRepositoryInterface $configRepository;
 

@@ -7,7 +7,7 @@ namespace BitBag\ShopwareDpdApp\Controller;
 use BitBag\ShopwareAppSystemBundle\Model\Action\ActionInterface;
 use BitBag\ShopwareAppSystemBundle\Model\Feedback\NewTab;
 use BitBag\ShopwareAppSystemBundle\Response\FeedbackResponse;
-use BitBag\ShopwareDpdApp\Api\ApiServiceInterface;
+use BitBag\ShopwareDpdApp\Api\ApiClientResolverInterface;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
@@ -24,16 +24,16 @@ final class LabelController extends AbstractController
 
     private FeedbackResponseFactoryInterface $feedbackResponseFactory;
 
-    private ApiServiceInterface $apiService;
+    private ApiClientResolverInterface $apiClientResolver;
 
     public function __construct(
         PackageRepositoryInterface $packageRepository,
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
-        ApiServiceInterface $apiService
+        ApiClientResolverInterface $apiClientResolver
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
-        $this->apiService = $apiService;
+        $this->apiClientResolver = $apiClientResolver;
     }
 
     public function getLabel(ActionInterface $action): Response
@@ -62,7 +62,7 @@ final class LabelController extends AbstractController
         $shopId = $data['shop-id'] ?? '';
 
         try {
-            $api = $this->apiService->getApi($shopId);
+            $api = $this->apiClientResolver->getApi($shopId);
         } catch (ErrorNotificationException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }

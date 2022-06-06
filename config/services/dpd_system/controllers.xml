@@ -33,7 +33,7 @@
         >
             <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Api\ApiService" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Api\ApiClientResolver" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />
@@ -46,7 +46,7 @@
         >
             <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Api\ApiService" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Api\ApiClientResolver" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />
