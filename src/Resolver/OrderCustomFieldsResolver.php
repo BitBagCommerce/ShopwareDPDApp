@@ -11,14 +11,14 @@ final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterf
 {
     public function resolve(OrderEntity $order): array
     {
-        $packageDetailsKey = 'bitbag_shopware_dpd_app_package_details';
+        $packageDetailsKey = self::PACKAGE_DETAILS_KEY;
 
         /**
          * @psalm-var array<array-key, mixed>|null
          */
         $orderCustomFields = $order->getCustomFields();
 
-        if (null === $orderCustomFields) {
+        if (empty($orderCustomFields)) {
             throw new PackageException('bitbag.shopware_dpd_app.package.fill_required_custom_fields');
         }
 
