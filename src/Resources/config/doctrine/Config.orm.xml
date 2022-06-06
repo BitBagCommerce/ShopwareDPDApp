@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="BitBag\ShopwareDpdApp\Entity\Config"
+            table="config"
+            repository-class="BitBag\ShopwareDpdApp\Repository\ConfigRepository"
+    >
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="apiLogin" column="api_login" type="string" />
+
+        <field name="apiPassword" column="api_password" type="string" />
+
+        <field name="apiFid" column="api_fid" type="string" />
+
+        <field name="apiEnvironment" column="api_environment" type="string" />
+
+        <field name="senderFirstLastName" column="sender_first_last_name" type="string" />
+
+        <field name="senderStreet" column="sender_street" type="string" />
+
+        <field name="senderZipCode" column="sender_zip_code" type="string" />
+
+        <field name="senderCity" column="sender_city" type="string" />
+
+        <field name="senderPhoneNumber" column="sender_phone_number" type="string" />
+
+        <field name="senderLocale" column="sender_locale" type="string" />
+
+        <one-to-one field="shop" target-entity="BitBag\ShopwareAppSystemBundle\Entity\Shop">
+            <join-column nullable="false" referenced-column-name="shop_id" on-delete="CASCADE" />
+
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-one>
+    </entity>
+</doctrine-mapping>

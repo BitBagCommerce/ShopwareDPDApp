@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="BitBag\ShopwareDpdApp\Entity\Package"
+            table="packages"
+            repository-class="BitBag\ShopwareDpdApp\Repository\PackageRepository"
+    >
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="shopId" column="shop_id" type="string" />
+
+        <field name="orderId" column="order_id" type="string" />
+
+        <field name="parcelId" column="parcel_id" type="integer" />
+
+        <field name="waybill" column="waybill" type="string" />
+    </entity>
+</doctrine-mapping>
