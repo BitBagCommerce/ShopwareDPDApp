@@ -5,7 +5,7 @@
         <service id="BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolver" />
 
         <service id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver">
-            <argument type="string" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
         </service>
     </services>
 </container>

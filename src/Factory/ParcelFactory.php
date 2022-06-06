@@ -41,6 +41,13 @@ final class ParcelFactory implements ParcelFactoryInterface
             throw new PackageException('bitbag.shopware_dpd_app.package.too_large');
         }
 
-        return new Parcel($width, $height, $depth, $weight);
+        return new Parcel(
+            $width,
+            $height,
+            $depth,
+            $weight,
+            null,
+            $resolvedFields['contents_package']
+        );
     }
 }
