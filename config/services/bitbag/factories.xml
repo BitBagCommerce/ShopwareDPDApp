@@ -2,21 +2,18 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="BitBag\ShopwareDpdApp\Factory\DpdSenderFactory"
-        >
-            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
+        <service id="BitBag\ShopwareDpdApp\Factory\DpdSenderFactory">
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
         </service>
 
-        <service id="BitBag\ShopwareDpdApp\Factory\PackageFactory"
-        >
+        <service id="BitBag\ShopwareDpdApp\Factory\PackageFactory">
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\DpdSenderFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolver" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\ParcelFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\ReceiverFactory" />
         </service>
 
-        <service id="BitBag\ShopwareDpdApp\Factory\ParcelFactory"
-        >
+        <service id="BitBag\ShopwareDpdApp\Factory\ParcelFactory">
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolver" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Calculator\OrderWeightCalculator" />
         </service>
@@ -27,8 +24,7 @@
 
         <service id="BitBag\ShopwareDpdApp\Factory\RulePackageFactory" />
 
-        <service id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory"
-        >
+        <service id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory">
             <argument type="service" id="translator" />
         </service>
     </services>

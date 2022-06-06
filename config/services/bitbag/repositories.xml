@@ -2,16 +2,13 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service class="BitBag\ShopwareDpdApp\Repository\ConfigRepository"
-                 id="bitbag.shopware_dpd_app.repository.config_repository"
-        >
+        <service id="BitBag\ShopwareDpdApp\Repository\ConfigRepository">
             <argument type="service" id="doctrine" />
 
             <tag name="doctrine.repository_service" />
         </service>
 
-        <service id="BitBag\ShopwareDpdApp\Repository\PackageRepository"
-        >
+        <service id="BitBag\ShopwareDpdApp\Repository\PackageRepository">
             <argument type="service" id="doctrine" />
 
             <tag name="doctrine.repository_service" />
