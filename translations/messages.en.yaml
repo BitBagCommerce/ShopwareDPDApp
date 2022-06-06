@@ -1,7 +1,6 @@
 bitbag:
     shopware_dpd_app:
         order:
-            null_weight: 'Package weight must be greater than 0.0 kg'
             shipping_address_not_found: 'Shipping address cannot be empty'
             shipping_address_value_invalid: 'One of value in shipping address is invalid'
             not_found: 'Order was not found'
@@ -33,6 +32,9 @@ bitbag:
             fill_required_custom_fields: 'Fill in all required package details before creating the package'
             not_found: 'Package was not found. Try to generate package one more time'
             created: 'Package has been created. You can fetch the label now'
+            too_large: 'Package is too large (sum of height, width and height cannot be larger than 300cm)'
+            too_heavy: 'Package is too heavy (maximum 50 kg)'
+            null_weight: 'Package weight must be greater than 0.0 kg'
         api:
             provided_data_not_valid: 'Provided API data is invalid'
             wsdl_not_found: 'Problem with DPD connection. Try again'

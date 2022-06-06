@@ -63,4 +63,43 @@ final class OrderWeightCalculatorTest extends WebTestCase
             $orderWeightCalculator->calculate($order, $context)
         );
     }
+
+    public function testTooHeavy(): void
+    {
+        $this->expectExceptionMessage('bitbag.shopware_dpd_app.package.too_heavy');
+
+        $context = $this->createMock(Context::class);
+
+        $order = new OrderEntity();
+
+        $product = new ProductEntity();
+        $product->weight = 52.25;
+
+        $orderLineItem = new OrderLineItemEntity();
+        $orderLineItem->quantity = 1;
+        $orderLineItem->product = $product;
+
+        $order->lineItems = new OrderLineItemCollection([$orderLineItem]);
+
+        $productRepository = $this->createMock(RepositoryInterface::class);
+        $productRepository
+            ->method('search')
+            ->willReturn(
+                new EntitySearchResult(
+                    'product',
+                    new SearchResultMeta(1, 1),
+                    new EntityCollection([$product]),
+                    new AggregationResultCollection([]),
+                    new Criteria(),
+                    $context
+                )
+            );
+
+        $orderWeightCalculator = new OrderWeightCalculator($productRepository);
+
+        self::assertEquals(
+            52.25,
+            $orderWeightCalculator->calculate($order, $context)
+        );
+    }
 }
