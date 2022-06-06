@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
-use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolverInterface;
 use T3ko\Dpd\Objects\Enum\Currency;
 use T3ko\Dpd\Objects\Package;
 use Vin\ShopwareSdk\Data\Context;
@@ -16,20 +15,16 @@ final class PackageFactory implements PackageFactoryInterface
 
     private DpdSenderFactoryInterface $dpdSenderFactory;
 
-    private OrderCustomFieldsResolverInterface $orderCustomFieldsResolver;
-
     private ParcelFactoryInterface $parcelFactory;
 
     private ReceiverFactoryInterface $receiverFactory;
 
     public function __construct(
         DpdSenderFactoryInterface $dpdSenderFactory,
-        OrderCustomFieldsResolverInterface $orderCustomFieldsResolver,
         ParcelFactoryInterface $parcelFactory,
         ReceiverFactoryInterface $receiverFactory
     ) {
         $this->dpdSenderFactory = $dpdSenderFactory;
-        $this->orderCustomFieldsResolver = $orderCustomFieldsResolver;
         $this->parcelFactory = $parcelFactory;
         $this->receiverFactory = $receiverFactory;
     }
@@ -42,18 +37,16 @@ final class PackageFactory implements PackageFactoryInterface
         $parcel = $this->parcelFactory->create($order, $context);
         $package = new Package($sender, $receiver, [$parcel]);
 
-        $orderPaymentMethodHandlerIdentifier = $order->transactions?->first()?->paymentMethod?->handlerIdentifier;
+        $orderAmount = $order->amountTotal;
 
-        if (self::CASH_PAYMENT_CLASS === $orderPaymentMethodHandlerIdentifier) {
-            $package->addCODService((float) $order->amountTotal, Currency::PLN());
-        }
+        if (null !== $orderAmount) {
+            $package->addDeclaredValueService($orderAmount, Currency::PLN());
 
-        $orderCustomFieldsResolver = $this->orderCustomFieldsResolver->resolve($order);
+            $orderPaymentMethodHandlerIdentifier = $order->transactions?->first()?->paymentMethod?->handlerIdentifier;
 
-        $insurance = $orderCustomFieldsResolver['insurance'];
-
-        if (null !== $insurance) {
-            $package->addDeclaredValueService($insurance, Currency::PLN());
+            if (self::CASH_PAYMENT_CLASS === $orderPaymentMethodHandlerIdentifier) {
+                $package->addCODService($orderAmount, Currency::PLN());
+            }
         }
 
         return $package;
