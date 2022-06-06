@@ -8,8 +8,8 @@ use BitBag\ShopwareDpdApp\Factory\DpdSenderFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\PackageFactory;
 use BitBag\ShopwareDpdApp\Factory\ParcelFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\ReceiverFactoryInterface;
-use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use T3ko\Dpd\Objects\Enum\Currency;
 use T3ko\Dpd\Objects\Package;
 use T3ko\Dpd\Objects\Parcel;
 use T3ko\Dpd\Objects\Receiver;
@@ -27,11 +27,6 @@ final class PackageFactoryTest extends WebTestCase
             ->method('create')
             ->willReturn($this->getSender());
 
-        $orderCustomFieldsResolver = $this->createMock(OrderCustomFieldsResolverInterface::class);
-        $orderCustomFieldsResolver->expects(self::once())
-                                  ->method('resolve')
-                                  ->willReturn(['insurance' => null]);
-
         $parcelFactory = $this->createMock(ParcelFactoryInterface::class);
         $parcelFactory->expects(self::once())
             ->method('create')
@@ -44,7 +39,6 @@ final class PackageFactoryTest extends WebTestCase
 
         $packageFactory = new PackageFactory(
             $dpdSenderFactory,
-            $orderCustomFieldsResolver,
             $parcelFactory,
             $receiverFactory
         );
@@ -53,9 +47,12 @@ final class PackageFactoryTest extends WebTestCase
 
         $package = $this->getPackage();
 
+        $order = new OrderEntity();
+        $order->amountTotal = 50;
+
         self::assertEquals(
             $package,
-            $packageFactory->create(Uuid::randomHex(), new OrderEntity(), $context)
+            $packageFactory->create(Uuid::randomHex(), $order, $context)
         );
     }
 
@@ -95,6 +92,9 @@ final class PackageFactoryTest extends WebTestCase
         $receiver = $this->getReceiver();
         $parcel = $this->getParcel();
 
-        return new Package($sender, $receiver, [$parcel]);
+        $package = new Package($sender, $receiver, [$parcel]);
+        $package->addDeclaredValueService(50, Currency::PLN());
+
+        return $package;
     }
 }

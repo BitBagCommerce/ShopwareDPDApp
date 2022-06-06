@@ -25,7 +25,6 @@ final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterf
         $depthKey = $packageDetailsKey . '_depth';
         $heightKey = $packageDetailsKey . '_height';
         $widthKey = $packageDetailsKey . '_width';
-        $insuranceKey = $packageDetailsKey . '_insurance';
         $packageContentsKey = $packageDetailsKey . '_package_contents';
 
         if (!isset(
@@ -41,7 +40,6 @@ final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterf
             'depth' => $orderCustomFields[$depthKey],
             'height' => $orderCustomFields[$heightKey],
             'width' => $orderCustomFields[$widthKey],
-            'insurance' => $orderCustomFields[$insuranceKey] ?? null,
             'package_contents' => $orderCustomFields[$packageContentsKey],
         ];
     }
