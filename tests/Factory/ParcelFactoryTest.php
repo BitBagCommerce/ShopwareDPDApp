@@ -23,7 +23,7 @@ final class ParcelFactoryTest extends WebTestCase
                 'height' => 10,
                 'width' => 10,
                 'depth' => 10,
-                'contents_package' => 'Blouses',
+                'package_contents' => 'Blouses',
             ]);
 
         $orderWeightCalculator = $this->createMock(OrderWeightCalculatorInterface::class);

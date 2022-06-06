@@ -83,9 +83,9 @@
                     <label>Depth (cm)</label>
                     <label lang="pl-PL">Głębokość (cm)</label>
                 </int>
-                <text name="bitbag_shopware_dpd_app_package_details_contents_package">
+                <text name="bitbag_shopware_dpd_app_package_details_package_contents">
                     <position>4</position>
-                    <label>Contents of the package</label>
+                    <label>Package contents</label>
                     <label lang="pl-PL">Zawartość paczki</label>
                 </text>
                 <float name="bitbag_shopware_dpd_app_package_details_insurance">

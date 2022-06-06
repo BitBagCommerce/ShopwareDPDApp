@@ -26,13 +26,13 @@ final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterf
         $heightKey = $packageDetailsKey . '_height';
         $widthKey = $packageDetailsKey . '_width';
         $insuranceKey = $packageDetailsKey . '_insurance';
-        $contentsOfPackage = $packageDetailsKey . '_contents_package';
+        $packageContentsKey = $packageDetailsKey . '_package_contents';
 
         if (!isset(
             $orderCustomFields[$depthKey],
             $orderCustomFields[$heightKey],
             $orderCustomFields[$widthKey],
-            $orderCustomFields[$contentsOfPackage]
+            $orderCustomFields[$packageContentsKey]
         )) {
             throw new PackageException('bitbag.shopware_dpd_app.package.fill_required_custom_fields');
         }
@@ -42,7 +42,7 @@ final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterf
             'height' => $orderCustomFields[$heightKey],
             'width' => $orderCustomFields[$widthKey],
             'insurance' => $orderCustomFields[$insuranceKey] ?? null,
-            'contents_package' => $orderCustomFields[$contentsOfPackage],
+            'package_contents' => $orderCustomFields[$packageContentsKey],
         ];
     }
 }

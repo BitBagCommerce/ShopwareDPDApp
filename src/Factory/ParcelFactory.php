@@ -47,7 +47,7 @@ final class ParcelFactory implements ParcelFactoryInterface
             $depth,
             $weight,
             null,
-            $resolvedFields['contents_package']
+            $resolvedFields['package_contents']
         );
     }
 }
