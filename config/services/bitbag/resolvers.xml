@@ -2,9 +2,10 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="BitBag\ShopwareDpdApp\Calculator\OrderWeightCalculator"
-        >
-            <argument type="service" id="shopware.repository.product" />
+        <service id="BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolver" />
+
+        <service id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver">
+            <argument type="string" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
         </service>
     </services>
 </container>

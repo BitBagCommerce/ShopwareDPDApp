@@ -2,8 +2,7 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="BitBag\ShopwareDpdApp\Controller\CreatePackageController"
-        >
+        <service id="BitBag\ShopwareDpdApp\Controller\CreatePackageController">
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Api\PackageService" />
@@ -14,10 +13,8 @@
             <tag name="controller.service_arguments" />
         </service>
 
-        <service class="BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController"
-                 id="bitbag.shopware_dpd_app.controller.configuration_module"
-        >
-            <argument type="service" id="bitbag.shopware_dpd_app.repository.config_repository" />
+        <service id="BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController">
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="bitbag.shopware_app_system.repository.shop_repository" />
             <argument type="service" id="translator" />
@@ -29,8 +26,7 @@
             <tag name="controller.service_arguments" />
         </service>
 
-        <service id="BitBag\ShopwareDpdApp\Controller\LabelController"
-        >
+        <service id="BitBag\ShopwareDpdApp\Controller\LabelController">
             <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
@@ -42,8 +38,7 @@
             <tag name="controller.service_arguments" />
         </service>
 
-        <service id="BitBag\ShopwareDpdApp\Controller\ProtocolController"
-        >
+        <service id="BitBag\ShopwareDpdApp\Controller\ProtocolController">
             <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
