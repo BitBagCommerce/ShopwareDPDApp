@@ -4,32 +4,16 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Entity;
 
-use BitBag\ShopwareDpdApp\Repository\PackageRepository;
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Entity(repositoryClass=PackageRepository::class)
- * @ORM\Table(name="packages")
- */
 class Package implements PackageInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
     protected int $id;
 
-    /** @ORM\Column(type="string") */
     protected string $shopId;
 
-    /** @ORM\Column(type="string") */
     protected string $orderId;
 
-    /** @ORM\Column(type="integer") */
     protected int $parcelId;
 
-    /** @ORM\Column(type="string") */
     protected string $waybill;
 
     public function getId(): ?int
