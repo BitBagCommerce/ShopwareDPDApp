@@ -7,17 +7,15 @@ namespace BitBag\ShopwareDpdApp\Controller;
 use BitBag\ShopwareAppSystemBundle\Model\Action\ActionInterface;
 use BitBag\ShopwareAppSystemBundle\Model\Feedback\NewTab;
 use BitBag\ShopwareAppSystemBundle\Response\FeedbackResponse;
-use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
-use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
+use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use T3ko\Dpd\Api;
 use T3ko\Dpd\Request\GenerateProtocolRequest;
 
 final class ProtocolController extends AbstractController
@@ -26,16 +24,16 @@ final class ProtocolController extends AbstractController
 
     private FeedbackResponseFactoryInterface $feedbackResponseFactory;
 
-    private ConfigRepositoryInterface $configRepository;
+    private ApiClientResolverInterface $apiClientResolver;
 
     public function __construct(
         PackageRepositoryInterface $packageRepository,
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
-        ConfigRepositoryInterface $configRepository
+        ApiClientResolverInterface $apiClientResolver
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
-        $this->configRepository = $configRepository;
+        $this->apiClientResolver = $apiClientResolver;
     }
 
     public function getProtocol(ActionInterface $action): Response
@@ -64,17 +62,10 @@ final class ProtocolController extends AbstractController
         $shopId = $data['shop-id'] ?? '';
 
         try {
-            $config = $this->configRepository->getByShopId($shopId);
+            $api = $this->apiClientResolver->getApi($shopId);
         } catch (ErrorNotificationException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
-
-        $api = new Api(
-            $config->getApiLogin(),
-            $config->getApiPassword(),
-            $config->getApiFid()
-        );
-        $api->setSandboxMode(ConfigInterface::SANDBOX_ENVIRONMENT === $config->getApiEnvironment());
 
         $package = $this->packageRepository->findByOrderId($orderId);
 
