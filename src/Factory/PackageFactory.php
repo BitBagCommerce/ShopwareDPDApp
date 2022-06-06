@@ -36,12 +36,17 @@ final class PackageFactory implements PackageFactoryInterface
         $receiver = $this->receiverFactory->create($orderAddress);
         $parcel = $this->parcelFactory->create($order, $context);
         $package = new Package($sender, $receiver, [$parcel]);
-        $package->addDeclaredValueService($order->amountTotal, Currency::PLN());
 
-        $orderPaymentMethodHandlerIdentifier = $order->transactions?->first()?->paymentMethod?->handlerIdentifier;
+        $orderAmount = $order->amountTotal;
 
-        if (self::CASH_PAYMENT_CLASS === $orderPaymentMethodHandlerIdentifier) {
-            $package->addCODService((float) $order->amountTotal, Currency::PLN());
+        if (null !== $orderAmount) {
+            $package->addDeclaredValueService($orderAmount, Currency::PLN());
+
+            $orderPaymentMethodHandlerIdentifier = $order->transactions?->first()?->paymentMethod?->handlerIdentifier;
+
+            if (self::CASH_PAYMENT_CLASS === $orderPaymentMethodHandlerIdentifier) {
+                $package->addCODService($orderAmount, Currency::PLN());
+            }
         }
 
         return $package;
