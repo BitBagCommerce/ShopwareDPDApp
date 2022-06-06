@@ -5,12 +5,7 @@
         <service id="BitBag\ShopwareDpdApp\Api\PackageService"
         >
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\PackageFactory" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Api\ApiClientResolver" />
-        </service>
-
-        <service id="BitBag\ShopwareDpdApp\Api\ApiClientResolver"
-        >
-            <argument type="string" id="bitbag.shopware_dpd_app.repository.config_repository" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
         </service>
     </services>
 </container>

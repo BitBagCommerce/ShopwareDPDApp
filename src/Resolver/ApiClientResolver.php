@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareDpdApp\Api;
+namespace BitBag\ShopwareDpdApp\Resolver;
 
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;

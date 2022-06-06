@@ -10,6 +10,7 @@ use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
+use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use T3ko\Dpd\Objects\RegisteredParcel;
 use T3ko\Dpd\Request\GeneratePackageNumbersRequest;
 use Vin\ShopwareSdk\Data\Context;

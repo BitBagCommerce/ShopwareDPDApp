@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareDpdApp\Api;
+namespace BitBag\ShopwareDpdApp\Resolver;
 
 use T3ko\Dpd\Api;
 
