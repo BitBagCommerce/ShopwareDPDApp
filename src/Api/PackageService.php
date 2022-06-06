@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Api;
 
-use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Exception\ApiException;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
-use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
-use T3ko\Dpd\Api;
 use T3ko\Dpd\Objects\RegisteredParcel;
 use T3ko\Dpd\Request\GeneratePackageNumbersRequest;
 use Vin\ShopwareSdk\Data\Context;
@@ -22,14 +19,14 @@ final class PackageService implements PackageServiceInterface
 {
     private PackageFactoryInterface $packageFactory;
 
-    private ConfigRepositoryInterface $configRepository;
+    private ApiServiceInterface $apiService;
 
     public function __construct(
         PackageFactoryInterface $packageFactory,
-        ConfigRepositoryInterface $configRepository,
+        ApiServiceInterface $apiService
     ) {
         $this->packageFactory = $packageFactory;
-        $this->configRepository = $configRepository;
+        $this->apiService = $apiService;
     }
 
     public function create(OrderEntity $order, string $shopId, Context $context): array
@@ -40,14 +37,7 @@ final class PackageService implements PackageServiceInterface
             throw new ErrorNotificationException($exception->getMessage());
         }
 
-        $config = $this->configRepository->getByShopId($shopId);
-
-        $api = new Api(
-            $config->getApiLogin(),
-            $config->getApiPassword(),
-            $config->getApiFid()
-        );
-        $api->setSandboxMode(ConfigInterface::SANDBOX_ENVIRONMENT === $config->getApiEnvironment());
+        $api = $this->apiService->getApi($shopId);
 
         $singlePackageRequest = GeneratePackageNumbersRequest::fromPackage($package);
 
