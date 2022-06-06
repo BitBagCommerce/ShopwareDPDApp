@@ -23,6 +23,7 @@ final class ParcelFactoryTest extends WebTestCase
                 'height' => 10,
                 'width' => 10,
                 'depth' => 10,
+                'contents_package' => 'Blouses',
             ]);
 
         $orderWeightCalculator = $this->createMock(OrderWeightCalculatorInterface::class);
@@ -38,7 +39,7 @@ final class ParcelFactoryTest extends WebTestCase
         );
 
         self::assertEquals(
-            new Parcel(10, 10, 10, 2.5),
+            new Parcel(10, 10, 10, 2.5, null, 'Blouses'),
             $parcelFactory->create(new OrderEntity(), $context)
         );
     }
