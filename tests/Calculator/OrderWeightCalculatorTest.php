@@ -64,7 +64,7 @@ final class OrderWeightCalculatorTest extends WebTestCase
         );
     }
 
-    public function testTooWeight(): void
+    public function testTooHeavy(): void
     {
         $this->expectExceptionMessage('bitbag.shopware_dpd_app.package.too_heavy');
 

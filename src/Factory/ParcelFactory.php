@@ -27,13 +27,13 @@ final class ParcelFactory implements ParcelFactoryInterface
 
     public function create(OrderEntity $order, Context $context): Parcel
     {
-        $orderCustomFieldsResolver = $this->orderCustomFieldsResolver->resolve($order);
+        $resolvedFields = $this->orderCustomFieldsResolver->resolve($order);
 
         $weight = $this->orderWeightCalculator->calculate($order, $context);
 
-        $width = $orderCustomFieldsResolver['width'];
-        $height = $orderCustomFieldsResolver['height'];
-        $depth = $orderCustomFieldsResolver['depth'];
+        $width = $resolvedFields['width'];
+        $height = $resolvedFields['height'];
+        $depth = $resolvedFields['depth'];
 
         $sumPackage = $width + $height + $depth;
 
