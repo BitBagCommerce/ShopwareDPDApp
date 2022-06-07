@@ -1,15 +1,87 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}API Configuration{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
 
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
+
+    <script>
+        const checkCredentialsEl = $('#check-credentials');
+        const notAuthorizedCode = 401;
+
+        checkCredentialsEl.click((e) => {
+            e.preventDefault();
+
+            const searchParams = new URLSearchParams(window.location.search)
+
+            if (searchParams.has('shop-id')) {
+                toastr.options = {
+                    showDuration: 300,
+                    hideDuration: 1000,
+                    closeButton: true,
+                    timeOut: 2000,
+                    extendedTimeOut: 2000,
+                    showEasing: 'swing',
+                    hideEasing: 'linear',
+                    showMethod: 'fadeIn',
+                    hideMethod: 'fadeOut',
+                    debug: false,
+                    newestOnTop: true,
+                    progressBar: true,
+                    positionClass: 'toast-top-right',
+                    preventDuplicates: true,
+                };
+
+                const data = new FormData(document.querySelector('form'));
+
+                $.ajax({
+                    url: '/app/modules/api-check-credentials',
+                    method: 'GET',
+                    data: {
+                        shopId: searchParams.get('shop-id'),
+                        formData: Object.fromEntries(data.entries()),
+                    },
+                    success: () => {
+                        toastr['success'](
+                            '{{ 'bitbag.shopware_dpd_app.config.notification_message_success'|trans }}',
+                            '{{ 'bitbag.shopware_dpd_app.config.notification_label_success'|trans }}'
+                        );
+                    },
+                    error: (err) => {
+                        if (notAuthorizedCode === err.status) {
+                            toastr['error'](
+                                '{{ 'bitbag.shopware_dpd_app.config.notification_message_error'|trans }}',
+                                '{{ 'bitbag.shopware_dpd_app.config.notification_label_error'|trans }}'
+                            );
+                            return;
+                        }
+
+                        console.error(err);
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}
 
 {% block body %}
     <div class="bitbag-sw-container">
         {{ form_start(form) }}
             <div class="save-container">
+                <button type="submit" class="sw-button sw-button--contrast" id="check-credentials">
+                    {{ 'bitbag.shopware_dpd_app.config.check_credentials'|trans }}
+                </button>
+
                 <button type="submit" class="sw-button sw-button--primary">
                     {{ 'bitbag.shopware_dpd_app.config.save'|trans }}
                 </button>

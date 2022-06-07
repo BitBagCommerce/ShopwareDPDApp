@@ -30,3 +30,8 @@ configuration_module_show:
   methods: ['GET', 'POST']
   path: /app/modules/configuration
   controller: BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController
+
+api_data_check_credentials:
+  methods: ['GET']
+  path: /app/modules/api-check-credentials
+  controller: BitBag\ShopwareDpdApp\Controller\ApiCredentialsController::checkCredentials
