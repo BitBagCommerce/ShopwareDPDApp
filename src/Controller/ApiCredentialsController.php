@@ -29,7 +29,6 @@ final class ApiCredentialsController
         /** @var array{apiLogin: string, apiPassword: string, apiFid: string, apiEnvironment: string, senderFirstLastName: string, senderPhoneNumber: string, senderStreet: string, senderCity: string, senderZipCode: string, senderLocale: string} $formData */
         $formData = $data['formData'];
 
-
         if (null === $shopId) {
             return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
         }
