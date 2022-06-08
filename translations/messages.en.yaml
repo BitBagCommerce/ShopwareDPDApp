@@ -29,7 +29,7 @@ bitbag:
             not_found: 'Please add configuration (My apps -> DPD - Configuration)'
             check_credentials: 'Check credentials'
             notification_label_success: 'Success'
-            notification_label_error: 'error'
+            notification_label_error: 'Error'
             notification_message_success: 'Provided data is valid'
             notification_message_error: 'Provided data is not valid'
         package:

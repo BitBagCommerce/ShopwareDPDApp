@@ -6,70 +6,52 @@
     {{ parent() }}
 
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}">
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
+    <script src="https://unpkg.com/@shopware-ag/admin-extension-sdk/cdn"></script>
 
     <script>
-        const checkCredentialsEl = $('#check-credentials');
+        const checkCredentialsEl = document.getElementById('check-credentials');
+        const authorizedCode = 200;
         const notAuthorizedCode = 401;
 
-        checkCredentialsEl.click((e) => {
+        checkCredentialsEl.addEventListener('click', (e) => {
             e.preventDefault();
 
             const searchParams = new URLSearchParams(window.location.search)
 
-            if (searchParams.has('shop-id')) {
-                toastr.options = {
-                    showDuration: 300,
-                    hideDuration: 1000,
-                    closeButton: true,
-                    timeOut: 2000,
-                    extendedTimeOut: 2000,
-                    showEasing: 'swing',
-                    hideEasing: 'linear',
-                    showMethod: 'fadeIn',
-                    hideMethod: 'fadeOut',
-                    debug: false,
-                    newestOnTop: true,
-                    progressBar: true,
-                    positionClass: 'toast-top-right',
-                    preventDuplicates: true,
-                };
+            const data = new FormData(document.querySelector('form'));
 
-                const data = new FormData(document.querySelector('form'));
+            const fetchOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    shopId: searchParams.get('shop-id'),
+                    formData: Object.fromEntries(data.entries()),
+                })
+            };
 
-                $.ajax({
-                    url: '/app/modules/api-check-credentials',
-                    method: 'GET',
-                    data: {
-                        shopId: searchParams.get('shop-id'),
-                        formData: Object.fromEntries(data.entries()),
-                    },
-                    success: () => {
-                        toastr['success'](
-                            '{{ 'bitbag.shopware_dpd_app.config.notification_message_success'|trans }}',
-                            '{{ 'bitbag.shopware_dpd_app.config.notification_label_success'|trans }}'
-                        );
-                    },
-                    error: (err) => {
-                        if (notAuthorizedCode === err.status) {
-                            toastr['error'](
-                                '{{ 'bitbag.shopware_dpd_app.config.notification_message_error'|trans }}',
-                                '{{ 'bitbag.shopware_dpd_app.config.notification_label_error'|trans }}'
-                            );
-                            return;
-                        }
-
-                        console.error(err);
+            fetch('/app/modules/api-check-credentials', fetchOptions)
+                .then((result) => {
+                    if (authorizedCode === result.status) {
+                        sw.notification.dispatch({
+                            title: '{{ 'bitbag.shopware_dpd_app.config.notification_label_success'|trans }}',
+                            message: '{{ 'bitbag.shopware_dpd_app.config.notification_message_success'|trans }}',
+                            variant: 'success'
+                        });
+                    } else if (notAuthorizedCode === result.status) {
+                        sw.notification.dispatch({
+                            title: '{{ 'bitbag.shopware_dpd_app.config.notification_label_error'|trans }}',
+                            message: '{{ 'bitbag.shopware_dpd_app.config.notification_message_error'|trans }}',
+                            variant: 'error'
+                        });
                     }
                 });
-            }
         });
     </script>
 {% endblock %}
