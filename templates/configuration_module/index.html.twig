@@ -1,15 +1,69 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}API Configuration{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
 
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://unpkg.com/@shopware-ag/admin-extension-sdk/cdn"></script>
+
+    <script>
+        const checkCredentialsEl = document.getElementById('check-credentials');
+        const authorizedCode = 200;
+        const notAuthorizedCode = 401;
+
+        checkCredentialsEl.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const searchParams = new URLSearchParams(window.location.search)
+
+            const data = new FormData(document.querySelector('form'));
+
+            const fetchOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    shopId: searchParams.get('shop-id'),
+                    formData: Object.fromEntries(data.entries()),
+                })
+            };
+
+            fetch('/app/module/api-check-credentials', fetchOptions)
+                .then((result) => {
+                    if (authorizedCode === result.status) {
+                        sw.notification.dispatch({
+                            title: '{{ 'bitbag.shopware_dpd_app.config.notification_label_success'|trans }}',
+                            message: '{{ 'bitbag.shopware_dpd_app.config.notification_message_success'|trans }}',
+                            variant: 'success'
+                        });
+                    } else if (notAuthorizedCode === result.status) {
+                        sw.notification.dispatch({
+                            title: '{{ 'bitbag.shopware_dpd_app.config.notification_label_error'|trans }}',
+                            message: '{{ 'bitbag.shopware_dpd_app.config.notification_message_error'|trans }}',
+                            variant: 'error'
+                        });
+                    }
+                });
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
     <div class="bitbag-sw-container">
         {{ form_start(form) }}
             <div class="save-container">
+                <button type="submit" class="sw-button sw-button--contrast" id="check-credentials">
+                    {{ 'bitbag.shopware_dpd_app.config.check_credentials'|trans }}
+                </button>
+
                 <button type="submit" class="sw-button sw-button--primary">
                     {{ 'bitbag.shopware_dpd_app.config.save'|trans }}
                 </button>

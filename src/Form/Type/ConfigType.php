@@ -71,6 +71,11 @@ final class ConfigType extends AbstractType
         ]);
     }
 
+    public function getBlockPrefix(): string
+    {
+        return '';
+    }
+
     public function getName(): string
     {
         return 'config';

@@ -27,6 +27,11 @@ bitbag:
             sandbox_environment: 'Sandbox'
             production_environment: 'Production'
             not_found: 'Please add configuration (My apps -> DPD - Configuration)'
+            check_credentials: 'Check credentials'
+            notification_label_success: 'Success'
+            notification_label_error: 'Error'
+            notification_message_success: 'Provided data is valid'
+            notification_message_error: 'Provided data is not valid'
         package:
             already_created: 'A package has already been created'
             fill_required_custom_fields: 'Fill in all required package details before creating the package'

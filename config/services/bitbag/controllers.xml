@@ -49,5 +49,11 @@
 
             <tag name="controller.service_arguments" />
         </service>
+
+        <service id="BitBag\ShopwareDpdApp\Controller\ApiCredentialsController">
+            <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
+
+            <tag name="controller.service_arguments" />
+        </service>
     </services>
 </container>

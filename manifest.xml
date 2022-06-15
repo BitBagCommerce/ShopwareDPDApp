@@ -45,7 +45,7 @@
         </action-button>
 
         <module name="dpd_configuration"
-                source="http://localhost:7777/app/modules/configuration"
+                source="http://localhost:7777/app/module/configuration"
                 parent="sw-settings"
         >
             <label>Configuration</label>

@@ -9,5 +9,9 @@ use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
 
 interface DeliveryTimeFinderInterface
 {
-    public function findDeliveryTimeByMinMax(int $min, int $max, Context $context): IdSearchResult;
+    public function findDeliveryTimeByMinMax(
+        int $min,
+        int $max,
+        Context $context
+    ): IdSearchResult;
 }

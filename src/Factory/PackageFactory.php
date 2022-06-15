@@ -29,8 +29,11 @@ final class PackageFactory implements PackageFactoryInterface
         $this->receiverFactory = $receiverFactory;
     }
 
-    public function create(string $shopId, OrderEntity $order, Context $context): Package
-    {
+    public function create(
+        string $shopId,
+        OrderEntity $order,
+        Context $context
+    ): Package {
         $sender = $this->dpdSenderFactory->create($shopId);
         $orderAddress = $order->addresses?->first();
         $receiver = $this->receiverFactory->create($orderAddress);

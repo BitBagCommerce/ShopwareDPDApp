@@ -13,7 +13,7 @@ security:
             security: false
         iframe:
             custom_authenticators: [ bitbag.shopware_app_system.security.iframe_request_authenticator ]
-            pattern: ^/app/(modules/configuration|show-label)
+            pattern: ^/app/(module/configuration|show-label|module/api-check-credentials)
             provider: user_provider
         registration:
             pattern: ^/app/(registration|registration/confirm)$

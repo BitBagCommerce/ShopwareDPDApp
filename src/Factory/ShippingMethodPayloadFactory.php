@@ -9,8 +9,11 @@ use Vin\ShopwareSdk\Repository\Struct\IdSearchResult;
 
 final class ShippingMethodPayloadFactory implements ShippingMethodPayloadFactoryInterface
 {
-    public function create(string $ruleId, string $currencyId, IdSearchResult $deliveryTime): array
-    {
+    public function create(
+        string $ruleId,
+        string $currencyId,
+        IdSearchResult $deliveryTime
+    ): array {
         $name = self::SHIPPING_KEY;
 
         $currentDateTime = new DateTime();
