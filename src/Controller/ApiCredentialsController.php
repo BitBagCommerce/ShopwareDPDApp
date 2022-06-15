@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use T3ko\Dpd\Api;
-use T3ko\Dpd\Exception\ApiException;
 use T3ko\Dpd\Request\GenerateLabelsRequest;
 
 final class ApiCredentialsController
@@ -36,16 +35,8 @@ final class ApiCredentialsController
         $api = new Api($formData['apiLogin'], $formData['apiPassword'], (int) $formData['apiFid']);
         $api->setSandboxMode(ConfigInterface::SANDBOX_ENVIRONMENT === $formData['apiEnvironment']);
 
-        try {
-            $api->generateLabels(GenerateLabelsRequest::fromWaybills(['00000000000000']));
-        } catch (ApiException) {
-            return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
-        } catch (\Throwable $e) {
-            if (false !== strpos($e->getFile(), 'src/Soap/Types/DocumentGenerationResponseV1.php')) {
-                return new JsonResponse([]);
-            }
-        }
+        $isValid = $api->checkCredentialsByGenerateLabels(GenerateLabelsRequest::fromWaybills(['00000000000000']));
 
-        return new JsonResponse([]);
+        return $isValid ? new JsonResponse([]) : new JsonResponse([], Response::HTTP_UNAUTHORIZED);
     }
 }
