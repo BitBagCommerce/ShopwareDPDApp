@@ -34,15 +34,15 @@ final class ApiCredentialsController
         }
 
         $api = new Api($formData['apiLogin'], $formData['apiPassword'], (int) $formData['apiFid']);
-        $api->setSandboxMode($formData['apiEnvironment'] === ConfigInterface::SANDBOX_ENVIRONMENT);
+        $api->setSandboxMode(ConfigInterface::SANDBOX_ENVIRONMENT === $formData['apiEnvironment']);
 
         try {
             $api->generateLabels(GenerateLabelsRequest::fromWaybills(['00000000000000']));
         } catch (ApiException) {
             return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
         } catch (\Throwable $e) {
-            if (false === strpos($e->getFile(), 'src/Soap/Types/DocumentGenerationResponseV1.php')) {
-                return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
+            if (false !== strpos($e->getFile(), 'src/Soap/Types/DocumentGenerationResponseV1.php')) {
+                return new JsonResponse([]);
             }
         }
 

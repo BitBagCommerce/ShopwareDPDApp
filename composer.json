@@ -37,7 +37,8 @@
         },
         "sort-packages": true,
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         },
         "platform": {
             "php": "8.0"
@@ -74,12 +75,12 @@
         }
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
+        "bitbag/coding-standard": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.5",
         "pact-foundation/pact-php": "^7.1",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-symfony": "^3.1",
-        "sylius-labs/coding-standard": "^4.1",
+        "roave/security-advisories": "dev-latest",
         "symfony/maker-bundle": "^1.36",
         "vimeo/psalm": "^4.19"
     },

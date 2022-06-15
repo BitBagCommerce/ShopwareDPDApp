@@ -20,8 +20,11 @@ final class DeliveryTimeFinder implements DeliveryTimeFinderInterface
         $this->deliveryTimeRepository = $deliveryTimeRepository;
     }
 
-    public function findDeliveryTimeByMinMax(int $min, int $max, Context $context): IdSearchResult
-    {
+    public function findDeliveryTimeByMinMax(
+        int $min,
+        int $max,
+        Context $context
+    ): IdSearchResult {
         $criteria = (new Criteria())
             ->addFilter(new ContainsFilter('unit', 'day'))
             ->addFilter(new EqualsFilter('min', $min))

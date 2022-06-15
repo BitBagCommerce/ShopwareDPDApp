@@ -30,8 +30,11 @@ final class PackageService implements PackageServiceInterface
         $this->apiClientResolver = $apiClientResolver;
     }
 
-    public function create(OrderEntity $order, string $shopId, Context $context): array
-    {
+    public function create(
+        OrderEntity $order,
+        string $shopId,
+        Context $context
+    ): array {
         try {
             $package = $this->packageFactory->create($shopId, $order, $context);
         } catch (OrderException | PackageException $exception) {

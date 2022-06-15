@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\EventSubscriber;
 
-use BitBag\ShopwareAppSystemBundle\LifecycleEvent\AppActivatedEvent;
+use BitBag\ShopwareAppSystemBundle\AppLifecycleEvent\AppActivatedEvent;
 use BitBag\ShopwareDpdApp\Plugin\ShippingMethodConfiguratorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

@@ -9,5 +9,9 @@ use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
 interface PackageServiceInterface
 {
-    public function create(OrderEntity $order, string $shopId, Context $context): array;
+    public function create(
+        OrderEntity $order,
+        string $shopId,
+        Context $context
+    ): array;
 }

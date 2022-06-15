@@ -10,5 +10,9 @@ use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
 interface PackageFactoryInterface
 {
-    public function create(string $shopId, OrderEntity $order, Context $context): Package;
+    public function create(
+        string $shopId,
+        OrderEntity $order,
+        Context $context
+    ): Package;
 }
