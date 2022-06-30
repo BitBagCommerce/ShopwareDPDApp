@@ -1,0 +1,45 @@
+bitbag:
+    shopware_dpd_app:
+        order:
+            shipping_address_not_found: 'Adres wysyłki nie może być pusty'
+            shipping_address_value_invalid: 'Jedna z wartośći w adresie wysyłki jest niepoprawna'
+            not_found: 'Zamówienie nie zostało znalezione'
+            shipping_method:
+                not_found: 'Metoda wysyłki nie została znaleziona'
+                not_dpd: 'Zamówienie nie jest z metodą wysyłki DPD'
+            address:
+                post_code_invalid: 'Kod pocztowy jest niepoprawny (poprawny format to: 12-345)'
+                phone_number_invalid: 'Numer telefonu jest niepoprawny (poprawny format to: 111-222-333)'
+        config:
+            api_login: 'API Użytkownik'
+            api_password: 'API Hasło'
+            api_fid: 'API FID'
+            api_environment: 'API Środowisko'
+            sender_first_last_name: 'Imię i nazwisko wysyłającego'
+            sender_street: 'Ulica wysyłającego'
+            sender_zip_code: 'Kod pocztowy wysyłającego'
+            sender_city: 'Miasto wysyłającego'
+            sender_phone_number: 'Numer telefonu wysyłającego'
+            sender_locale: 'Lokalizacja wysyłającego'
+            save: 'Zapisz'
+            saved: 'Zapisano'
+            credentials_data_not_found: 'Uzupełnij dane do API'
+            sandbox_environment: 'Deweloperske'
+            production_environment: 'Produkcyjne'
+            not_found: 'Dodaj konfiguracje (Ustawienia -> DPD - Konfiguracja)'
+            check_credentials: 'Sprawdź poprawność danych (API)'
+            notification_label_success: 'Sukces'
+            notification_label_error: 'Błąd'
+            notification_message_success: 'Podane dane są poprawne'
+            notification_message_error: 'Podane dane są niepoprawne'
+        package:
+            already_created: 'Paczka została utworzona'
+            fill_required_custom_fields: 'Uzupełnij szczegóły paczki przed jej stworzeniem'
+            not_found: 'Paczka nie została znaleziona'
+            created: 'Paczka została utworzona'
+            too_large: 'Paczka jest za duża (suma wysokości, szerokości i głębokości nie może być większe niż 300cm)'
+            too_heavy: 'Paczka jest za ciężka (maksymalna waga wynosi 50 kg)'
+            null_weight: 'Waga paczki musi być większa niż 0.0 kg'
+        api:
+            provided_data_not_valid: 'Podane dane do API są niepoprawne'
+            wsdl_not_found: 'Wystąpił problem z połączeniem z DPD. Spróbuj ponownie za chwilę'

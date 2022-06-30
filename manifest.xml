@@ -4,7 +4,9 @@
     <meta>
         <name>DPD</name>
         <label>DPD</label>
+        <label lang="pl-PL">DPD</label>
         <description>BitBag Shopware app for DPD</description>
+        <description lang="pl-PL">BitBag Shopware aplikacja z metodą wysyłki DPD</description>
         <author>BitBag</author>
         <copyright>(c) by BitBag</copyright>
         <version>1.0.0</version>
@@ -27,6 +29,8 @@
         <update>order_delivery</update>
         <read>order_address</read>
         <read>order_line_item</read>
+        <read>order_transaction</read>
+        <read>order_payment_method</read>
         <read>product</read>
         <read>rule</read>
         <create>rule</create>
@@ -36,12 +40,19 @@
     </permissions>
 
     <admin>
+        <action-button action="getLabel" entity="order" view="detail" url="http://example-app/app/get-label">
+            <label>Get label (DPD)</label>
+            <label lang="pl-PL">Pobierz etykietę (DPD)</label>
+        </action-button>
+
         <action-button action="getProtocol" entity="order" view="detail" url="http://example-app/app/get-protocol">
             <label>Get protocol (DPD)</label>
+            <label lang="pl-PL">Pobierz protokół (DPD)</label>
         </action-button>
 
         <action-button action="createPackage" entity="order" view="detail" url="http://example-app/app/create-package">
-            <label>Create package</label>
+            <label>Create package (DPD)</label>
+            <label lang="pl-PL">Utwórz paczkę (DPD)</label>
         </action-button>
 
         <module name="dpd_configuration"
@@ -49,6 +60,7 @@
                 parent="sw-settings"
         >
             <label>Configuration</label>
+            <label lang="pl-PL">Konfiguracja</label>
         </module>
     </admin>
 
