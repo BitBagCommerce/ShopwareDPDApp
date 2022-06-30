@@ -19,4 +19,8 @@ interface PackageInterface
     public function getParcelId(): int;
 
     public function setParcelId(int $parcelId): void;
+
+    public function getOrderCourierNumber(): ?string;
+
+    public function setOrderCourierNumber(?string $orderCourierNumber): void;
 }

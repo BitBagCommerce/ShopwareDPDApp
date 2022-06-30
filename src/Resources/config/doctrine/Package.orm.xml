@@ -16,5 +16,7 @@
         <field name="parcelId" column="parcel_id" type="integer" />
 
         <field name="waybill" column="waybill" type="string" />
+
+        <field name="orderCourierNumber" column="order_courier_number" type="string" nullable="true" />
     </entity>
 </doctrine-mapping>

@@ -35,3 +35,8 @@ api_data_check_credentials:
   methods: ['POST']
   path: /app/module/api-check-credentials
   controller: BitBag\ShopwareDpdApp\Controller\ApiCredentialsController::checkCredentials
+
+order_courier:
+  methods: ['GET', 'POST']
+  path: /app/module/order-courier
+  controller: BitBag\ShopwareDpdApp\Controller\CourierController::orderCourier

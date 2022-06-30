@@ -16,6 +16,8 @@ class Package implements PackageInterface
 
     protected string $waybill;
 
+    protected ?string $orderCourierNumber;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,5 +61,15 @@ class Package implements PackageInterface
     public function setWaybill(string $waybill): void
     {
         $this->waybill = $waybill;
+    }
+
+    public function getOrderCourierNumber(): ?string
+    {
+        return $this->orderCourierNumber;
+    }
+
+    public function setOrderCourierNumber(?string $orderCourierNumber): void
+    {
+        $this->orderCourierNumber = $orderCourierNumber;
     }
 }

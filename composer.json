@@ -15,11 +15,11 @@
         "glancu/dpd-pl-api-php": "^1.0.",
         "guzzlehttp/guzzle": "^7.4",
         "sensio/framework-extra-bundle": "^6.2",
-        "symfony/asset": "5.4.x-dev",
+        "symfony/asset": "^5.4",
         "symfony/console": "^5.4",
         "symfony/dotenv": "^5.4",
         "symfony/event-dispatcher": "^5.4",
-        "symfony/form": "5.4.x-dev",
+        "symfony/form": "^5.4",
         "symfony/framework-bundle": "^5.4",
         "symfony/http-client": "^5.4",
         "symfony/monolog-bundle": "^3.7",
@@ -84,5 +84,5 @@
         "symfony/maker-bundle": "^1.36",
         "vimeo/psalm": "^4.19"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

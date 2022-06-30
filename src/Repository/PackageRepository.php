@@ -47,4 +47,17 @@ final class PackageRepository extends ServiceEntityRepository implements Package
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findOrdersIdsWithoutOrderCourier(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+                             ->select('p.orderId, p.id')
+                             ->where('p.orderCourierNumber IS NULL')
+                             ->andWhere('p.waybill IS NOT NULL')
+                             ->orderBy('p.parcelId', 'DESC');
+
+        return $queryBuilder
+            ->getQuery()
+            ->getScalarResult();
+    }
 }
