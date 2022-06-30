@@ -17,8 +17,7 @@ final class PickupDetails implements PickupDetailsInterface
         PickupCustomerDPPV1 $pickupCustomer,
         PickupSenderDPPV1 $pickupSender,
         PickupPackagesParamsDPPV1 $packageParams
-    ): PickupCallSimplifiedDetailsDPPV1
-    {
+    ): PickupCallSimplifiedDetailsDPPV1 {
         $pickupDetails = new PickupCallSimplifiedDetailsDPPV1();
         $pickupDetails->setPickupPayer($pickupPayer);
         $pickupDetails->setPickupCustomer($pickupCustomer);

@@ -13,8 +13,7 @@ final class DpdPickupParameters implements DpdPickupParametersInterface
     public function create(
         OrderCourier $orderCourier,
         PickupCallSimplifiedDetailsDPPV1 $pickupDetails
-    ): DpdPickupCallParamsV2
-    {
+    ): DpdPickupCallParamsV2 {
         $params = new DpdPickupCallParamsV2();
         $params->setPickupDate($orderCourier->getPickupDate());
         $params->setPickupTimeFrom($orderCourier->getPickupTimeFrom());
