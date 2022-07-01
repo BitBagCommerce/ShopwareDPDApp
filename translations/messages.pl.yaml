@@ -43,7 +43,7 @@ bitbag:
             fill_required_custom_fields: 'Uzupełnij szczegóły paczki przed jej stworzeniem'
             not_found: 'Paczka nie została znaleziona'
             created: 'Paczka została utworzona'
-            too_large: 'Paczka jest za duża (suma wysokości, szerokości i głębokości nie może być większe niż 300cm)'
+            too_large: 'Paczka jest za duża (suma wysokości, szerokości i głębokości nie może być większa niż 300cm)'
             too_heavy: 'Paczka jest za ciężka (maksymalna waga wynosi 50 kg)'
             null_weight: 'Waga paczki musi być większa niż 0.0 kg'
         api:
