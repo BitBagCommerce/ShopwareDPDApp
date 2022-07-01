@@ -32,7 +32,7 @@ bitbag:
             credentials_data_not_found: 'Fill in API credentials'
             sandbox_environment: 'Sandbox'
             production_environment: 'Production'
-            not_found: 'Please add configuration (Settings -> DPD - Configuration)'
+            not_found: 'Add configuration first (Settings -> DPD - Configuration)'
             check_credentials: 'Check credentials (API)'
             notification_label_success: 'Success'
             notification_label_error: 'Error'
