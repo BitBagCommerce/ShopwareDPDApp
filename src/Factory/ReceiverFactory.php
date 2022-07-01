@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
-use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
+use BitBag\ShopwareDpdApp\Exception\Order\OrderAddressException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
 use T3ko\Dpd\Objects\Receiver;
@@ -19,7 +19,7 @@ final class ReceiverFactory implements ReceiverFactoryInterface
     public function create(?OrderAddressEntity $address): Receiver
     {
         if (null === $address) {
-            throw new OrderException('bitbag.shopware_dpd_app.order.shipping_address_not_found');
+            throw new OrderAddressException('bitbag.shopware_dpd_app.order.shipping_address_not_found');
         }
 
         $phoneNumber = $address->phoneNumber;
@@ -29,14 +29,28 @@ final class ReceiverFactory implements ReceiverFactoryInterface
         $zipcode = $address->zipcode;
         $city = $address->city;
 
-        if (null === $phoneNumber ||
-            null === $firstName ||
-            null === $lastName ||
-            null === $street ||
-            null === $zipcode ||
-            null === $city
-        ) {
-            throw new OrderException('bitbag.shopware_dpd_app.order.shipping_address_value_invalid');
+        if (null === $phoneNumber) {
+            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.phone_number_empty');
+        }
+
+        if (null === $firstName) {
+            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.first_name_empty');
+        }
+
+        if (null === $lastName) {
+            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.last_name_empty');
+        }
+
+        if (null === $street) {
+            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.street_empty');
+        }
+
+        if (null === $zipcode) {
+            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.zip_code_empty');
+        }
+
+        if (null === $city) {
+            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.city_empty');
         }
 
         $phoneNumber = str_replace(['+48', '+', '-', ' '], '', $phoneNumber);
