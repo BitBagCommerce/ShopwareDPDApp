@@ -10,9 +10,7 @@
         </id>
 
         <field name="pickupDate" column="pickup_date" type="date" />
-
         <field name="pickupTimeFrom" column="pickup_time_from" type="string" length="5" />
-
         <field name="pickupTimeTo" column="pickup_time_to" type="string" length="5" />
 
         <one-to-one field="package" target-entity="BitBag\ShopwareDpdApp\Entity\Package">

@@ -62,7 +62,7 @@ final class LabelController extends AbstractController
         $shopId = $data['shop-id'] ?? '';
 
         try {
-            $api = $this->apiClientResolver->getApi($shopId);
+            $api = $this->apiClientResolver->getClient($shopId);
         } catch (ErrorNotificationException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }

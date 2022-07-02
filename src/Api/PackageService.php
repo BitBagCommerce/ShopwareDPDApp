@@ -41,7 +41,7 @@ final class PackageService implements PackageServiceInterface
             throw new ErrorNotificationException($exception->getMessage());
         }
 
-        $api = $this->apiClientResolver->getApi($shopId);
+        $api = $this->apiClientResolver->getClient($shopId);
 
         $singlePackageRequest = GeneratePackageNumbersRequest::fromPackage($package);
 

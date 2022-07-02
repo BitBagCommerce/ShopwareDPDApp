@@ -6,133 +6,75 @@ namespace BitBag\ShopwareDpdApp\Api;
 
 use BitBag\ShopwareDpdApp\Entity\OrderCourier;
 use BitBag\ShopwareDpdApp\Entity\Package;
-use BitBag\ShopwareDpdApp\Factory\OrderCourier\DpdPickupParametersInterface;
-use BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupCustomerInterface;
-use BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupDetailsInterface;
-use BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupParametersInterface;
-use BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupPayerInterface;
-use BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupSenderInterface;
-use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
+use BitBag\ShopwareDpdApp\Exception\PackageException;
+use BitBag\ShopwareDpdApp\Factory\OrderCourier\PackagePickupFactoryInterface;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use T3ko\Dpd\Soap\Types\PackagesPickupCallV2Request;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
 final class OrderCourierService implements OrderCourierServiceInterface
 {
-    private PickupPayerInterface $pickupPayer;
-
-    private PickupCustomerInterface $pickupCustomer;
-
-    private PickupSenderInterface $pickupSender;
-
-    private PickupParametersInterface $pickupParameters;
-
-    private PickupDetailsInterface $pickupDetails;
-
-    private DpdPickupParametersInterface $dpdPickupParameters;
-
-    private EntityManagerInterface $entityManager;
-
-    private TranslatorInterface $translator;
-
     private ApiClientResolverInterface $apiClientResolver;
 
-    private ConfigRepositoryInterface $configRepository;
+    private PackagePickupFactoryInterface $packagePickupFactory;
 
     public function __construct(
-        PickupPayerInterface $pickupPayer,
-        PickupCustomerInterface $pickupCustomer,
-        PickupSenderInterface $pickupSender,
-        PickupParametersInterface $pickupParameters,
-        PickupDetailsInterface $pickupDetails,
-        DpdPickupParametersInterface $dpdPickupParameters,
-        EntityManagerInterface $entityManager,
-        TranslatorInterface $translator,
         ApiClientResolverInterface $apiClientResolver,
-        ConfigRepositoryInterface $configRepository
+        PackagePickupFactoryInterface $packagePickupFactory
     ) {
-        $this->pickupPayer = $pickupPayer;
-        $this->pickupCustomer = $pickupCustomer;
-        $this->pickupSender = $pickupSender;
-        $this->pickupParameters = $pickupParameters;
-        $this->pickupDetails = $pickupDetails;
-        $this->dpdPickupParameters = $dpdPickupParameters;
-        $this->entityManager = $entityManager;
-        $this->translator = $translator;
         $this->apiClientResolver = $apiClientResolver;
-        $this->configRepository = $configRepository;
+        $this->packagePickupFactory = $packagePickupFactory;
     }
 
     public function orderCourierByPackages(
         array $orders,
         array $packages,
-        array $packagesBySelectedOrdersArr,
         string $shopId,
         OrderCourier $orderCourier,
         Context $context
-    ): void {
-        $config = $this->configRepository->getByShopId($shopId);
+    ): array {
+        $api = $this->apiClientResolver->getClient($shopId);
 
-        $api = $this->apiClientResolver->getApi($shopId);
+        $return = [];
 
         /** @var OrderEntity $order */
         foreach ($orders as $order) {
-            $pickupPayer = $this->pickupPayer->create($api->getMasterFid(), $config);
+            $package = $this->searchPackageByOrderId($order->id, $packages);
 
-            $packageArrayByOrderId = $this->searchForOrderId($order->id, $packages);
-
-            if ([] === $packageArrayByOrderId) {
-                continue;
+            if (null === $package) {
+                throw new PackageException('bitbag.shopware_dpd_app.package.not_found');
             }
 
-            /** @var Package $packageByOrder */
-            $packageByOrder = $packagesBySelectedOrdersArr[$packageArrayByOrderId['id']];
-
-            $billingAddress = $order->billingAddress;
-
-            if (null === $billingAddress) {
-                continue;
-            }
-
-            $pickupCustomer = $this->pickupCustomer->create($billingAddress);
-
-            $pickupSender = $this->pickupSender->create($config);
-
-            $pickupParameters = $this->pickupParameters->create($order, $context);
-
-            $pickupDetails = $this->pickupDetails->create(
-                $pickupPayer,
-                $pickupCustomer,
-                $pickupSender,
-                $pickupParameters
+            $request = $this->packagePickupFactory->create(
+                $shopId,
+                $order,
+                $orderCourier,
+                $api,
+                $context
             );
-
-            $dpdPickupParameters = $this->dpdPickupParameters->create($orderCourier, $pickupDetails);
-
-            $request = new PackagesPickupCallV2Request();
-            $request->setDpdPickupParams($dpdPickupParameters);
 
             $pickupRequest = $api->getPickupRequest($request);
 
-            $packageByOrder->setOrderCourierNumber($pickupRequest->getReturn()->getOrderNumber());
+            $orderCourierNumer = $pickupRequest->getReturn()->getOrderNumber();
 
-            $this->entityManager->persist($packageByOrder);
+            $return[] = [
+                'package' => $package,
+                'orderCourierNumber' => $orderCourierNumer,
+            ];
         }
 
-        $this->entityManager->flush();
+        return $return;
     }
 
-    private function searchForOrderId(string $id, array $array): array
+    private function searchPackageByOrderId(string $orderId, array $packages): ?Package
     {
-        foreach ($array as $val) {
-            if ($val['orderId'] === $id) {
-                return $val;
+        /** @var Package $package */
+        foreach ($packages as $package) {
+            if ($package->getOrderId() === $orderId) {
+                return $package;
             }
         }
 
-        return [];
+        return null;
     }
 }

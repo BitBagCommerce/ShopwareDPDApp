@@ -7,7 +7,7 @@ namespace BitBag\ShopwareDpdApp\Factory\OrderCourier;
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use T3ko\Dpd\Soap\Types\PickupSenderDPPV1;
 
-final class PickupSender implements PickupSenderInterface
+final class PickupSenderFactory implements PickupSenderFactoryInterface
 {
     public function create(ConfigInterface $config): PickupSenderDPPV1
     {

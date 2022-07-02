@@ -7,7 +7,7 @@ namespace BitBag\ShopwareDpdApp\Factory\OrderCourier;
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use T3ko\Dpd\Soap\Types\PickupPayerDPPV1;
 
-final class PickupPayer implements PickupPayerInterface
+final class PickupPayerFactory implements PickupPayerFactoryInterface
 {
     public function create(int $masterFid, ConfigInterface $config): PickupPayerDPPV1
     {

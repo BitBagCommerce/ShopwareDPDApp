@@ -12,9 +12,8 @@ interface OrderCourierServiceInterface
     public function orderCourierByPackages(
         array $orders,
         array $packages,
-        array $packagesBySelectedOrdersArr,
         string $shopId,
         OrderCourier $orderCourier,
         Context $context
-    ): void;
+    ): array;
 }

@@ -21,5 +21,9 @@
         <service id="BitBag\ShopwareDpdApp\Finder\OrderFinder">
             <argument type="service" id="shopware.repository.order" />
         </service>
+
+        <service id="BitBag\ShopwareDpdApp\Finder\PackageFinder">
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
+        </service>
     </services>
 </container>

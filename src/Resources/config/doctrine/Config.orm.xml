@@ -10,23 +10,14 @@
         </id>
 
         <field name="apiLogin" column="api_login" type="string" />
-
         <field name="apiPassword" column="api_password" type="string" />
-
         <field name="apiFid" column="api_fid" type="string" />
-
         <field name="apiEnvironment" column="api_environment" type="string" />
-
         <field name="senderFirstLastName" column="sender_first_last_name" type="string" />
-
         <field name="senderStreet" column="sender_street" type="string" />
-
         <field name="senderZipCode" column="sender_zip_code" type="string" />
-
         <field name="senderCity" column="sender_city" type="string" />
-
         <field name="senderPhoneNumber" column="sender_phone_number" type="string" />
-
         <field name="senderLocale" column="sender_locale" type="string" />
 
         <one-to-one field="shop" target-entity="BitBag\ShopwareAppSystemBundle\Entity\Shop">

@@ -1,0 +1,11 @@
+.ss-main .ss-multi-selected {
+    min-height: 50px;
+}
+
+.ss-main .ss-multi-selected .ss-add {
+    margin: 17px 12px 0 5px;
+}
+
+.red-border {
+    border: 1px solid red;
+}

@@ -10,12 +10,20 @@ use T3ko\Dpd\Soap\Types\PickupPackagesParamsDPPV1;
 use T3ko\Dpd\Soap\Types\PickupPayerDPPV1;
 use T3ko\Dpd\Soap\Types\PickupSenderDPPV1;
 
-interface PickupDetailsInterface
+final class PickupDetailsFactory implements PickupDetailsFactoryInterface
 {
     public function create(
         PickupPayerDPPV1 $pickupPayer,
         PickupCustomerDPPV1 $pickupCustomer,
         PickupSenderDPPV1 $pickupSender,
         PickupPackagesParamsDPPV1 $packageParams
-    ): PickupCallSimplifiedDetailsDPPV1;
+    ): PickupCallSimplifiedDetailsDPPV1 {
+        $pickupDetails = new PickupCallSimplifiedDetailsDPPV1();
+        $pickupDetails->setPickupPayer($pickupPayer);
+        $pickupDetails->setPickupCustomer($pickupCustomer);
+        $pickupDetails->setPickupSender($pickupSender);
+        $pickupDetails->setPackagesParams($packageParams);
+
+        return $pickupDetails;
+    }
 }

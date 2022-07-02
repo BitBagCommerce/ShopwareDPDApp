@@ -17,7 +17,7 @@ final class ApiClientResolver implements ApiClientResolverInterface
         $this->configRepository = $configRepository;
     }
 
-    public function getApi(string $shopId): Api
+    public function getClient(string $shopId): Api
     {
         $config = $this->configRepository->getByShopId($shopId);
 

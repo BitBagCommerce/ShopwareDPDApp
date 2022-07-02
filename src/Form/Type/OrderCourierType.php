@@ -27,23 +27,7 @@ final class OrderCourierType extends AbstractType
                 'choices' => $options['orders'],
                 'mapped' => false,
                 'multiple' => true,
-                'choice_label' => function (OrderEntity $order) {
-                    $billingAddress = $order->billingAddress;
-
-                    if (null === $billingAddress) {
-                        return '';
-                    }
-
-                    $firstName = $billingAddress->firstName;
-                    $lastName = $billingAddress->lastName;
-                    $orderNumber = $order->orderNumber;
-
-                    if (null === $firstName || null === $lastName || null === $orderNumber) {
-                        return '';
-                    }
-
-                    return $firstName . ' ' . $lastName . ' (' . $orderNumber . ')';
-                },
+                'choice_label' => fn (OrderEntity $order) => $this->renderLabelForOrder($order),
             ])
             ->add('pickupDate', TextType::class, [
                 'label' => 'bitbag.shopware_dpd_app.order_courier.pickup_date',
@@ -65,8 +49,7 @@ final class OrderCourierType extends AbstractType
                     'pattern' => self::HOUR_MINUTE_REGEX_INPUT,
                     'placeholder' => '18:00',
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -85,5 +68,24 @@ final class OrderCourierType extends AbstractType
     public function getName(): string
     {
         return 'order_courier';
+    }
+
+    private function renderLabelForOrder(OrderEntity $order): string
+    {
+        $billingAddress = $order->billingAddress;
+
+        if (null === $billingAddress) {
+            return '';
+        }
+
+        $firstName = $billingAddress->firstName;
+        $lastName = $billingAddress->lastName;
+        $orderNumber = $order->orderNumber;
+
+        if (null === $firstName || null === $lastName || null === $orderNumber) {
+            return '';
+        }
+
+        return $firstName . ' ' . $lastName . ' (' . $orderNumber . ')';
     }
 }

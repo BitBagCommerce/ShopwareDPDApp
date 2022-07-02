@@ -8,7 +8,7 @@ use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use T3ko\Dpd\Soap\Types\PickupCustomerDPPV1;
 use Vin\ShopwareSdk\Data\Entity\OrderAddress\OrderAddressEntity;
 
-final class PickupCustomer implements PickupCustomerInterface
+final class PickupCustomerFactory implements PickupCustomerFactoryInterface
 {
     public function create(OrderAddressEntity $billingAddress): PickupCustomerDPPV1
     {

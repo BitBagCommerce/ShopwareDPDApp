@@ -8,20 +8,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/slimselect.min.css') }}">
-
-    <style>
-        .ss-main .ss-multi-selected {
-            min-height: 50px;
-        }
-
-        .ss-main .ss-multi-selected .ss-add {
-            margin: 17px 12px 0 5px;
-        }
-
-        .red-border {
-            border: 1px solid red;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/order-courier.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -29,42 +16,7 @@
 
     <script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
     <script src="{{ asset('assets/js/slimselect.min.js') }}"></script>
-    <script>
-        const pickupDateEl = document.getElementById('pickupDate');
-
-        setTimeout(() => {
-            flatpickr(pickupDateEl, {
-                minDate: 'today',
-                weekNumbers: true,
-            });
-        }, 1000);
-
-        new SlimSelect({
-            select: '#orders',
-            showSearch: true,
-            searchHighlight: true,
-            closeOnSelect: false,
-            allowDeselectOption: true
-        });
-
-        const ordersContainerEl = document.getElementById('orders-container');
-
-        const ordersSelectEl = document.getElementById('orders');
-
-        ordersSelectEl.addEventListener('change', () => {
-            ordersContainerEl.classList.remove('red-border');
-        });
-
-        const orderCourierButtonEl = document.getElementById('orderCourier');
-
-        orderCourierButtonEl.addEventListener('click', (e) => {
-            if (0 === ordersSelectEl.selectedOptions.length) {
-                e.preventDefault();
-
-                ordersContainerEl.classList.add('red-border');
-            }
-        });
-    </script>
+    <script src="{{ asset('assets/js/order-courier.js') }}"></script>
 {% endblock %}
 
 {% block body %}

@@ -10,7 +10,7 @@ use T3ko\Dpd\Soap\Types\PickupPackagesParamsDPPV1;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
-final class PickupParameters implements PickupParametersInterface
+final class PickupParametersFactory implements PickupParametersFactoryInterface
 {
     private OrderCustomFieldsResolverInterface $orderCustomFieldsResolver;
 
@@ -27,7 +27,6 @@ final class PickupParameters implements PickupParametersInterface
     public function create(OrderEntity $order, Context $context): PickupPackagesParamsDPPV1
     {
         $resolvedFields = $this->orderCustomFieldsResolver->resolve($order);
-
         $parcelMaxWeight = $this->orderWeightCalculator->calculate($order, $context);
 
         $pickupParams = new PickupPackagesParamsDPPV1();

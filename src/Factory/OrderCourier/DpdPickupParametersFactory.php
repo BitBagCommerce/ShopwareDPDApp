@@ -8,7 +8,7 @@ use BitBag\ShopwareDpdApp\Entity\OrderCourier;
 use T3ko\Dpd\Soap\Types\DpdPickupCallParamsV2;
 use T3ko\Dpd\Soap\Types\PickupCallSimplifiedDetailsDPPV1;
 
-final class DpdPickupParameters implements DpdPickupParametersInterface
+final class DpdPickupParametersFactory implements DpdPickupParametersFactoryInterface
 {
     public function create(
         OrderCourier $orderCourier,

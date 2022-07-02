@@ -8,16 +8,8 @@
         </service>
 
         <service id="BitBag\ShopwareDpdApp\Api\OrderCourierService">
-            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupPayer" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupCustomer" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupSender" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupParameters" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupDetails" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\OrderCourier\DpdPickupParameters" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="translator" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\OrderCourier\PackagePickupFactory" />
         </service>
     </services>
 </container>

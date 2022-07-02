@@ -53,3 +53,4 @@ bitbag:
             form_data_invalid: 'Provided data is not valid'
             courier_ordered: 'Courier was ordered for selected orders'
             billing_address_not_found: 'Billing address not found'
+            authorization_failed_context: 'Authorization failed for this shop'
