@@ -52,6 +52,7 @@
 
         <service id="BitBag\ShopwareDpdApp\Controller\ApiCredentialsController">
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
+            <argument type="service" id="translator" />
 
             <tag name="controller.service_arguments" />
         </service>
