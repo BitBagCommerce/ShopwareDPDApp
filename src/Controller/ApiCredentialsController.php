@@ -42,19 +42,16 @@ final class ApiCredentialsController
 
         $isValid = $api->checkCredentialsByGenerateLabels(GenerateLabelsRequest::fromWaybills(['00000000000000']));
 
-        $label = 'bitbag.shopware_dpd_app.config.notification_label_success';
-        $message = 'bitbag.shopware_dpd_app.config.notification_message_success';
+        $label = $isValid ?
+            'bitbag.shopware_dpd_app.config.notification_label_success' :
+            'bitbag.shopware_dpd_app.config.notification_label_error';
+        $message = $isValid ?
+            'bitbag.shopware_dpd_app.config.notification_message_success' :
+            'bitbag.shopware_dpd_app.config.notification_message_error';
 
-        if (!$isValid) {
-            $label = 'bitbag.shopware_dpd_app.config.notification_label_error';
-            $message = 'bitbag.shopware_dpd_app.config.notification_message_error';
-        }
-
-        $data = [
+        return new JsonResponse([
             'label' => $this->translator->trans($label, [], null, $language),
             'message' => $this->translator->trans($message, [], null, $language),
-        ];
-
-        return new JsonResponse($data, $isValid ? Response::HTTP_OK : Response::HTTP_UNAUTHORIZED);
+        ], $isValid ? Response::HTTP_OK : Response::HTTP_UNAUTHORIZED);
     }
 }
