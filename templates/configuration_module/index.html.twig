@@ -11,49 +11,7 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="https://unpkg.com/@shopware-ag/admin-extension-sdk/cdn"></script>
-
-    <script>
-        const checkCredentialsEl = document.getElementById('check-credentials');
-        const authorizedCode = 200;
-        const notAuthorizedCode = 401;
-
-        checkCredentialsEl.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const searchParams = new URLSearchParams(window.location.search)
-
-            const data = new FormData(document.querySelector('form'));
-
-            const fetchOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    shopId: searchParams.get('shop-id'),
-                    formData: Object.fromEntries(data.entries()),
-                })
-            };
-
-            fetch('/app/module/api-check-credentials', fetchOptions)
-                .then((result) => {
-                    if (authorizedCode === result.status) {
-                        sw.notification.dispatch({
-                            title: '{{ 'bitbag.shopware_dpd_app.config.notification_label_success'|trans }}',
-                            message: '{{ 'bitbag.shopware_dpd_app.config.notification_message_success'|trans }}',
-                            variant: 'success'
-                        });
-                    } else if (notAuthorizedCode === result.status) {
-                        sw.notification.dispatch({
-                            title: '{{ 'bitbag.shopware_dpd_app.config.notification_label_error'|trans }}',
-                            message: '{{ 'bitbag.shopware_dpd_app.config.notification_message_error'|trans }}',
-                            variant: 'error'
-                        });
-                    }
-                });
-        });
-    </script>
+    <script src="{{ asset('assets/js/check-api-credentials.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -80,6 +38,15 @@
                     {% endfor %}
                 {% endfor %}
             {% endif %}
+
+            <div id="check-api-credentials-target" class="d-none">
+                <div class="sw-card">
+                    <div class="sw-card__content">
+                        <p id="check-api-credentials-response-label"></p>
+                        <div class="sw-container"><p id="check-api-credentials-response-message"></p></div>
+                    </div>
+                </div>
+            </div>
 
             <div class="sw-card">
                 <div class="sw-card__content">
