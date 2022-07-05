@@ -17,6 +17,7 @@ bitbag:
                 zip_code_empty: 'Zip code cannot be empty'
                 city_empty: 'City cannot be empty'
         config:
+            sales_channel: 'Sales channel'
             api_login: 'API Login'
             api_password: 'API Password'
             api_fid: 'API FID'

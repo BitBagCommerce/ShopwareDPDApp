@@ -43,12 +43,16 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
         }
     }
 
-    public function getByShopId(string $shopId): ConfigInterface
+    public function getByShopIdAndSalesChannelId(string $shopId, string $salesChannelId = ''): ConfigInterface
     {
         $queryBuilder = $this->createQueryBuilder('c')
                              ->leftJoin('c.shop', 'shop')
                              ->where('shop.shopId = :shopId')
-                             ->setParameter('shopId', $shopId);
+                             ->andWhere('c.salesChannelId = :salesChannelId')
+                             ->setParameters([
+                                 'shopId' => $shopId,
+                                 'salesChannelId' => $salesChannelId,
+                             ]);
 
         $config = $queryBuilder
             ->getQuery()

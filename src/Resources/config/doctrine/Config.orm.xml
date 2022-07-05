@@ -29,13 +29,15 @@
 
         <field name="senderLocale" column="sender_locale" type="string" />
 
-        <one-to-one field="shop" target-entity="BitBag\ShopwareAppSystemBundle\Entity\Shop">
-            <join-column nullable="false" referenced-column-name="shop_id" on-delete="CASCADE" />
+        <field name="salesChannelId" column="sales_channel_id" type="string" />
+
+        <many-to-one field="shop" target-entity="BitBag\ShopwareAppSystemBundle\Entity\Shop">
+            <join-column nullable="false" referenced-column-name="shop_id" on-delete="CASCADE" unique="false" />
 
             <cascade>
                 <cascade-persist />
                 <cascade-remove />
             </cascade>
-        </one-to-one>
+        </many-to-one>
     </entity>
 </doctrine-mapping>

@@ -26,10 +26,15 @@ show_protocol:
   path: /app/show-protocol
   controller: BitBag\ShopwareDpdApp\Controller\ProtocolController::showProtocol
 
-configuration_module_show:
+configuration_module_index:
   methods: ['GET', 'POST']
   path: /app/module/configuration
-  controller: BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController
+  controller: BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController::index
+
+configuration_module_api_data_sales_channel:
+  methods: ['GET']
+  path: /app/module/sales-channel-inputs
+  controller: BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController::getApiDataBySalesChannel
 
 api_data_check_credentials:
   methods: ['POST']
