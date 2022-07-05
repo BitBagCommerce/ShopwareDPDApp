@@ -6,6 +6,7 @@ namespace BitBag\ShopwareDpdApp\Controller;
 
 use BitBag\ShopwareAppSystemBundle\Exception\ShopNotFoundException;
 use BitBag\ShopwareAppSystemBundle\Repository\ShopRepositoryInterface;
+use BitBag\ShopwareDpdApp\Entity\Config;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,22 +37,7 @@ final class ConfigController extends AbstractController
             throw new ShopNotFoundException($shopId);
         }
 
-        $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, $salesChannelId);
-
-        if (null === $config) {
-            return new JsonResponse([
-                'apiLogin' => null,
-                'apiPassword' => null,
-                'apiFid' => null,
-                'apiEnvironment' => null,
-                'senderFirstLastName' => null,
-                'senderStreet' => null,
-                'senderCity' => null,
-                'senderZipCode' => null,
-                'senderPhoneNumber' => null,
-                'senderLocale' => null,
-            ]);
-        }
+        $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, $salesChannelId) ?? new Config();
 
         return $this->json($config);
     }

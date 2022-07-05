@@ -33,17 +33,17 @@ salesChannelIdSelectEl.addEventListener('change', (e) => {
     fetch('/app/config?' + urlSearchParams, fetchOptions)
         .then(result => {
             result.json().then(response => {
-                apiLoginEl.value = response.apiLogin;
-                apiPasswordEl.value = response.apiPassword;
-                apiFidEl.value = response.apiFid;
-                apiEnvironmentEl.value = response.apiEnvironment;
+                apiLoginEl.value = response.apiLogin ?? '';
+                apiPasswordEl.value = response.apiPassword ?? '';
+                apiFidEl.value = response.apiFid ?? '';
+                apiEnvironmentEl.value = response.apiEnvironment ?? '';
 
-                senderFirstLastNameEl.value = response.senderFirstLastName;
-                senderStreetEl.value = response.senderStreet;
-                senderZipCodeEl.value = response.senderZipCode;
-                senderCityEl.value = response.senderCity;
-                senderPhoneNumberEl.value = response.senderPhoneNumber;
-                senderLocaleEl.value = response.senderLocale;
+                senderFirstLastNameEl.value = response.senderFirstLastName ?? '';
+                senderStreetEl.value = response.senderStreet ?? '';
+                senderZipCodeEl.value = response.senderZipCode ?? '';
+                senderCityEl.value = response.senderCity ?? '';
+                senderPhoneNumberEl.value = response.senderPhoneNumber ?? '';
+                senderLocaleEl.value = response.senderLocale ?? '';
             });
         });
 });
