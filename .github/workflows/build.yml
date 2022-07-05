@@ -85,4 +85,4 @@ jobs:
 
       -
         name: Run ESLint
-        run: eslint public/assets/js/ --ext .js
+        run: npx eslint public/assets/js/ --ext .js
