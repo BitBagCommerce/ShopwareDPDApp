@@ -52,8 +52,6 @@ final class ConfigurationModuleController extends AbstractController
 
     public function __invoke(Request $request): Response
     {
-        $session = $request->getSession();
-
         $shopId = $request->query->get('shop-id', '');
 
         $shop = $this->shopRepository->find($shopId);
@@ -68,18 +66,16 @@ final class ConfigurationModuleController extends AbstractController
             throw new UnauthorizedHttpException('');
         }
 
-        $salesChannels = $this->getSalesChannelsForForm($context);
-
         $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, '') ?? new Config();
 
         $form = $this->createForm(ConfigType::class, $config, [
-            'salesChannels' => $salesChannels,
+            'salesChannels' => $this->getSalesChannelsForForm($context),
         ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $salesChannelId = $form->get('salesChannelId')->getData();
-
             $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, $salesChannelId);
 
             if (null === $config) {
@@ -90,9 +86,11 @@ final class ConfigurationModuleController extends AbstractController
             }
 
             $config->setShop($shop);
+
             $this->entityManager->persist($config);
             $this->entityManager->flush();
 
+            $session = $request->getSession();
             $session->getFlashBag()->add('success', $this->translator->trans('bitbag.shopware_dpd_app.config.saved'));
         }
 
