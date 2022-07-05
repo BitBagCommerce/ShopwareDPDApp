@@ -29,12 +29,12 @@ show_protocol:
 configuration_module_index:
   methods: ['GET', 'POST']
   path: /app/module/configuration
-  controller: BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController::index
+  controller: BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController
 
-configuration_module_api_data_sales_channel:
+config:
   methods: ['GET']
-  path: /app/module/sales-channel-inputs
-  controller: BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController::getApiDataBySalesChannel
+  path: /app/config
+  controller: BitBag\ShopwareDpdApp\Controller\ConfigController
 
 api_data_check_credentials:
   methods: ['POST']

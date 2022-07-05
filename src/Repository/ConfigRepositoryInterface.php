@@ -9,5 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface ConfigRepositoryInterface extends ServiceEntityRepositoryInterface
 {
-    public function getByShopIdAndSalesChannelId(string $shopId, string $salesChannelId = ''): ConfigInterface;
+    public function getByShopId(string $shopId): ConfigInterface;
+
+    public function findByShopIdAndSalesChannelId(string $shopId, string $salesChannelId): ?ConfigInterface;
 }

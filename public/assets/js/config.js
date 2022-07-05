@@ -13,11 +13,11 @@ const senderLocaleEl = document.getElementById('senderLocale');
 salesChannelIdSelectEl.addEventListener('change', (e) => {
     const value = e.target.value;
 
-    const searchParams = new URLSearchParams(window.location.search)
+    const searchParams = new URLSearchParams(window.location.search);
 
     const urlParams = {
-        'shop-id': searchParams.get('shop-id'),
-        salesChannel: value,
+        shopId: searchParams.get('shop-id'),
+        salesChannelId: value,
         language: searchParams.get('sw-user-language'),
     };
 
@@ -30,7 +30,7 @@ salesChannelIdSelectEl.addEventListener('change', (e) => {
 
     const urlSearchParams = new URLSearchParams(urlParams).toString();
 
-    fetch('/app/module/sales-channel-inputs?' + urlSearchParams, fetchOptions)
+    fetch('/app/config?' + urlSearchParams, fetchOptions)
         .then(result => {
             result.json().then(response => {
                 apiLoginEl.value = response.apiLogin;

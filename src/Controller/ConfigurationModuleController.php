@@ -8,14 +8,11 @@ use BitBag\ShopwareAppSystemBundle\Exception\ShopNotFoundException;
 use BitBag\ShopwareAppSystemBundle\Factory\Context\ContextFactoryInterface;
 use BitBag\ShopwareAppSystemBundle\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareDpdApp\Entity\Config;
-use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Finder\SalesChannelFinderInterface;
 use BitBag\ShopwareDpdApp\Form\Type\ConfigType;
-use BitBag\ShopwareDpdApp\Provider\SalesChannelProviderInterface;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -35,16 +32,13 @@ final class ConfigurationModuleController extends AbstractController
 
     private ContextFactoryInterface $contextFactory;
 
-    private SalesChannelProviderInterface $salesChannelProvider;
-
     public function __construct(
         ConfigRepositoryInterface $configRepository,
         EntityManagerInterface $entityManager,
         ShopRepositoryInterface $shopRepository,
         TranslatorInterface $translator,
         SalesChannelFinderInterface $salesChannelFinder,
-        ContextFactoryInterface $contextFactory,
-        SalesChannelProviderInterface $salesChannelProvider
+        ContextFactoryInterface $contextFactory
     ) {
         $this->configRepository = $configRepository;
         $this->entityManager = $entityManager;
@@ -52,10 +46,9 @@ final class ConfigurationModuleController extends AbstractController
         $this->translator = $translator;
         $this->salesChannelFinder = $salesChannelFinder;
         $this->contextFactory = $contextFactory;
-        $this->salesChannelProvider = $salesChannelProvider;
     }
 
-    public function index(Request $request): Response
+    public function __invoke(Request $request): Response
     {
         $session = $request->getSession();
 
@@ -75,14 +68,11 @@ final class ConfigurationModuleController extends AbstractController
 
         $salesChannelsElements = $this->salesChannelFinder->findAll($context)->getEntities()->getElements();
 
-        $salesChannels = array_merge(
-            [null => 'All sales channel'],
-            $this->salesChannelProvider->getForForm($salesChannelsElements),
-        );
+        $salesChannels = $this->getSalesChannelsForForm($salesChannelsElements);
 
-        try {
-            $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId);
-        } catch (ErrorNotificationException) {
+        $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, '');
+
+        if (null === $config) {
             $config = new Config();
         }
 
@@ -94,9 +84,9 @@ final class ConfigurationModuleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $salesChannelId = $form->get('salesChannelId')->getData();
 
-            try {
-                $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
-            } catch (ErrorNotificationException) {
+            $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, $salesChannelId);
+
+            if (null === $config) {
                 /** @var Config $formData */
                 $formData = $form->getData();
 
@@ -115,51 +105,17 @@ final class ConfigurationModuleController extends AbstractController
         ]);
     }
 
-    public function getApiDataBySalesChannel(Request $request): JsonResponse
+    private function getSalesChannelsForForm(array $salesChannels): array
     {
-        $shopId = $request->query->get('shop-id', '');
-        $salesChannel = $request->query->get('salesChannel', '');
+        $items = [];
 
-        try {
-            $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannel);
-        } catch (ErrorNotificationException) {
-            return new JsonResponse([
-                'apiLogin' => null,
-                'apiPassword' => null,
-                'apiFid' => null,
-                'apiEnvironment' => null,
-                'senderFirstLastName' => null,
-                'senderStreet' => null,
-                'senderCity' => null,
-                'senderZipCode' => null,
-                'senderPhoneNumber' => null,
-                'senderLocale' => null,
-            ]);
+        foreach ($salesChannels as $salesChannel) {
+            $items[$salesChannel->name] = $salesChannel->id;
         }
 
-        $shop = $this->shopRepository->find($shopId);
-
-        if (null === $shop) {
-            throw new ShopNotFoundException($shopId);
-        }
-
-        $context = $this->contextFactory->create($shop);
-
-        if (null === $context) {
-            throw new UnauthorizedHttpException('');
-        }
-
-        return new JsonResponse([
-            'apiLogin' => $config->getApiLogin(),
-            'apiPassword' => $config->getApiPassword(),
-            'apiFid' => $config->getApiFid(),
-            'apiEnvironment' => $config->getApiEnvironment(),
-            'senderFirstLastName' => $config->getSenderFirstLastName(),
-            'senderStreet' => $config->getSenderStreet(),
-            'senderCity' => $config->getSenderCity(),
-            'senderZipCode' => $config->getSenderZipCode(),
-            'senderPhoneNumber' => $config->getSenderPhoneNumber(),
-            'senderLocale' => $config->getSenderLocale(),
-        ]);
+        return array_merge(
+            [$this->translator->trans('bitbag.shopware_dpd_app.config.sales_channels') => ''],
+            $items
+        );
     }
 }

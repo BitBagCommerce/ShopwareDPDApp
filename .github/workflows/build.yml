@@ -78,3 +78,11 @@ jobs:
       -
         name: Run ecs
         run: vendor/bin/ecs check tests/ src/ --config ecs.php
+
+      -
+        name: Install node packages
+        run: npm install
+
+      -
+        name: Run ESLint
+        run: eslint public/assets/js/ --ext .js

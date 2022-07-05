@@ -18,6 +18,7 @@ bitbag:
                 city_empty: 'Miasto nie może być puste'
         config:
             sales_channel: 'Kanał sprzedaży'
+            sales_channels: 'Kanały sprzedaży'
             api_login: 'Użytkownik API'
             api_password: 'Hasło API'
             api_fid: 'FID API'

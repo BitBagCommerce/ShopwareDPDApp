@@ -10,6 +10,7 @@ use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class ConfigRepository extends ServiceEntityRepository implements ConfigRepositoryInterface
@@ -43,18 +44,9 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
         }
     }
 
-    public function getByShopIdAndSalesChannelId(string $shopId, string $salesChannelId = ''): ConfigInterface
+    public function getByShopId(string $shopId): ConfigInterface
     {
-        $queryBuilder = $this->createQueryBuilder('c')
-                             ->leftJoin('c.shop', 'shop')
-                             ->where('shop.shopId = :shopId')
-                             ->andWhere('c.salesChannelId = :salesChannelId')
-                             ->setParameters([
-                                 'shopId' => $shopId,
-                                 'salesChannelId' => $salesChannelId,
-                             ]);
-
-        $config = $queryBuilder
+        $config = $this->getByShopIdQueryBuilder($shopId)
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -63,5 +55,24 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
         }
 
         return $config;
+    }
+
+    public function findByShopIdAndSalesChannelId(string $shopId, string $salesChannelId): ?ConfigInterface
+    {
+        $queryBuilder = $this->getByShopIdQueryBuilder($shopId)
+                             ->andWhere('c.salesChannelId = :salesChannelId')
+                             ->setParameter('salesChannelId', $salesChannelId);
+
+        return $queryBuilder
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    private function getByShopIdQueryBuilder(string $shopId): QueryBuilder
+    {
+        return $this->createQueryBuilder('c')
+             ->leftJoin('c.shop', 'shop')
+             ->where('shop.shopId = :shopId')
+             ->setParameter('shopId', $shopId);
     }
 }

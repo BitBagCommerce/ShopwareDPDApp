@@ -20,7 +20,7 @@ final class ConfigType extends AbstractType
             ->add('salesChannelId', ChoiceType::class, [
                 'label' => 'bitbag.shopware_dpd_app.config.sales_channel',
                 'required' => false,
-                'choices' => array_flip($options['salesChannels']),
+                'choices' => $options['salesChannels'],
             ])
             ->add('apiLogin', TextType::class, [
                 'label' => 'bitbag.shopware_dpd_app.config.api_login',

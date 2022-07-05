@@ -1,0 +1,26 @@
+{
+  "name": "bitbagshopwaredpdapp",
+  "version": "1.0.0",
+  "description": "This repo contains an application for DPD shipping in Shopware.",
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.19.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BitBagCommerce/ShopwareDPDApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BitBagCommerce/ShopwareDPDApp/issues"
+  },
+  "homepage": "https://github.com/BitBagCommerce/ShopwareDPDApp#readme"
+}

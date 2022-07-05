@@ -21,7 +21,7 @@ final class DpdSenderFactoryTest extends WebTestCase
 
         $configRepositoryInterface = $this->createMock(ConfigRepositoryInterface::class);
         $configRepositoryInterface->expects(self::once())
-            ->method('getByShopIdAndSalesChannelId')
+            ->method('getByShopId')
             ->willReturn($config);
 
         $dpdSenderFactory = new DpdSenderFactory($configRepositoryInterface);
