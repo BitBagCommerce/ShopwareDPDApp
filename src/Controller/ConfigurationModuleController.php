@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Vin\ShopwareSdk\Data\Context;
+use Vin\ShopwareSdk\Data\Entity\SalesChannel\SalesChannelEntity;
 
 final class ConfigurationModuleController extends AbstractController
 {
@@ -66,15 +68,9 @@ final class ConfigurationModuleController extends AbstractController
             throw new UnauthorizedHttpException('');
         }
 
-        $salesChannelsElements = $this->salesChannelFinder->findAll($context)->getEntities()->getElements();
+        $salesChannels = $this->getSalesChannelsForForm($context);
 
-        $salesChannels = $this->getSalesChannelsForForm($salesChannelsElements);
-
-        $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, '');
-
-        if (null === $config) {
-            $config = new Config();
-        }
+        $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, '') ?? new Config();
 
         $form = $this->createForm(ConfigType::class, $config, [
             'salesChannels' => $salesChannels,
@@ -105,12 +101,17 @@ final class ConfigurationModuleController extends AbstractController
         ]);
     }
 
-    private function getSalesChannelsForForm(array $salesChannels): array
+    private function getSalesChannelsForForm(Context $context): array
     {
+        $salesChannels = $this->salesChannelFinder->findAll($context)->getEntities()->getElements();
+
         $items = [];
 
+        /** @var SalesChannelEntity $salesChannel */
         foreach ($salesChannels as $salesChannel) {
-            $items[$salesChannel->name] = $salesChannel->id;
+            if (null !== $salesChannel->name) {
+                $items[$salesChannel->name] = $salesChannel->id;
+            }
         }
 
         return array_merge(

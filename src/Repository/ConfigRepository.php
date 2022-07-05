@@ -47,8 +47,8 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
     public function getByShopId(string $shopId): ConfigInterface
     {
         $config = $this->getByShopIdQueryBuilder($shopId)
-            ->getQuery()
-            ->getOneOrNullResult();
+                       ->getQuery()
+                       ->getOneOrNullResult();
 
         if (null === $config) {
             throw new ErrorNotificationException('bitbag.shopware_dpd_app.config.credentials_data_not_found');
@@ -59,20 +59,18 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
 
     public function findByShopIdAndSalesChannelId(string $shopId, string $salesChannelId): ?ConfigInterface
     {
-        $queryBuilder = $this->getByShopIdQueryBuilder($shopId)
-                             ->andWhere('c.salesChannelId = :salesChannelId')
-                             ->setParameter('salesChannelId', $salesChannelId);
-
-        return $queryBuilder
-            ->getQuery()
-            ->getOneOrNullResult();
+        return $this->getByShopIdQueryBuilder($shopId)
+                    ->andWhere('c.salesChannelId = :salesChannelId')
+                    ->setParameter('salesChannelId', $salesChannelId)
+                    ->getQuery()
+                    ->getOneOrNullResult();
     }
 
     private function getByShopIdQueryBuilder(string $shopId): QueryBuilder
     {
         return $this->createQueryBuilder('c')
-             ->leftJoin('c.shop', 'shop')
-             ->where('shop.shopId = :shopId')
-             ->setParameter('shopId', $shopId);
+                    ->leftJoin('c.shop', 'shop')
+                    ->where('shop.shopId = :shopId')
+                    ->setParameter('shopId', $shopId);
     }
 }
