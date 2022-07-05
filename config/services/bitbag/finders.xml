@@ -21,5 +21,9 @@
         <service id="BitBag\ShopwareDpdApp\Finder\OrderFinder">
             <argument type="service" id="shopware.repository.order" />
         </service>
+
+        <service id="BitBag\ShopwareDpdApp\Finder\SalesChannelFinder">
+            <argument type="service" id="shopware.repository.sales_channel" />
+        </service>
     </services>
 </container>

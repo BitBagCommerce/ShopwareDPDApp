@@ -14,7 +14,7 @@ checkCredentialsEl.addEventListener('click', (e) => {
     checkApiCredentialsTarget.classList.remove('error-message');
     checkApiCredentialsTarget.classList.remove('success-message');
 
-    const searchParams = new URLSearchParams(window.location.search)
+    const searchParams = new URLSearchParams(window.location.search);
 
     const data = new FormData(document.querySelector('form'));
 

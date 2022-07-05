@@ -1,0 +1,19 @@
+{
+  "name": "bitbag-shopware-dpd-app",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.19.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BitBagCommerce/ShopwareDPDApp.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BitBagCommerce/ShopwareDPDApp/issues"
+  },
+  "homepage": "https://github.com/BitBagCommerce/ShopwareDPDApp#readme"
+}
