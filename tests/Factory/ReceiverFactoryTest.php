@@ -37,7 +37,7 @@ final class ReceiverFactoryTest extends WebTestCase
                 'Jasna 4',
                 '12123',
                 'Wrocław',
-                Defaults::CURRENCY_CODE
+                Defaults::LOCALE_CODE
             ),
             $receiverFactory->create($order->addresses->first())
         );
