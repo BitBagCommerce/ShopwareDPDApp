@@ -34,7 +34,7 @@ final class DpdSenderFactoryTest extends WebTestCase
                 $config->getSenderStreet(),
                 $config->getSenderZipCode(),
                 $config->getSenderCity(),
-                $config->getSenderLocale()
+                Defaults::CURRENCY_CODE
             ),
             $dpdSenderFactory->create(Uuid::randomHex())
         );
@@ -52,7 +52,6 @@ final class DpdSenderFactoryTest extends WebTestCase
         $config->setSenderStreet('Jasna 4');
         $config->setSenderZipCode('12-123');
         $config->setSenderCity('Wrocław');
-        $config->setSenderLocale(Defaults::CURRENCY_CODE);
 
         return $config;
     }

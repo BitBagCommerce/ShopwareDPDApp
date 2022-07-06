@@ -28,7 +28,6 @@ bitbag:
             sender_zip_code: 'Sender zip code'
             sender_city: 'Sender city'
             sender_phone_number: 'Sender phone number'
-            sender_locale: 'Sender locale'
             save: 'Save'
             saved: 'Successfully saved'
             credentials_data_not_found: 'Fill in API credentials'
