@@ -42,7 +42,7 @@ bitbag:
             notification_message_error: 'Podane dane są niepoprawne'
         package:
             already_created: 'Paczka została utworzona'
-            fill_required_custom_fields: 'Uzupełnij szczegóły paczki przed jej stworzeniem'
+            fill_required_custom_fields: 'Uzupełnij szczegóły paczki przed jej stworzeniem (wraz z zawartością paczki)'
             not_found: 'Paczka nie została znaleziona'
             created: 'Paczka została utworzona'
             too_large: 'Paczka jest za duża (suma wysokości, szerokości i głębokości nie może być większa niż 300cm)'
