@@ -34,7 +34,7 @@ final class DpdSenderFactoryTest extends WebTestCase
                 $config->getSenderStreet(),
                 $config->getSenderZipCode(),
                 $config->getSenderCity(),
-                Defaults::CURRENCY_CODE
+                Defaults::LOCALE_CODE
             ),
             $dpdSenderFactory->create(Uuid::randomHex())
         );

@@ -28,7 +28,7 @@ final class DpdSenderFactory implements DpdSenderFactoryInterface
             $config->getSenderStreet(),
             $config->getSenderZipCode(),
             $config->getSenderCity(),
-            Defaults::CURRENCY_CODE
+            Defaults::LOCALE_CODE
         );
     }
 }

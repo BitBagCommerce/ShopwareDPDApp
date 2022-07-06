@@ -63,7 +63,7 @@ final class ReceiverFactory implements ReceiverFactoryInterface
             $street,
             str_replace('-', '', $zipcode),
             $city,
-            Defaults::CURRENCY_CODE
+            Defaults::LOCALE_CODE
         );
     }
 
