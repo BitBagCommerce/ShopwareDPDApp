@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Factory;
 
 use Vin\ShopwareSdk\Data\Context;
 
-interface CreateContextByShopIdInterface
+interface CreateContextFactoryInterface
 {
-    public function create(string $shopId): Context;
+    public function createByShopId(string $shopId): Context;
 }

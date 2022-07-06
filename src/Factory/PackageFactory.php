@@ -39,7 +39,7 @@ final class PackageFactory implements PackageFactoryInterface
         OrderEntity $order,
         Context $context
     ): Package {
-        $salesChannelId = $this->orderFinder->getSalesChannelId($context, $order->id, $order);
+        $salesChannelId = $this->orderFinder->getSalesChannelIdByOrder($order, $context);
         $sender = $this->dpdSenderFactory->create($shopId, $salesChannelId);
         $orderAddress = $order->addresses?->first();
         $receiver = $this->receiverFactory->create($orderAddress);

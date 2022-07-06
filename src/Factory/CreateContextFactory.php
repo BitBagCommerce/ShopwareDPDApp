@@ -10,7 +10,7 @@ use BitBag\ShopwareAppSystemBundle\Repository\ShopRepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Vin\ShopwareSdk\Data\Context;
 
-final class CreateContextByShopId implements CreateContextByShopIdInterface
+final class CreateContextFactory implements CreateContextFactoryInterface
 {
     private ShopRepositoryInterface $shopRepository;
 
@@ -22,7 +22,7 @@ final class CreateContextByShopId implements CreateContextByShopIdInterface
         $this->contextFactory = $contextFactory;
     }
 
-    public function create(string $shopId): Context
+    public function createByShopId(string $shopId): Context
     {
         $shop = $this->shopRepository->find($shopId);
 

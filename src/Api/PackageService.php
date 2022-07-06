@@ -46,7 +46,7 @@ final class PackageService implements PackageServiceInterface
             throw new ErrorNotificationException($e->getMessage());
         }
 
-        $salesChannelId = $this->orderFinder->getSalesChannelId($context, $order->id, $order);
+        $salesChannelId = $this->orderFinder->getSalesChannelIdByOrder($order, $context);
 
         $api = $this->apiClientResolver->getApi($shopId, $salesChannelId);
 

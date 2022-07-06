@@ -11,7 +11,7 @@ use BitBag\ShopwareAppSystemBundle\Response\FeedbackResponse;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
-use BitBag\ShopwareDpdApp\Factory\CreateContextByShopIdInterface;
+use BitBag\ShopwareDpdApp\Factory\CreateContextFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
@@ -33,20 +33,20 @@ final class ProtocolController extends AbstractController
 
     private OrderFinderInterface $orderFinder;
 
-    private CreateContextByShopIdInterface $createContextByShopId;
+    private CreateContextFactoryInterface $createContextFactory;
 
     public function __construct(
         PackageRepositoryInterface $packageRepository,
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
         ApiClientResolverInterface $apiClientResolver,
         OrderFinderInterface $orderFinder,
-        CreateContextByShopIdInterface $createContextByShopId
+        CreateContextFactoryInterface $createContextFactory
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->apiClientResolver = $apiClientResolver;
         $this->orderFinder = $orderFinder;
-        $this->createContextByShopId = $createContextByShopId;
+        $this->createContextFactory = $createContextFactory;
     }
 
     public function getProtocol(ActionInterface $action): Response
@@ -75,13 +75,13 @@ final class ProtocolController extends AbstractController
         $shopId = $data['shop-id'] ?? '';
 
         try {
-            $context = $this->createContextByShopId->create($shopId);
+            $context = $this->createContextFactory->createByShopId($shopId);
         } catch (UnauthorizedHttpException | ShopNotFoundException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 
         try {
-            $salesChannelId = $this->orderFinder->getSalesChannelId($context, $orderId);
+            $salesChannelId = $this->orderFinder->getSalesChannelIdByOrderId($orderId, $context);
         } catch (OrderException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }

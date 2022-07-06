@@ -48,15 +48,8 @@ final class OrderFinder implements OrderFinderInterface
         return $order;
     }
 
-    public function getSalesChannelId(
-        Context $context,
-        string $orderId,
-        ?OrderEntity $order = null
-    ): string {
-        if (null === $order) {
-            $order = $this->orderFinder->getWithAssociations($orderId, $context);
-        }
-
+    public function getSalesChannelIdByOrder(OrderEntity $order, Context $context): string
+    {
         $salesChannelId = $order->salesChannelId;
 
         if (null === $salesChannelId) {
@@ -64,5 +57,12 @@ final class OrderFinder implements OrderFinderInterface
         }
 
         return $salesChannelId;
+    }
+
+    public function getSalesChannelIdByOrderId(string $orderId, Context $context): string
+    {
+        $order = $this->orderFinder->getWithAssociations($orderId, $context);
+
+        return $this->getSalesChannelIdByOrder($order, $context);
     }
 }

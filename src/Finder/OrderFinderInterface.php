@@ -11,9 +11,7 @@ interface OrderFinderInterface
 {
     public function getWithAssociations(?string $orderId, Context $context): OrderEntity;
 
-    public function getSalesChannelId(
-        Context $context,
-        string $orderId,
-        ?OrderEntity $order = null
-    ): string;
+    public function getSalesChannelIdByOrder(OrderEntity $order, Context $context): string;
+
+    public function getSalesChannelIdByOrderId(string $orderId, Context $context): string;
 }
