@@ -11,56 +11,15 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="https://unpkg.com/@shopware-ag/admin-extension-sdk/cdn"></script>
-
-    <script>
-        const checkCredentialsEl = document.getElementById('check-credentials');
-        const authorizedCode = 200;
-        const notAuthorizedCode = 401;
-
-        checkCredentialsEl.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const searchParams = new URLSearchParams(window.location.search)
-
-            const data = new FormData(document.querySelector('form'));
-
-            const fetchOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    shopId: searchParams.get('shop-id'),
-                    formData: Object.fromEntries(data.entries()),
-                })
-            };
-
-            fetch('/app/module/api-check-credentials', fetchOptions)
-                .then((result) => {
-                    if (authorizedCode === result.status) {
-                        sw.notification.dispatch({
-                            title: '{{ 'bitbag.shopware_dpd_app.config.notification_label_success'|trans }}',
-                            message: '{{ 'bitbag.shopware_dpd_app.config.notification_message_success'|trans }}',
-                            variant: 'success'
-                        });
-                    } else if (notAuthorizedCode === result.status) {
-                        sw.notification.dispatch({
-                            title: '{{ 'bitbag.shopware_dpd_app.config.notification_label_error'|trans }}',
-                            message: '{{ 'bitbag.shopware_dpd_app.config.notification_message_error'|trans }}',
-                            variant: 'error'
-                        });
-                    }
-                });
-        });
-    </script>
+    <script src="{{ asset('assets/js/check-api-credentials.js') }}"></script>
+    <script src="{{ asset('assets/js/config.js') }}"></script>
 {% endblock %}
 
 {% block body %}
     <div class="bitbag-sw-container">
         {{ form_start(form) }}
             <div class="save-container">
-                <button type="submit" class="sw-button sw-button--contrast" id="check-credentials">
+                <button type="button" class="sw-button sw-button--contrast" id="check-credentials">
                     {{ 'bitbag.shopware_dpd_app.config.check_credentials'|trans }}
                 </button>
 
@@ -81,8 +40,30 @@
                 {% endfor %}
             {% endif %}
 
+            <div id="check-api-credentials-target" class="d-none">
+                <div class="sw-card">
+                    <div class="sw-card__content">
+                        <p id="check-api-credentials-response-label"></p>
+                        <div class="sw-container"><p id="check-api-credentials-response-message"></p></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="sw-card">
                 <div class="sw-card__content">
+                    <div class="sw-container">
+                        <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                            <div class="sw-field__label">
+                                <label for="sw-field--shippingMethod-name" class="is--required">
+                                    {{ form_label(form.salesChannelId) }}
+                                </label>
+                            </div>
+                            <div class="sw-block-field__block">
+                                {{ form_widget(form.salesChannelId) }}
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="sw-container"
                          style="grid-template-columns: 3fr 3fr 3fr; gap: 0 32px; place-items: stretch;">
                         <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">

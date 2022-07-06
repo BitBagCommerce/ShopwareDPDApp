@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Tests\Factory;
 
 use BitBag\ShopwareDpdApp\Calculator\OrderWeightCalculatorInterface;
 use BitBag\ShopwareDpdApp\Factory\ParcelFactory;
-use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolverInterface;
+use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use T3ko\Dpd\Objects\Parcel;
 use Vin\ShopwareSdk\Data\Context;
@@ -16,7 +16,7 @@ final class ParcelFactoryTest extends WebTestCase
 {
     public function testCreate(): void
     {
-        $orderCustomFieldsResolver = $this->createMock(OrderCustomFieldsResolverInterface::class);
+        $orderCustomFieldsResolver = $this->createMock(OrderCustomFieldResolverInterface::class);
         $orderCustomFieldsResolver
             ->method('resolve')
             ->willReturn([
@@ -48,7 +48,7 @@ final class ParcelFactoryTest extends WebTestCase
     {
         $this->expectExceptionMessage('bitbag.shopware_dpd_app.package.too_large');
 
-        $orderCustomFieldsResolver = $this->createMock(OrderCustomFieldsResolverInterface::class);
+        $orderCustomFieldsResolver = $this->createMock(OrderCustomFieldResolverInterface::class);
         $orderCustomFieldsResolver
             ->method('resolve')
             ->willReturn([

@@ -8,6 +8,7 @@ use BitBag\ShopwareDpdApp\Entity\OrderCourier;
 use BitBag\ShopwareDpdApp\Entity\Package;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\OrderCourier\PackagePickupFactoryInterface;
+use BitBag\ShopwareDpdApp\Model\OrderCourierPackageDetailsModel;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
@@ -39,7 +40,9 @@ final class OrderCourierService implements OrderCourierServiceInterface
 
         /** @var OrderEntity $order */
         foreach ($orders as $order) {
-            $package = $this->searchPackageByOrderId($order->id, $packages);
+            $package = current(array_filter($packages, function (Package $package) use ($order) {
+                return $package->getOrderId() === $order->id;
+            }));
 
             if (null === $package) {
                 throw new PackageException('bitbag.shopware_dpd_app.package.not_found');
@@ -57,24 +60,9 @@ final class OrderCourierService implements OrderCourierServiceInterface
 
             $orderCourierNumer = $pickupRequest->getReturn()->getOrderNumber();
 
-            $return[] = [
-                'package' => $package,
-                'orderCourierNumber' => $orderCourierNumer,
-            ];
+            $return[] = new OrderCourierPackageDetailsModel($package, $orderCourierNumer);
         }
 
         return $return;
-    }
-
-    private function searchPackageByOrderId(string $orderId, array $packages): ?Package
-    {
-        /** @var Package $package */
-        foreach ($packages as $package) {
-            if ($package->getOrderId() === $orderId) {
-                return $package;
-            }
-        }
-
-        return null;
     }
 }

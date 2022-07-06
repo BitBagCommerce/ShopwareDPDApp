@@ -7,6 +7,7 @@ namespace BitBag\ShopwareDpdApp\Finder;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
+use Vin\ShopwareSdk\Data\Entity\EntityCollection;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 use Vin\ShopwareSdk\Data\FieldSorting;
 use Vin\ShopwareSdk\Data\Filter\EqualsAnyFilter;
@@ -46,25 +47,22 @@ final class OrderFinder implements OrderFinderInterface
         return $order;
     }
 
-    public function getOrdersByPackagesIds(array $packagesIds, Context $context): array
+    public function getOrdersByPackagesIds(array $packagesIds, Context $context): EntityCollection
     {
-        $orders = [];
-
-        if ([] !== $packagesIds) {
-            $ordersCriteria = (new Criteria())
-                ->addFilter(new EqualsAnyFilter('id', $packagesIds))
-                ->addAssociations([
-                    'billingAddress',
-                    'addresses',
-                    'lineItems.product',
-                ])
-                ->addSorting(new FieldSorting('orderNumber', 'DESC'));
-
-            $ordersSearch = $this->orderRepository->search($ordersCriteria, $context);
-
-            $orders = $ordersSearch->getEntities()->getElements();
+        if ([] === $packagesIds) {
+            return new EntityCollection();
         }
 
-        return $orders;
+        $ordersCriteria = (new Criteria())
+            ->addFilter(new EqualsAnyFilter('id', $packagesIds))
+            ->addAssociations([
+                'billingAddress',
+                'addresses',
+                'lineItems.product',
+            ])
+            ->addSorting(new FieldSorting('orderNumber', 'DESC'));
+
+        return $this->orderRepository->search($ordersCriteria, $context)
+                                     ->getEntities();
     }
 }

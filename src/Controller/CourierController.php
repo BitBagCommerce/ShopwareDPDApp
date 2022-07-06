@@ -13,16 +13,18 @@ use BitBag\ShopwareDpdApp\Entity\Package;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
-use BitBag\ShopwareDpdApp\Finder\PackageFinderInterface;
 use BitBag\ShopwareDpdApp\Form\Type\OrderCourierType;
+use BitBag\ShopwareDpdApp\Model\OrderCourierPackageDetailsModel;
 use BitBag\ShopwareDpdApp\Persister\PackagePersisterInterface;
+use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Vin\ShopwareSdk\Data\Context;
-use Vin\ShopwareSdk\Exception\AuthorizationFailedException;
+use Vin\ShopwareSdk\Data\Entity\EntityCollection;
 
 final class CourierController extends AbstractController
 {
@@ -36,9 +38,9 @@ final class CourierController extends AbstractController
 
     private OrderFinderInterface $orderFinder;
 
-    private PackageFinderInterface $packageFinder;
-
     private PackagePersisterInterface $packagePersister;
+
+    private PackageRepositoryInterface $packageRepository;
 
     public function __construct(
         ShopRepositoryInterface $shopRepository,
@@ -46,16 +48,16 @@ final class CourierController extends AbstractController
         TranslatorInterface $translator,
         OrderCourierServiceInterface $orderCourierService,
         OrderFinderInterface $orderFinder,
-        PackageFinderInterface $packageFinder,
-        PackagePersisterInterface $packagePersister
+        PackagePersisterInterface $packagePersister,
+        PackageRepositoryInterface $packageRepository
     ) {
         $this->shopRepository = $shopRepository;
         $this->contextFactory = $contextFactory;
         $this->translator = $translator;
         $this->orderCourierService = $orderCourierService;
         $this->orderFinder = $orderFinder;
-        $this->packageFinder = $packageFinder;
         $this->packagePersister = $packagePersister;
+        $this->packageRepository = $packageRepository;
     }
 
     public function orderCourier(Request $request): Response
@@ -67,10 +69,10 @@ final class CourierController extends AbstractController
         $context = $this->contextFactory->create($shop);
 
         if (null === $context) {
-            throw new AuthorizationFailedException('bitbag.shopware_dpd_app.order_courier.authorization_failed_context');
+            throw new UnauthorizedHttpException('');
         }
 
-        $packages = $this->packageFinder->findOrdersWithoutOrderCourier();
+        $packages = $this->packageRepository->findOrdersWithoutOrderCourier();
 
         $form = $this->getForm($packages, $context, $orderCourier);
         $form->handleRequest($request);
@@ -129,7 +131,7 @@ final class CourierController extends AbstractController
         ]);
     }
 
-    private function getOrdersForForm(array $packages, Context $context): array
+    private function getOrdersForForm(array $packages, Context $context): EntityCollection
     {
         $packagesIds = array_map(static fn (Package $package) => $package->getOrderId(), $packages);
 
@@ -138,8 +140,12 @@ final class CourierController extends AbstractController
 
     private function saveOrderCourierNumberInPackages(array $packagesData): void
     {
-        foreach ($packagesData as $data) {
-            $this->packagePersister->saveOrderNumber($data['package'], $data['orderCourierNumber']);
+        /** @var OrderCourierPackageDetailsModel $orderCourierPackageDetails */
+        foreach ($packagesData as $orderCourierPackageDetails) {
+            $this->packagePersister->saveOrderNumber(
+                $orderCourierPackageDetails->getPackage(),
+                $orderCourierPackageDetails->getOrderCourierNumber()
+            );
         }
     }
 }

@@ -9,6 +9,7 @@ use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use T3ko\Dpd\Api;
 use T3ko\Dpd\Request\GenerateLabelsRequest;
 
@@ -16,9 +17,12 @@ final class ApiCredentialsController
 {
     private ApiClientResolverInterface $apiClientResolver;
 
-    public function __construct(ApiClientResolverInterface $apiClientResolver)
+    private TranslatorInterface $translator;
+
+    public function __construct(ApiClientResolverInterface $apiClientResolver, TranslatorInterface $translator)
     {
         $this->apiClientResolver = $apiClientResolver;
+        $this->translator = $translator;
     }
 
     public function checkCredentials(Request $request): JsonResponse
@@ -27,6 +31,7 @@ final class ApiCredentialsController
         $shopId = $data['shopId'];
         /** @var array{apiLogin: string, apiPassword: string, apiFid: string, apiEnvironment: string, senderFirstLastName: string, senderPhoneNumber: string, senderStreet: string, senderCity: string, senderZipCode: string, senderLocale: string} $formData */
         $formData = $data['formData'];
+        $language = $data['language'];
 
         if (null === $shopId) {
             return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
@@ -37,6 +42,16 @@ final class ApiCredentialsController
 
         $isValid = $api->checkCredentialsByGenerateLabels(GenerateLabelsRequest::fromWaybills(['00000000000000']));
 
-        return $isValid ? new JsonResponse([]) : new JsonResponse([], Response::HTTP_UNAUTHORIZED);
+        $label = $isValid ?
+            'bitbag.shopware_dpd_app.config.notification_label_success' :
+            'bitbag.shopware_dpd_app.config.notification_label_error';
+        $message = $isValid ?
+            'bitbag.shopware_dpd_app.config.notification_message_success' :
+            'bitbag.shopware_dpd_app.config.notification_message_error';
+
+        return new JsonResponse([
+            'label' => $this->translator->trans($label, [], null, $language),
+            'message' => $this->translator->trans($message, [], null, $language),
+        ], $isValid ? Response::HTTP_OK : Response::HTTP_UNAUTHORIZED);
     }
 }

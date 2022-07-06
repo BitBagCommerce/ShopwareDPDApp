@@ -11,7 +11,7 @@ use BitBag\ShopwareAppSystemBundle\Entity\ShopInterface;
  */
 class Config implements ConfigInterface
 {
-    protected int $id;
+    protected ?int $id;
 
     protected string $apiLogin;
 
@@ -34,6 +34,13 @@ class Config implements ConfigInterface
     protected string $senderLocale;
 
     protected ShopInterface $shop;
+
+    protected string $salesChannelId;
+
+    public function __clone()
+    {
+        $this->id = null;
+    }
 
     public function getId(): ?int
     {
@@ -162,5 +169,15 @@ class Config implements ConfigInterface
     public function setShop(ShopInterface $shop): void
     {
         $this->shop = $shop;
+    }
+
+    public function getSalesChannelId(): string
+    {
+        return $this->salesChannelId;
+    }
+
+    public function setSalesChannelId(string $salesChannelId): void
+    {
+        $this->salesChannelId = $salesChannelId;
     }
 }

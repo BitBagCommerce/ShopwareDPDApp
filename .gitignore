@@ -26,3 +26,6 @@ bin/.phpunit
 ###< friendsofphp/php-cs-fixer ###
 
 composer.lock
+
+node_modules/
+package-lock.json

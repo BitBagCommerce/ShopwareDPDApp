@@ -7,7 +7,7 @@ namespace BitBag\ShopwareDpdApp\Resolver;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
-final class OrderCustomFieldsResolver implements OrderCustomFieldsResolverInterface
+final class OrderCustomFieldResolver implements OrderCustomFieldResolverInterface
 {
     public function resolve(OrderEntity $order): array
     {

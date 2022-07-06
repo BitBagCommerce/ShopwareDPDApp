@@ -18,6 +18,8 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="bitbag.shopware_app_system.repository.shop_repository" />
             <argument type="service" id="translator" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Finder\SalesChannelFinder" />
+            <argument type="service" id="bitbag.shopware_app_system.factory.context.context_factory" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />
@@ -52,6 +54,18 @@
 
         <service id="BitBag\ShopwareDpdApp\Controller\ApiCredentialsController">
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
+            <argument type="service" id="translator" />
+
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <service id="BitBag\ShopwareDpdApp\Controller\ConfigController">
+            <argument type="service" id="bitbag.shopware_app_system.repository.shop_repository" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
+
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
 
             <tag name="controller.service_arguments" />
         </service>
@@ -62,8 +76,8 @@
             <argument type="service" id="translator" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Api\OrderCourierService" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
-            <argument type="service" id="BitBag\ShopwareDpdApp\Finder\PackageFinder" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Persister\PackagePersister" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\PackageRepository" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />

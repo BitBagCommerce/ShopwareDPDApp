@@ -13,7 +13,7 @@
         </service>
 
         <service id="BitBag\ShopwareDpdApp\Factory\ParcelFactory">
-            <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolver" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldResolver" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Calculator\OrderWeightCalculator" />
         </service>
 
@@ -34,7 +34,7 @@
         <service id="BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupDetailsFactory" />
 
         <service id="BitBag\ShopwareDpdApp\Factory\OrderCourier\PickupParametersFactory">
-            <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolver" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldResolver" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Calculator\OrderWeightCalculator" />
         </service>
 

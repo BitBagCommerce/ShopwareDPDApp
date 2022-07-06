@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Tests\Factory;
 
-use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
+use BitBag\ShopwareDpdApp\Exception\Order\OrderAddressException;
 use BitBag\ShopwareDpdApp\Factory\ReceiverFactory;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -45,7 +45,7 @@ final class ReceiverFactoryTest extends WebTestCase
 
     public function testAddressNotFoundException(): void
     {
-        $this->expectException(OrderException::class);
+        $this->expectException(OrderAddressException::class);
         $this->expectExceptionMessage('bitbag.shopware_dpd_app.order.shipping_address_not_found');
 
         $receiverFactory = new ReceiverFactory();
@@ -58,8 +58,8 @@ final class ReceiverFactoryTest extends WebTestCase
 
     public function testAddressInvalidException(): void
     {
-        $this->expectException(OrderException::class);
-        $this->expectExceptionMessage('bitbag.shopware_dpd_app.order.shipping_address_value_invalid');
+        $this->expectException(OrderAddressException::class);
+        $this->expectExceptionMessage('bitbag.shopware_dpd_app.order.address.city_empty');
 
         $receiverFactory = new ReceiverFactory();
 

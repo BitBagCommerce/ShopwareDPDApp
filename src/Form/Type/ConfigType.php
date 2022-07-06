@@ -17,6 +17,11 @@ final class ConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('salesChannelId', ChoiceType::class, [
+                'label' => 'bitbag.shopware_dpd_app.config.sales_channel',
+                'required' => false,
+                'choices' => $options['salesChannels'],
+            ])
             ->add('apiLogin', TextType::class, [
                 'label' => 'bitbag.shopware_dpd_app.config.api_login',
                 'required' => true,
@@ -60,14 +65,14 @@ final class ConfigType extends AbstractType
             ->add('senderLocale', TextType::class, [
                 'label' => 'bitbag.shopware_dpd_app.config.sender_locale',
                 'required' => true,
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Config::class,
+            'salesChannels' => [],
         ]);
     }
 

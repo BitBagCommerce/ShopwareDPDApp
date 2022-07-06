@@ -5,28 +5,28 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Factory\OrderCourier;
 
 use BitBag\ShopwareDpdApp\Calculator\OrderWeightCalculatorInterface;
-use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolverInterface;
+use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldResolverInterface;
 use T3ko\Dpd\Soap\Types\PickupPackagesParamsDPPV1;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
 final class PickupParametersFactory implements PickupParametersFactoryInterface
 {
-    private OrderCustomFieldsResolverInterface $orderCustomFieldsResolver;
+    private OrderCustomFieldResolverInterface $orderCustomFieldResolver;
 
     private OrderWeightCalculatorInterface $orderWeightCalculator;
 
     public function __construct(
-        OrderCustomFieldsResolverInterface $orderCustomFieldsResolver,
+        OrderCustomFieldResolverInterface $orderCustomFieldResolver,
         OrderWeightCalculatorInterface $orderWeightCalculator
     ) {
-        $this->orderCustomFieldsResolver = $orderCustomFieldsResolver;
+        $this->orderCustomFieldResolver = $orderCustomFieldResolver;
         $this->orderWeightCalculator = $orderWeightCalculator;
     }
 
     public function create(OrderEntity $order, Context $context): PickupPackagesParamsDPPV1
     {
-        $resolvedFields = $this->orderCustomFieldsResolver->resolve($order);
+        $resolvedFields = $this->orderCustomFieldResolver->resolve($order);
         $parcelMaxWeight = $this->orderWeightCalculator->calculate($order, $context);
 
         $pickupParams = new PickupPackagesParamsDPPV1();

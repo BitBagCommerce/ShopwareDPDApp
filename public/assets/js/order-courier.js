@@ -1,12 +1,14 @@
 const pickupDateEl = document.getElementById('pickupDate');
 
 setTimeout(() => {
+    // eslint-disable-next-line no-undef
     flatpickr(pickupDateEl, {
         minDate: 'today',
         weekNumbers: true,
     });
 }, 1000);
 
+// eslint-disable-next-line no-undef
 new SlimSelect({
     select: '#orders',
     showSearch: true,

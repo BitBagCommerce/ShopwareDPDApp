@@ -22604,3 +22604,12 @@ a[target=_blank]:not(.sw-external-link,
     text-align: right;
     margin-bottom: 20px;
 }
+.d-none {
+    display: none;
+}
+.error-message .sw-card__content {
+    background-color: rgba(255, 0, 0, 0.2);
+}
+.success-message .sw-card__content {
+    background-color: rgba(0, 255, 0, 0.2);
+}

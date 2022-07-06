@@ -6,28 +6,28 @@ namespace BitBag\ShopwareDpdApp\Factory;
 
 use BitBag\ShopwareDpdApp\Calculator\OrderWeightCalculatorInterface;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
-use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldsResolverInterface;
+use BitBag\ShopwareDpdApp\Resolver\OrderCustomFieldResolverInterface;
 use T3ko\Dpd\Objects\Parcel;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 
 final class ParcelFactory implements ParcelFactoryInterface
 {
-    private OrderCustomFieldsResolverInterface $orderCustomFieldsResolver;
+    private OrderCustomFieldResolverInterface $orderCustomFieldResolver;
 
     private OrderWeightCalculatorInterface $orderWeightCalculator;
 
     public function __construct(
-        OrderCustomFieldsResolverInterface $orderCustomFieldsResolver,
+        OrderCustomFieldResolverInterface $orderCustomFieldsResolver,
         OrderWeightCalculatorInterface $orderWeightCalculator
     ) {
-        $this->orderCustomFieldsResolver = $orderCustomFieldsResolver;
+        $this->orderCustomFieldResolver = $orderCustomFieldsResolver;
         $this->orderWeightCalculator = $orderWeightCalculator;
     }
 
     public function create(OrderEntity $order, Context $context): Parcel
     {
-        $resolvedFields = $this->orderCustomFieldsResolver->resolve($order);
+        $resolvedFields = $this->orderCustomFieldResolver->resolve($order);
 
         $weight = $this->orderWeightCalculator->calculate($order, $context);
 
