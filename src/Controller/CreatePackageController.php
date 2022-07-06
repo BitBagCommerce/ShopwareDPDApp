@@ -102,7 +102,7 @@ final class CreatePackageController
                 $trackingCode,
                 $context
             );
-        } catch (ErrorNotificationException $e) {
+        } catch (ErrorNotificationException | OrderException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 

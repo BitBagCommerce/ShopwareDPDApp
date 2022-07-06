@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
+use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use T3ko\Dpd\Objects\Sender;
 
@@ -16,9 +17,13 @@ final class DpdSenderFactory implements DpdSenderFactoryInterface
         $this->configRepository = $configRepository;
     }
 
-    public function create(string $shopId): Sender
+    public function create(string $shopId, string $salesChannelId): Sender
     {
-        $config = $this->configRepository->getByShopId($shopId);
+        try {
+            $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
+        } catch (ErrorNotificationException) {
+            $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId, '');
+        }
 
         return new Sender(
             $config->getApiFid(),

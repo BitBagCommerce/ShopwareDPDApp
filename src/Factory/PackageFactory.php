@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
+use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use T3ko\Dpd\Objects\Enum\Currency;
 use T3ko\Dpd\Objects\Package;
 use Vin\ShopwareSdk\Data\Context;
@@ -34,7 +35,13 @@ final class PackageFactory implements PackageFactoryInterface
         OrderEntity $order,
         Context $context
     ): Package {
-        $sender = $this->dpdSenderFactory->create($shopId);
+        $salesChannelId = $order->salesChannelId;
+
+        if (null === $salesChannelId) {
+            throw new OrderException('bitbag.shopware_dpd_app.order.sales_channel_id_not_found');
+        }
+
+        $sender = $this->dpdSenderFactory->create($shopId, $salesChannelId);
         $orderAddress = $order->addresses?->first();
         $receiver = $this->receiverFactory->create($orderAddress);
         $parcel = $this->parcelFactory->create($order, $context);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Resolver;
 
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
+use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use T3ko\Dpd\Api;
 
@@ -17,9 +18,13 @@ final class ApiClientResolver implements ApiClientResolverInterface
         $this->configRepository = $configRepository;
     }
 
-    public function getApi(string $shopId): Api
+    public function getApi(string $shopId, string $salesChannelId): Api
     {
-        $config = $this->configRepository->getByShopId($shopId);
+        try {
+            $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
+        } catch (ErrorNotificationException) {
+            $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId, '');
+        }
 
         $api = new Api(
             $config->getApiLogin(),

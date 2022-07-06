@@ -37,11 +37,17 @@ final class PackageService implements PackageServiceInterface
     ): array {
         try {
             $package = $this->packageFactory->create($shopId, $order, $context);
-        } catch (OrderException | PackageException $exception) {
-            throw new ErrorNotificationException($exception->getMessage());
+        } catch (OrderException | PackageException $e) {
+            throw new ErrorNotificationException($e->getMessage());
         }
 
-        $api = $this->apiClientResolver->getApi($shopId);
+        $salesChannelId = $order->salesChannelId;
+
+        if (null === $salesChannelId) {
+            throw new OrderException('bitbag.shopware_dpd_app.order.sales_channel_id_not_found');
+        }
+
+        $api = $this->apiClientResolver->getApi($shopId, $salesChannelId);
 
         $singlePackageRequest = GeneratePackageNumbersRequest::fromPackage($package);
 

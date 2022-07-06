@@ -44,9 +44,9 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
         }
     }
 
-    public function getByShopId(string $shopId): ConfigInterface
+    public function getByShopIdAndSalesChannelId(string $shopId, string $salesChannelId): ConfigInterface
     {
-        $config = $this->getByShopIdQueryBuilder($shopId)
+        $config = $this->getByShopIdAndSalesChannelIdQueryBuilder($shopId, $salesChannelId)
                        ->getQuery()
                        ->getOneOrNullResult();
 
@@ -59,9 +59,7 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
 
     public function findByShopIdAndSalesChannelId(string $shopId, string $salesChannelId): ?ConfigInterface
     {
-        return $this->getByShopIdQueryBuilder($shopId)
-                    ->andWhere('c.salesChannelId = :salesChannelId')
-                    ->setParameter('salesChannelId', $salesChannelId)
+        return $this->getByShopIdAndSalesChannelIdQueryBuilder($shopId, $salesChannelId)
                     ->getQuery()
                     ->getOneOrNullResult();
     }
@@ -72,5 +70,12 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
                     ->leftJoin('c.shop', 'shop')
                     ->where('shop.shopId = :shopId')
                     ->setParameter('shopId', $shopId);
+    }
+
+    private function getByShopIdAndSalesChannelIdQueryBuilder(string $shopId, string $salesChannelId): QueryBuilder
+    {
+        return $this->getByShopIdQueryBuilder($shopId)
+                    ->andWhere('c.salesChannelId = :salesChannelId')
+                    ->setParameter('salesChannelId', $salesChannelId);
     }
 }

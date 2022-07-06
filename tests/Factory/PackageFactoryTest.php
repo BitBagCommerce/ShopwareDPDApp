@@ -49,6 +49,7 @@ final class PackageFactoryTest extends WebTestCase
 
         $order = new OrderEntity();
         $order->amountTotal = 50;
+        $order->salesChannelId = Uuid::randomHex();
 
         self::assertEquals(
             $package,
