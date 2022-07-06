@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Controller;
 
 use BitBag\ShopwareAppSystemBundle\Exception\ShopNotFoundException;
-use BitBag\ShopwareAppSystemBundle\Factory\Context\ContextFactoryInterface;
 use BitBag\ShopwareAppSystemBundle\Model\Action\ActionInterface;
 use BitBag\ShopwareAppSystemBundle\Model\Feedback\NewTab;
-use BitBag\ShopwareAppSystemBundle\Repository\ShopRepositoryInterface;
 use BitBag\ShopwareAppSystemBundle\Response\FeedbackResponse;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
@@ -35,10 +33,6 @@ final class LabelController extends AbstractController
 
     private OrderFinderInterface $orderFinder;
 
-    private ContextFactoryInterface $contextFactory;
-
-    private ShopRepositoryInterface $shopRepository;
-
     private CreateContextByShopIdInterface $createContextByShopId;
 
     public function __construct(
@@ -46,16 +40,12 @@ final class LabelController extends AbstractController
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
         ApiClientResolverInterface $apiClientResolver,
         OrderFinderInterface $orderFinder,
-        ContextFactoryInterface $contextFactory,
-        ShopRepositoryInterface $shopRepository,
         CreateContextByShopIdInterface $createContextByShopId
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->apiClientResolver = $apiClientResolver;
         $this->orderFinder = $orderFinder;
-        $this->contextFactory = $contextFactory;
-        $this->shopRepository = $shopRepository;
         $this->createContextByShopId = $createContextByShopId;
     }
 
