@@ -13,6 +13,7 @@ use BitBag\ShopwareAppSystemBundle\Response\FeedbackResponse;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
+use BitBag\ShopwareDpdApp\Factory\CreateContextByShopIdInterface;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
@@ -38,13 +39,16 @@ final class LabelController extends AbstractController
 
     private ShopRepositoryInterface $shopRepository;
 
+    private CreateContextByShopIdInterface $createContextByShopId;
+
     public function __construct(
         PackageRepositoryInterface $packageRepository,
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
         ApiClientResolverInterface $apiClientResolver,
         OrderFinderInterface $orderFinder,
         ContextFactoryInterface $contextFactory,
-        ShopRepositoryInterface $shopRepository
+        ShopRepositoryInterface $shopRepository,
+        CreateContextByShopIdInterface $createContextByShopId
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
@@ -52,6 +56,7 @@ final class LabelController extends AbstractController
         $this->orderFinder = $orderFinder;
         $this->contextFactory = $contextFactory;
         $this->shopRepository = $shopRepository;
+        $this->createContextByShopId = $createContextByShopId;
     }
 
     public function getLabel(ActionInterface $action): Response
@@ -79,28 +84,16 @@ final class LabelController extends AbstractController
         $orderId = $data['orderId'] ?? '';
         $shopId = $data['shop-id'] ?? '';
 
-        $shop = $this->shopRepository->find($shopId);
-
-        if (null === $shop) {
-            throw new ShopNotFoundException($shopId);
-        }
-
-        $context = $this->contextFactory->create($shop);
-
-        if (null === $context) {
-            throw new UnauthorizedHttpException('');
-        }
-
         try {
-            $order = $this->orderFinder->getWithAssociations($orderId, $context);
-        } catch (OrderException $e) {
+            $context = $this->createContextByShopId->create($shopId);
+        } catch (UnauthorizedHttpException | ShopNotFoundException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 
-        $salesChannelId = $order->salesChannelId;
-
-        if (null === $salesChannelId) {
-            return $this->feedbackResponseFactory->createError('bitbag.shopware_dpd_app.order.sales_channel_id_not_found');
+        try {
+            $salesChannelId = $this->orderFinder->getSalesChannelId($context, $orderId);
+        } catch (OrderException $e) {
+            return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 
         try {

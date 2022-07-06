@@ -10,4 +10,10 @@ use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 interface OrderFinderInterface
 {
     public function getWithAssociations(?string $orderId, Context $context): OrderEntity;
+
+    public function getSalesChannelId(
+        Context $context,
+        string $orderId,
+        ?OrderEntity $order = null
+    ): string;
 }

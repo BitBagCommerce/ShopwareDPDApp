@@ -8,8 +8,6 @@ use BitBag\ShopwareDpdApp\Entity\Config;
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,35 +18,17 @@ final class ConfigRepository extends ServiceEntityRepository implements ConfigRe
         parent::__construct($registry, Config::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Config $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Config $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
     public function getByShopIdAndSalesChannelId(string $shopId, string $salesChannelId): ConfigInterface
     {
         $config = $this->getByShopIdAndSalesChannelIdQueryBuilder($shopId, $salesChannelId)
                        ->getQuery()
                        ->getOneOrNullResult();
+
+        if (null === $config) {
+            $config = $this->getByShopIdAndSalesChannelIdQueryBuilder($shopId, '')
+                           ->getQuery()
+                           ->getOneOrNullResult();
+        }
 
         if (null === $config) {
             throw new ErrorNotificationException('bitbag.shopware_dpd_app.config.credentials_data_not_found');

@@ -9,6 +9,7 @@ use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
+use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use T3ko\Dpd\Objects\RegisteredParcel;
@@ -22,12 +23,16 @@ final class PackageService implements PackageServiceInterface
 
     private ApiClientResolverInterface $apiClientResolver;
 
+    private OrderFinderInterface $orderFinder;
+
     public function __construct(
         PackageFactoryInterface $packageFactory,
-        ApiClientResolverInterface $apiClientResolver
+        ApiClientResolverInterface $apiClientResolver,
+        OrderFinderInterface $orderFinder
     ) {
         $this->packageFactory = $packageFactory;
         $this->apiClientResolver = $apiClientResolver;
+        $this->orderFinder = $orderFinder;
     }
 
     public function create(
@@ -41,11 +46,7 @@ final class PackageService implements PackageServiceInterface
             throw new ErrorNotificationException($e->getMessage());
         }
 
-        $salesChannelId = $order->salesChannelId;
-
-        if (null === $salesChannelId) {
-            throw new OrderException('bitbag.shopware_dpd_app.order.sales_channel_id_not_found');
-        }
+        $salesChannelId = $this->orderFinder->getSalesChannelId($context, $order->id, $order);
 
         $api = $this->apiClientResolver->getApi($shopId, $salesChannelId);
 

@@ -8,6 +8,7 @@ use BitBag\ShopwareDpdApp\Factory\DpdSenderFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\PackageFactory;
 use BitBag\ShopwareDpdApp\Factory\ParcelFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\ReceiverFactoryInterface;
+use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use T3ko\Dpd\Objects\Enum\Currency;
 use T3ko\Dpd\Objects\Package;
@@ -37,10 +38,13 @@ final class PackageFactoryTest extends WebTestCase
             ->method('create')
             ->willReturn($this->getReceiver());
 
+        $orderFinder = $this->createMock(OrderFinderInterface::class);
+
         $packageFactory = new PackageFactory(
             $dpdSenderFactory,
             $parcelFactory,
-            $receiverFactory
+            $receiverFactory,
+            $orderFinder
         );
 
         $context = $this->createMock(Context::class);
@@ -48,6 +52,7 @@ final class PackageFactoryTest extends WebTestCase
         $package = $this->getPackage();
 
         $order = new OrderEntity();
+        $order->id = Uuid::randomHex();
         $order->amountTotal = 50;
         $order->salesChannelId = Uuid::randomHex();
 

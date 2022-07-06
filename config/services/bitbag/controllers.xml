@@ -35,6 +35,7 @@
             <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
             <argument type="service" id="bitbag.shopware_app_system.factory.context.context_factory" />
             <argument type="service" id="bitbag.shopware_app_system.repository.shop_repository" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\CreateContextByShopId" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />
@@ -50,6 +51,7 @@
             <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
             <argument type="service" id="bitbag.shopware_app_system.factory.context.context_factory" />
             <argument type="service" id="bitbag.shopware_app_system.repository.shop_repository" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\CreateContextByShopId" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />
