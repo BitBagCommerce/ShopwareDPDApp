@@ -55,25 +55,4 @@ final class ReceiverFactoryTest extends WebTestCase
 
         $receiverFactory->create($order->addresses->first());
     }
-
-    public function testAddressInvalidException(): void
-    {
-        $this->expectException(OrderAddressException::class);
-        $this->expectExceptionMessage('bitbag.shopware_dpd_app.order.address.city_empty');
-
-        $receiverFactory = new ReceiverFactory();
-
-        $address = new OrderAddressEntity();
-        $address->phoneNumber = '123-123-123';
-        $address->firstName = 'Jan';
-        $address->lastName = 'Kowalski';
-        $address->street = 'Jasna 4';
-        $address->zipcode = '12-123';
-        $address->city = null;
-
-        $order = new OrderEntity();
-        $order->addresses = new OrderAddressCollection([$address]);
-
-        $receiverFactory->create($order->addresses->first());
-    }
 }

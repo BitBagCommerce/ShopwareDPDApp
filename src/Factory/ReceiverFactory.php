@@ -34,26 +34,6 @@ final class ReceiverFactory implements ReceiverFactoryInterface
             throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.phone_number_empty');
         }
 
-        if (null === $firstName) {
-            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.first_name_empty');
-        }
-
-        if (null === $lastName) {
-            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.last_name_empty');
-        }
-
-        if (null === $street) {
-            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.street_empty');
-        }
-
-        if (null === $zipcode) {
-            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.zip_code_empty');
-        }
-
-        if (null === $city) {
-            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.city_empty');
-        }
-
         $phoneNumber = str_replace(['+48', '+', '-', ' '], '', $phoneNumber);
 
         $this->checkPhoneNumberValidity($phoneNumber);

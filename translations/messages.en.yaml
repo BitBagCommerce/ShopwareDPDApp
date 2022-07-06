@@ -11,11 +11,6 @@ bitbag:
                 post_code_invalid: 'Post code is invalid (valid format is: 12-345)'
                 phone_number_invalid: 'Phone number is invalid (valid format: 111-222-333)'
                 phone_number_empty: 'Phone number cannot be empty'
-                first_name_empty: 'First name cannot be empty'
-                last_name_empty: 'Last name cannot be empty'
-                street_empty: 'Street cannot be empty'
-                zip_code_empty: 'Zip code cannot be empty'
-                city_empty: 'City cannot be empty'
         config:
             sales_channel: 'Sales channel'
             sales_channels: 'Sales channels'
