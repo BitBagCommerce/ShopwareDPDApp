@@ -53,7 +53,7 @@ final class PackagePickupFactory implements PackagePickupFactoryInterface
         Api $api,
         Context $context
     ): PackagesPickupCallV2Request {
-        $config = $this->configRepository->getByShopId($shopId);
+        $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId, $order->salesChannelId);
 
         $pickupPayer = $this->pickupPayerFactory->create($api->getMasterFid(), $config);
 

@@ -31,8 +31,6 @@ class Config implements ConfigInterface
 
     protected string $senderPhoneNumber;
 
-    protected string $senderLocale;
-
     protected ShopInterface $shop;
 
     protected string $salesChannelId;
@@ -149,16 +147,6 @@ class Config implements ConfigInterface
     public function setSenderPhoneNumber(string $senderPhoneNumber): void
     {
         $this->senderPhoneNumber = $senderPhoneNumber;
-    }
-
-    public function getSenderLocale(): string
-    {
-        return $this->senderLocale;
-    }
-
-    public function setSenderLocale(string $senderLocale): void
-    {
-        $this->senderLocale = strtoupper($senderLocale);
     }
 
     public function getShop(): ShopInterface

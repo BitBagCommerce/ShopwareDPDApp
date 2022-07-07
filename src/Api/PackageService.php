@@ -6,9 +6,11 @@ namespace BitBag\ShopwareDpdApp\Api;
 
 use BitBag\ShopwareDpdApp\Exception\ApiException;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
+use BitBag\ShopwareDpdApp\Exception\Order\OrderAddressException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
+use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use T3ko\Dpd\Objects\RegisteredParcel;
@@ -22,12 +24,16 @@ final class PackageService implements PackageServiceInterface
 
     private ApiClientResolverInterface $apiClientResolver;
 
+    private OrderFinderInterface $orderFinder;
+
     public function __construct(
         PackageFactoryInterface $packageFactory,
-        ApiClientResolverInterface $apiClientResolver
+        ApiClientResolverInterface $apiClientResolver,
+        OrderFinderInterface $orderFinder
     ) {
         $this->packageFactory = $packageFactory;
         $this->apiClientResolver = $apiClientResolver;
+        $this->orderFinder = $orderFinder;
     }
 
     public function create(
@@ -37,11 +43,13 @@ final class PackageService implements PackageServiceInterface
     ): array {
         try {
             $package = $this->packageFactory->create($shopId, $order, $context);
-        } catch (OrderException | PackageException $exception) {
-            throw new ErrorNotificationException($exception->getMessage());
+        } catch (OrderException | OrderAddressException | PackageException $e) {
+            throw new ErrorNotificationException($e->getMessage());
         }
 
-        $api = $this->apiClientResolver->getClient($shopId);
+        $salesChannelId = $this->orderFinder->getSalesChannelIdByOrder($order, $context);
+
+        $api = $this->apiClientResolver->getApi($shopId, $salesChannelId);
 
         $singlePackageRequest = GeneratePackageNumbersRequest::fromPackage($package);
 

@@ -33,12 +33,11 @@ final class OrderCourierService implements OrderCourierServiceInterface
         OrderCourier $orderCourier,
         Context $context
     ): array {
-        $api = $this->apiClientResolver->getClient($shopId);
-
         $packageDetails = [];
 
         /** @var OrderEntity $order */
         foreach ($orders as $order) {
+            $api = $this->apiClientResolver->getApi($shopId, $order->salesChannelId);
             $packagesByOrderId = array_filter($packages, static function (Package $package) use ($order) {
                 return $package->getOrderId() === $order->id;
             });

@@ -5,6 +5,7 @@
         <service id="BitBag\ShopwareDpdApp\Api\PackageService">
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\PackageFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
         </service>
 
         <service id="BitBag\ShopwareDpdApp\Api\OrderCourierService">

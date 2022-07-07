@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
+use BitBag\ShopwareDpdApp\Provider\Defaults;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use T3ko\Dpd\Objects\Sender;
 
@@ -16,9 +17,9 @@ final class DpdSenderFactory implements DpdSenderFactoryInterface
         $this->configRepository = $configRepository;
     }
 
-    public function create(string $shopId): Sender
+    public function create(string $shopId, string $salesChannelId): Sender
     {
-        $config = $this->configRepository->getByShopId($shopId);
+        $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
 
         return new Sender(
             $config->getApiFid(),
@@ -27,7 +28,7 @@ final class DpdSenderFactory implements DpdSenderFactoryInterface
             $config->getSenderStreet(),
             $config->getSenderZipCode(),
             $config->getSenderCity(),
-            $config->getSenderLocale()
+            Defaults::LOCALE_CODE
         );
     }
 }

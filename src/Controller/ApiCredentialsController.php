@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Controller;
 
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
-use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,13 +14,10 @@ use T3ko\Dpd\Request\GenerateLabelsRequest;
 
 final class ApiCredentialsController
 {
-    private ApiClientResolverInterface $apiClientResolver;
-
     private TranslatorInterface $translator;
 
-    public function __construct(ApiClientResolverInterface $apiClientResolver, TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator)
     {
-        $this->apiClientResolver = $apiClientResolver;
         $this->translator = $translator;
     }
 
@@ -29,7 +25,7 @@ final class ApiCredentialsController
     {
         $data = $request->toArray();
         $shopId = $data['shopId'];
-        /** @var array{apiLogin: string, apiPassword: string, apiFid: string, apiEnvironment: string, senderFirstLastName: string, senderPhoneNumber: string, senderStreet: string, senderCity: string, senderZipCode: string, senderLocale: string} $formData */
+        /** @var array{apiLogin: string, apiPassword: string, apiFid: string, apiEnvironment: string, senderFirstLastName: string, senderPhoneNumber: string, senderStreet: string, senderCity: string, senderZipCode: string} $formData */
         $formData = $data['formData'];
         $language = $data['language'];
 

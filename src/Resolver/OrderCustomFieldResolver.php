@@ -36,6 +36,13 @@ final class OrderCustomFieldResolver implements OrderCustomFieldResolverInterfac
             throw new PackageException('bitbag.shopware_dpd_app.package.fill_required_custom_fields');
         }
 
+        if (0 === $orderCustomFields[$depthKey] ||
+            0 === $orderCustomFields[$heightKey] ||
+            0 === $orderCustomFields[$widthKey]
+        ) {
+            throw new PackageException('bitbag.shopware_dpd_app.package.fill_required_custom_fields');
+        }
+
         return [
             'depth' => $orderCustomFields[$depthKey],
             'height' => $orderCustomFields[$heightKey],

@@ -8,5 +8,5 @@ use T3ko\Dpd\Objects\Sender;
 
 interface DpdSenderFactoryInterface
 {
-    public function create(string $shopId): Sender;
+    public function create(string $shopId, string $salesChannelId): Sender;
 }

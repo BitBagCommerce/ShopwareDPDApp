@@ -21,7 +21,7 @@ final class DpdSenderFactoryTest extends WebTestCase
 
         $configRepositoryInterface = $this->createMock(ConfigRepositoryInterface::class);
         $configRepositoryInterface->expects(self::once())
-            ->method('getByShopId')
+            ->method('getByShopIdAndSalesChannelId')
             ->willReturn($config);
 
         $dpdSenderFactory = new DpdSenderFactory($configRepositoryInterface);
@@ -34,9 +34,9 @@ final class DpdSenderFactoryTest extends WebTestCase
                 $config->getSenderStreet(),
                 $config->getSenderZipCode(),
                 $config->getSenderCity(),
-                $config->getSenderLocale()
+                Defaults::LOCALE_CODE
             ),
-            $dpdSenderFactory->create(Uuid::randomHex())
+            $dpdSenderFactory->create(Uuid::randomHex(), '')
         );
     }
 
@@ -52,7 +52,6 @@ final class DpdSenderFactoryTest extends WebTestCase
         $config->setSenderStreet('Jasna 4');
         $config->setSenderZipCode('12-123');
         $config->setSenderCity('Wrocław');
-        $config->setSenderLocale(Defaults::CURRENCY_CODE);
 
         return $config;
     }
