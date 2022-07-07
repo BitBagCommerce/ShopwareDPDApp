@@ -14,7 +14,7 @@ use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Form\Type\OrderCourierType;
-use BitBag\ShopwareDpdApp\Model\OrderCourierPackageDetailsModel;
+use BitBag\ShopwareDpdApp\Model\OrderCourierPackageDetails;
 use BitBag\ShopwareDpdApp\Persister\PackagePersisterInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -140,7 +140,7 @@ final class CourierController extends AbstractController
 
     private function saveOrderCourierNumberInPackages(array $packagesData): void
     {
-        /** @var OrderCourierPackageDetailsModel $orderCourierPackageDetails */
+        /** @var OrderCourierPackageDetails $orderCourierPackageDetails */
         foreach ($packagesData as $orderCourierPackageDetails) {
             $this->packagePersister->saveOrderNumber(
                 $orderCourierPackageDetails->getPackage(),

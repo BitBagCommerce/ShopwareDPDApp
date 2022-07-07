@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Model;
 
 use BitBag\ShopwareDpdApp\Entity\Package;
 
-final class OrderCourierPackageDetailsModel implements OrderCourierPackageDetailsModelInterface
+final class OrderCourierPackageDetails implements OrderCourierPackageDetailsInterface
 {
     private Package $package;
 

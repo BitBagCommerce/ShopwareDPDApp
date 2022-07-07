@@ -7,7 +7,7 @@ namespace BitBag\ShopwareDpdApp\Api;
 use BitBag\ShopwareDpdApp\Entity\OrderCourier;
 use BitBag\ShopwareDpdApp\Entity\Package;
 use BitBag\ShopwareDpdApp\Factory\OrderCourier\PackagePickupFactoryInterface;
-use BitBag\ShopwareDpdApp\Model\OrderCourierPackageDetailsModel;
+use BitBag\ShopwareDpdApp\Model\OrderCourierPackageDetails;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
@@ -35,7 +35,7 @@ final class OrderCourierService implements OrderCourierServiceInterface
     ): array {
         $api = $this->apiClientResolver->getClient($shopId);
 
-        $orderCourierPackageDetailsItems = [];
+        $packageDetails = [];
 
         /** @var OrderEntity $order */
         foreach ($orders as $order) {
@@ -55,12 +55,10 @@ final class OrderCourierService implements OrderCourierServiceInterface
             );
 
             $pickupRequest = $api->getPickupRequest($request);
-
             $orderCourierNumer = $pickupRequest->getReturn()->getOrderNumber();
-
-            $orderCourierPackageDetailsItems[] = new OrderCourierPackageDetailsModel($package, $orderCourierNumer);
+            $packageDetails[] = new OrderCourierPackageDetails($package, $orderCourierNumer);
         }
 
-        return $orderCourierPackageDetailsItems;
+        return $packageDetails;
     }
 }

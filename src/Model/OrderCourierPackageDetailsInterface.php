@@ -6,7 +6,7 @@ namespace BitBag\ShopwareDpdApp\Model;
 
 use BitBag\ShopwareDpdApp\Entity\Package;
 
-interface OrderCourierPackageDetailsModelInterface
+interface OrderCourierPackageDetailsInterface
 {
     public function getPackage(): Package;
 
