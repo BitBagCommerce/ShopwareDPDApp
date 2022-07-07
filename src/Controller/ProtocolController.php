@@ -11,7 +11,7 @@ use BitBag\ShopwareAppSystemBundle\Response\FeedbackResponse;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
-use BitBag\ShopwareDpdApp\Factory\CreateContextFactoryInterface;
+use BitBag\ShopwareDpdApp\Factory\ContextFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
@@ -33,20 +33,20 @@ final class ProtocolController extends AbstractController
 
     private OrderFinderInterface $orderFinder;
 
-    private CreateContextFactoryInterface $createContextFactory;
+    private ContextFactoryInterface $contextFactory;
 
     public function __construct(
         PackageRepositoryInterface $packageRepository,
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
         ApiClientResolverInterface $apiClientResolver,
         OrderFinderInterface $orderFinder,
-        CreateContextFactoryInterface $createContextFactory
+        ContextFactoryInterface $contextFactory
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->apiClientResolver = $apiClientResolver;
         $this->orderFinder = $orderFinder;
-        $this->createContextFactory = $createContextFactory;
+        $this->contextFactory = $contextFactory;
     }
 
     public function getProtocol(ActionInterface $action): Response
@@ -75,7 +75,7 @@ final class ProtocolController extends AbstractController
         $shopId = $data['shop-id'] ?? '';
 
         try {
-            $context = $this->createContextFactory->createByShopId($shopId);
+            $context = $this->contextFactory->createByShopId($shopId);
         } catch (UnauthorizedHttpException | ShopNotFoundException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }

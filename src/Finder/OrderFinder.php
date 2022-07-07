@@ -15,14 +15,9 @@ final class OrderFinder implements OrderFinderInterface
 {
     private RepositoryInterface $orderRepository;
 
-    private OrderFinderInterface $orderFinder;
-
-    public function __construct(
-        RepositoryInterface $orderRepository,
-        OrderFinderInterface $orderFinder
-    ) {
+    public function __construct(RepositoryInterface $orderRepository)
+    {
         $this->orderRepository = $orderRepository;
-        $this->orderFinder = $orderFinder;
     }
 
     public function getWithAssociations(?string $orderId, Context $context): OrderEntity
@@ -61,7 +56,7 @@ final class OrderFinder implements OrderFinderInterface
 
     public function getSalesChannelIdByOrderId(string $orderId, Context $context): string
     {
-        $order = $this->orderFinder->getWithAssociations($orderId, $context);
+        $order = $this->getWithAssociations($orderId, $context);
 
         return $this->getSalesChannelIdByOrder($order, $context);
     }
