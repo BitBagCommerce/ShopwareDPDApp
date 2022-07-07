@@ -8,7 +8,6 @@ const senderStreetEl = document.getElementById('senderStreet');
 const senderZipCodeEl = document.getElementById('senderZipCode');
 const senderCityEl = document.getElementById('senderCity');
 const senderPhoneNumberEl = document.getElementById('senderPhoneNumber');
-const senderLocaleEl = document.getElementById('senderLocale');
 
 salesChannelIdSelectEl.addEventListener('change', (e) => {
     const value = e.target.value;
@@ -43,7 +42,6 @@ salesChannelIdSelectEl.addEventListener('change', (e) => {
                 senderZipCodeEl.value = response.senderZipCode ?? '';
                 senderCityEl.value = response.senderCity ?? '';
                 senderPhoneNumberEl.value = response.senderPhoneNumber ?? '';
-                senderLocaleEl.value = response.senderLocale ?? '';
             });
         });
 });

@@ -6,6 +6,7 @@ namespace BitBag\ShopwareDpdApp\Api;
 
 use BitBag\ShopwareDpdApp\Exception\ApiException;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
+use BitBag\ShopwareDpdApp\Exception\Order\OrderAddressException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
@@ -42,7 +43,7 @@ final class PackageService implements PackageServiceInterface
     ): array {
         try {
             $package = $this->packageFactory->create($shopId, $order, $context);
-        } catch (OrderException | PackageException $e) {
+        } catch (OrderException | OrderAddressException | PackageException $e) {
             throw new ErrorNotificationException($e->getMessage());
         }
 
