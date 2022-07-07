@@ -12,11 +12,6 @@ bitbag:
                 post_code_invalid: 'Post code is invalid (valid format is: 12-345)'
                 phone_number_invalid: 'Phone number is invalid (valid format: 111-222-333)'
                 phone_number_empty: 'Phone number cannot be empty'
-                first_name_empty: 'First name cannot be empty'
-                last_name_empty: 'Last name cannot be empty'
-                street_empty: 'Street cannot be empty'
-                zip_code_empty: 'Zip code cannot be empty'
-                city_empty: 'City cannot be empty'
         config:
             sales_channel: 'Sales channel'
             sales_channels: 'Sales channels'
@@ -29,7 +24,6 @@ bitbag:
             sender_zip_code: 'Sender zip code'
             sender_city: 'Sender city'
             sender_phone_number: 'Sender phone number'
-            sender_locale: 'Sender locale'
             save: 'Save'
             saved: 'Successfully saved'
             credentials_data_not_found: 'Fill in API credentials'
@@ -43,7 +37,7 @@ bitbag:
             notification_message_error: 'Provided data is not valid'
         package:
             already_created: 'A package has already been created'
-            fill_required_custom_fields: 'Fill in all required package details before creating the package'
+            fill_required_custom_fields: 'Fill in all required package details before creating the package (package contents is also required)'
             not_found: 'Package was not found. Try to generate package one more time'
             created: 'Package has been created'
             too_large: 'Package is too large (area of height, width and depth cannot be larger than 300cm)'

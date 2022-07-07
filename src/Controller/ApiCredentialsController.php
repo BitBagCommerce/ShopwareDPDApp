@@ -25,7 +25,7 @@ final class ApiCredentialsController
     {
         $data = $request->toArray();
         $shopId = $data['shopId'];
-        /** @var array{apiLogin: string, apiPassword: string, apiFid: string, apiEnvironment: string, senderFirstLastName: string, senderPhoneNumber: string, senderStreet: string, senderCity: string, senderZipCode: string, senderLocale: string} $formData */
+        /** @var array{apiLogin: string, apiPassword: string, apiFid: string, apiEnvironment: string, senderFirstLastName: string, senderPhoneNumber: string, senderStreet: string, senderCity: string, senderZipCode: string} $formData */
         $formData = $data['formData'];
         $language = $data['language'];
 

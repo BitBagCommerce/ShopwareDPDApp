@@ -61,10 +61,6 @@ final class ConfigType extends AbstractType
             ->add('senderPhoneNumber', TextType::class, [
                 'label' => 'bitbag.shopware_dpd_app.config.sender_phone_number',
                 'required' => true,
-            ])
-            ->add('senderLocale', TextType::class, [
-                'label' => 'bitbag.shopware_dpd_app.config.sender_locale',
-                'required' => true,
             ]);
     }
 

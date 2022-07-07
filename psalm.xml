@@ -19,5 +19,11 @@
                 <file name="src/Entity/Package.php" />
             </errorLevel>
         </PropertyNotSetInConstructor>
+
+        <PossiblyNullArgument>
+            <errorLevel type="suppress">
+                <directory name="src/"/>
+            </errorLevel>
+        </PossiblyNullArgument>
     </issueHandlers>
 </psalm>
