@@ -4,6 +4,7 @@ bitbag:
             shipping_address_not_found: 'Adres wysyłki nie może być pusty'
             shipping_address_value_invalid: 'Jedna z wartośći w adresie wysyłki jest niepoprawna'
             not_found: 'Zamówienie nie zostało znalezione'
+            sales_channel_id_not_found: 'Kanał sprzedaży nie został znaleziony'
             shipping_method:
                 not_found: 'Metoda wysyłki nie została znaleziona'
                 not_dpd: 'Zamówienie nie zostało złożone za pomocą DPD'

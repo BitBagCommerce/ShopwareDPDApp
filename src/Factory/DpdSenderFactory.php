@@ -17,9 +17,9 @@ final class DpdSenderFactory implements DpdSenderFactoryInterface
         $this->configRepository = $configRepository;
     }
 
-    public function create(string $shopId): Sender
+    public function create(string $shopId, string $salesChannelId): Sender
     {
-        $config = $this->configRepository->getByShopId($shopId);
+        $config = $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
 
         return new Sender(
             $config->getApiFid(),

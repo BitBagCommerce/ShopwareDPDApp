@@ -10,6 +10,7 @@
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\DpdSenderFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\ParcelFactory" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\ReceiverFactory" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
         </service>
 
         <service id="BitBag\ShopwareDpdApp\Factory\ParcelFactory">
@@ -25,6 +26,11 @@
 
         <service id="BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactory">
             <argument type="service" id="translator" />
+        </service>
+
+        <service id="BitBag\ShopwareDpdApp\Factory\ContextFactory">
+            <argument type="service" id="bitbag.shopware_app_system.repository.shop_repository" />
+            <argument type="service" id="bitbag.shopware_app_system.factory.context.context_factory" />
         </service>
     </services>
 </container>

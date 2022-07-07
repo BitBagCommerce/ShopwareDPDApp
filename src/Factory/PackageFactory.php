@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
+use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use T3ko\Dpd\Objects\Enum\Currency;
 use T3ko\Dpd\Objects\Package;
 use Vin\ShopwareSdk\Data\Context;
@@ -19,14 +20,18 @@ final class PackageFactory implements PackageFactoryInterface
 
     private ReceiverFactoryInterface $receiverFactory;
 
+    private OrderFinderInterface $orderFinder;
+
     public function __construct(
         DpdSenderFactoryInterface $dpdSenderFactory,
         ParcelFactoryInterface $parcelFactory,
-        ReceiverFactoryInterface $receiverFactory
+        ReceiverFactoryInterface $receiverFactory,
+        OrderFinderInterface $orderFinder
     ) {
         $this->dpdSenderFactory = $dpdSenderFactory;
         $this->parcelFactory = $parcelFactory;
         $this->receiverFactory = $receiverFactory;
+        $this->orderFinder = $orderFinder;
     }
 
     public function create(
@@ -34,7 +39,8 @@ final class PackageFactory implements PackageFactoryInterface
         OrderEntity $order,
         Context $context
     ): Package {
-        $sender = $this->dpdSenderFactory->create($shopId);
+        $salesChannelId = $this->orderFinder->getSalesChannelIdByOrder($order, $context);
+        $sender = $this->dpdSenderFactory->create($shopId, $salesChannelId);
         $orderAddress = $order->addresses?->first();
         $receiver = $this->receiverFactory->create($orderAddress);
         $parcel = $this->parcelFactory->create($order, $context);

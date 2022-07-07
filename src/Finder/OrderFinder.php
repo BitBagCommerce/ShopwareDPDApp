@@ -15,9 +15,8 @@ final class OrderFinder implements OrderFinderInterface
 {
     private RepositoryInterface $orderRepository;
 
-    public function __construct(
-        RepositoryInterface $orderRepository,
-    ) {
+    public function __construct(RepositoryInterface $orderRepository)
+    {
         $this->orderRepository = $orderRepository;
     }
 
@@ -42,5 +41,23 @@ final class OrderFinder implements OrderFinderInterface
         }
 
         return $order;
+    }
+
+    public function getSalesChannelIdByOrder(OrderEntity $order, Context $context): string
+    {
+        $salesChannelId = $order->salesChannelId;
+
+        if (null === $salesChannelId) {
+            throw new OrderException('bitbag.shopware_dpd_app.order.sales_channel_id_not_found');
+        }
+
+        return $salesChannelId;
+    }
+
+    public function getSalesChannelIdByOrderId(string $orderId, Context $context): string
+    {
+        $order = $this->getWithAssociations($orderId, $context);
+
+        return $this->getSalesChannelIdByOrder($order, $context);
     }
 }

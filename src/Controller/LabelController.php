@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Controller;
 
+use BitBag\ShopwareAppSystemBundle\Exception\ShopNotFoundException;
 use BitBag\ShopwareAppSystemBundle\Model\Action\ActionInterface;
 use BitBag\ShopwareAppSystemBundle\Model\Feedback\NewTab;
 use BitBag\ShopwareAppSystemBundle\Response\FeedbackResponse;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
+use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
+use BitBag\ShopwareDpdApp\Factory\ContextFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
+use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use T3ko\Dpd\Request\GenerateLabelsRequest;
 
@@ -26,14 +31,22 @@ final class LabelController extends AbstractController
 
     private ApiClientResolverInterface $apiClientResolver;
 
+    private OrderFinderInterface $orderFinder;
+
+    private ContextFactoryInterface $contextFactory;
+
     public function __construct(
         PackageRepositoryInterface $packageRepository,
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
-        ApiClientResolverInterface $apiClientResolver
+        ApiClientResolverInterface $apiClientResolver,
+        OrderFinderInterface $orderFinder,
+        ContextFactoryInterface $contextFactory
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->apiClientResolver = $apiClientResolver;
+        $this->orderFinder = $orderFinder;
+        $this->contextFactory = $contextFactory;
     }
 
     public function getLabel(ActionInterface $action): Response
@@ -62,8 +75,20 @@ final class LabelController extends AbstractController
         $shopId = $data['shop-id'] ?? '';
 
         try {
-            $api = $this->apiClientResolver->getApi($shopId);
-        } catch (ErrorNotificationException $e) {
+            $context = $this->contextFactory->createByShopId($shopId);
+        } catch (UnauthorizedHttpException | ShopNotFoundException $e) {
+            return $this->feedbackResponseFactory->createError($e->getMessage());
+        }
+
+        try {
+            $salesChannelId = $this->orderFinder->getSalesChannelIdByOrderId($orderId, $context);
+        } catch (OrderException $e) {
+            return $this->feedbackResponseFactory->createError($e->getMessage());
+        }
+
+        try {
+            $api = $this->apiClientResolver->getApi($shopId, $salesChannelId);
+        } catch (ErrorNotificationException  $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 
