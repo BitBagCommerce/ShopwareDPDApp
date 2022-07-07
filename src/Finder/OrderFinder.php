@@ -7,7 +7,7 @@ namespace BitBag\ShopwareDpdApp\Finder;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
-use Vin\ShopwareSdk\Data\Entity\EntityCollection;
+use Vin\ShopwareSdk\Data\Entity\Order\OrderCollection;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
 use Vin\ShopwareSdk\Data\FieldSorting;
 use Vin\ShopwareSdk\Data\Filter\EqualsAnyFilter;
@@ -47,10 +47,10 @@ final class OrderFinder implements OrderFinderInterface
         return $order;
     }
 
-    public function getOrdersByPackagesIds(array $packagesIds, Context $context): EntityCollection
+    public function getOrdersByPackagesIds(array $packagesIds, Context $context): OrderCollection
     {
         if ([] === $packagesIds) {
-            return new EntityCollection();
+            return new OrderCollection();
         }
 
         $ordersCriteria = (new Criteria())
@@ -62,7 +62,9 @@ final class OrderFinder implements OrderFinderInterface
             ])
             ->addSorting(new FieldSorting('orderNumber', 'DESC'));
 
-        return $this->orderRepository->search($ordersCriteria, $context)
-                                     ->getEntities();
+        /** @var OrderCollection $collection */
+        $collection = $this->orderRepository->search($ordersCriteria, $context)->getEntities();
+
+        return $collection;
     }
 }

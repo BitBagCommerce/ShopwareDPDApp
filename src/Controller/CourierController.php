@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Vin\ShopwareSdk\Data\Context;
-use Vin\ShopwareSdk\Data\Entity\EntityCollection;
+use Vin\ShopwareSdk\Data\Entity\Order\OrderCollection;
 
 final class CourierController extends AbstractController
 {
@@ -131,7 +131,7 @@ final class CourierController extends AbstractController
         ]);
     }
 
-    private function getOrdersForForm(array $packages, Context $context): EntityCollection
+    private function getOrdersForForm(array $packages, Context $context): OrderCollection
     {
         $packagesIds = array_map(static fn (Package $package) => $package->getOrderId(), $packages);
 

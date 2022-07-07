@@ -13,23 +13,14 @@ final class PickupCustomerFactory implements PickupCustomerFactoryInterface
     public function create(OrderAddressEntity $billingAddress): PickupCustomerDPPV1
     {
         $firstName = $billingAddress->firstName;
-        $lastName = $billingAddress->lastName;
         $phoneNumber = $billingAddress->phoneNumber;
-
-        if (null === $firstName) {
-            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.first_name_empty');
-        }
-
-        if (null === $lastName) {
-            throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.last_name_empty');
-        }
 
         if (null === $phoneNumber) {
             throw new OrderAddressException('bitbag.shopware_dpd_app.order.address.phone_number_empty');
         }
 
         $pickupCustomer = new PickupCustomerDPPV1();
-        $pickupCustomer->setCustomerFullName($firstName . ' ' . $lastName);
+        $pickupCustomer->setCustomerFullName($firstName . ' ' . $billingAddress->lastName);
         $pickupCustomer->setCustomerName($firstName);
         $pickupCustomer->setCustomerPhone($phoneNumber);
 
