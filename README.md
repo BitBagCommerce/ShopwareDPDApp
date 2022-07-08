@@ -31,7 +31,7 @@ At BitBag we do believe in open source. However, we are able to do it just becau
 ![DPD order action buttons](./doc/images/bitbag-shopware-dpd-action-buttons.png)
 ![DPD API configuration](./doc/images/bitbag-shopware-dpd-app-api-configuration.png)
 
-This application allows customers to choose DPD during the checkout process and pick up their orders wherever they want.
+This application allows customers to choose DPD during the checkout process.
 
 ## We are here to help
 This **open-source plugin was developed to help the Shopware community** and make DPD shipments method available to any Shopware store. If you have any additional questions, would like help with installing or configuring the app, or need any assistance with your Shopware project - let us know!
@@ -50,6 +50,7 @@ We work on stable, supported and up-to-date versions of packages. We recommend y
 | Package                | Version |
 |------------------------|---------|
 | PHP                    | ^8.0    |
+| shopware/platform      | ^6.4.12 |
 
 For the full installation guide please go to [installation](doc/installation.md).
 
@@ -62,22 +63,22 @@ For the full installation guide please go to [installation](doc/installation.md)
 ### API credentials
 You need to add the required API credentials.
 
-![Required API data](./doc/images/shopware-dpd-plugin-api-configuration.png)
+![Required API data](./doc/images/bitbag-shopware-dpd-app-api-configuration.png)
 
 ### Shipping method
 You need to add the DPD shipping method in the back office, so your customers can use it.
 
 ![DPD shipping method in Storefront](./doc/images/bitbag-shopware-dpd-shipping-method.png)
 
-### Required phone number
+### Obligatory phone number
 You need to set the phone number field as required.
 
 ![Required phone number in settings](./doc/images/bitbag-shopware-dpd-required-phone-number.png)
 
 ### Products weight
-You need to set the weight of all products in your store. The weight is calculated automatically according to the products ordered.
+You need to set the weight of all products in your store. Package weight is calculated automatically according to the products ordered.
 
-![Products weight](./doc/images/bitbag-shopware-dpd-product-weight.png)
+![Product weight](./doc/images/bitbag-shopware-dpd-product-weight.png)
 
 # About us
 
