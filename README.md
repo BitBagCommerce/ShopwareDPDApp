@@ -1,160 +1,134 @@
-## ShopwareDPDApp
+# ![Logo](doc/images/bitbag-shopware-dpd-app.png)
+# DPD App for Shopware
 
-This repo contains an application for DPD shipping in Shopware.
+---
 
-## Local development with docker-compose
+[![Slack](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)](http://slack.shopware.com) [![Support](https://img.shields.io/badge/support-contact%20author-blue])](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=dpd_app_shopware)
 
-In your local Shopware installation directory add the following code in your docker-compose.yml:
+At BitBag we do believe in open source. However, we are able to do it just because of our awesome clients, who are kind enough to share some parts of our work with the community. Therefore, if you feel like there is a possibility for us working together, feel free to reach us out. You will find out more about our professional services, technologies and contact details at [https://bitbag.io/](https://bitbag.io/?utm_source=github&utm_medium=referral&utm_campaign=dpd_app_shopware).
 
-```yaml
-networks:
-    shopware:
-      
-    # Add these lines
-    development:
-    appSystem:
+## Table of Contents
 
-services:
-  app_server:
-    image: shopware/development:7.4-composer-2
-    networks:
-      shopware:
-        aliases:
-          - docker.vm
-            
-      # Add these lines
-      development:
-        aliases:
-            - shopware
-    extra_hosts:
-      - "docker.vm:127.0.0.1"
-    volumes:
-      - ~/.composer:/.composer
-    tmpfs:
-      - /tmp:mode=1777
+***
 
-```
+* [Overview](#overview)
+* [Support](#we-are-here-to-help)
+* [Installation](#installation)
+  * [Requirements](#requirements)
+  * [Testing](#testing)
+* [Configuration](#configuration)
+* [About us](#about-us)
+  * [Community](#community)
+* [Additional resources for developers](#additional-resources-for-developers)
+* [License](#license)
+* [Contact](#contact)
 
-You also need to add containers that your app will use. In the same file add these lines:
+# Overview
 
-```yaml
-  example_app:
-        image: shopware/development:local
-        volumes:
-            
-            # Remember about changing your app's directory location
-            - "../AppTemplate:/app"
-            - "~/.composer:/.composer"
-        environment:
-            CONTAINER_UID: 1000
-            APPLICATION_UID: 1000
-            APPLICATION_GID: 1000
-        ports:
-            - "127.0.0.1:7777:8000"
-        networks:
-            appSystem:
-            development:
-                aliases:
-                    - example-app
+----
 
-  example_app_db:
-    build: dev-ops/docker/containers/mysql
-    environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_USER: app
-        MYSQL_PASSWORD: app
-    ports:
-        - "5506:3306"
-    volumes:
-        - ./dev-ops/docker/_volumes/mysql-example:/mysql-data
-    networks:
-        appSystem:
-            aliases:
-                - example-app-mysql
+![DPD widget](./doc/images/bitbag-shopware-dpd-shipping-method-widget-storefront.png)
+![DPD order action buttons](./doc/images/bitbag-shopware-dpd-action-buttons.png)
+![DPD API configuration](./doc/images/bitbag-shopware-dpd-app-api-configuration.png)
 
-```
+This application allows customers to choose DPD during the checkout process and create DPD packages in the back office.
 
-You can adjust the ports as you see fit.
+## We are here to help
+This **open-source plugin was developed to help the Shopware community** and make DPD shipments method available to any Shopware store. If you have any additional questions, would like help with installing or configuring the app, or need any assistance with your Shopware project - let us know!
+
+[![](https://bitbag.io/wp-content/uploads/2020/10/button-contact.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=dpd_app_shopware)
 
 
-It's useful to have a script for launching your app's shell:
+# Installation
 
-```shell
-# dev-ops/docker/actions
+----
 
-#!/usr/bin/env bash
-​
-TTY: docker exec -i --env COLUMNS=`tput cols` --env LINES=`tput lines` -t __EXAMPLE_APP_ID__ bash
-```
+### Requirements
 
-PSH needs to know how to resolve EXAMPLE_APP_ID. Additionally, for development purposes you can set APP_URL to point to your Shopware instance:
+We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.
 
-```yaml
-dynamic:
-    EXAMPLE_APP_ID: docker-compose ps -q example_app
-const:
-    APP_URL: "http://shopware"
-```
+| Package                | Version |
+|------------------------|---------|
+| PHP                    | ^8.0    |
+| shopware/platform      | ^6.4.12 |
 
-## What it does
+For the full installation guide please go to [installation](doc/installation.md).
 
-This is a standard Symfony application that contains hundreds of lines of code that you'd need anyway to create a means of authenticating & authorizing requests coming from a Shopware store.
-It stores the API keys that will later be used in your services to make requests to a Shopware instance.
+--- 
 
-It also contains argument resolvers for your controllers so provided you want to create a controller that listens for some events, actions can have the following signature:
+# Configuration
 
-```php
-class ProductController extends AbstractController
-{
-    public function __invoke(EventInterface $event)
-    {
-        // Act upon the event based on shop id:
-        if ($event->getShopId() === '...') {
-            // ...
-        }
-    }
-}
-```
+---
 
-It also contains a client resolver so it's easy to send requests to Shopware directly from your controller or delegating them to other services:
+### API credentials
+You need to add the required API credentials.
 
-```php
-final class CustomerController extends AbstractController
-{
-    private const CUSTOMER_WRITTEN_EVENT = 'customer.written';
+![Required API data](./doc/images/bitbag-shopware-dpd-app-api-configuration.png)
 
-    private AdminEmailServiceInterface $emailService;
-    
-    // ...
+### Shipping method
+You need to add the DPD shipping method in the back office, so your customers can use it.
 
-    public function __invoke(EventInterface $event, ClientInterface $client)
-    {
-        $eventData = $event->getEventData();
-        $eventType = $eventData['event'] ?? null;
-        
-        if ($eventType === self::CUSTOMER_WRITTEN_EVENT) {
-        
-            // The client knows what store it'll be making requests to
-            $this->emailService->notifyAdmin($event, $client);
-        }
-    }
-}
-```
+![DPD shipping method in Storefront](./doc/images/bitbag-shopware-dpd-shipping-method.png)
+
+### Obligatory phone number
+You need to set the phone number field as required.
+
+![Required phone number in settings](./doc/images/bitbag-shopware-dpd-required-phone-number.png)
+
+### Product weight
+You need to set the weight of all products in your store. Package weight is calculated automatically according to the products ordered.
+
+![Product weight](./doc/images/bitbag-shopware-dpd-product-weight.png)
+
+# About us
+
+---
+
+BitBag is an agency that provides high-quality **eCommerce and Digital Experience software**. Our main area of expertise includes eCommerce consulting and development for B2C, B2B, and Multi-vendor Marketplaces.
+The scope of our services related to Shopware includes:
+- **Consulting** in the field of strategy development
+- Personalized **headless software development**
+- **System maintenance and long-term support**
+- **Outsourcing**
+- **Plugin development**
+- **Data migration**
+
+---
+
+If you need some help with Shopware development, don't hesitate to contact us directly. You can fill the form on [this site](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=dpd_app_shopware) or send us an e-mail to hello@bitbag.io!
+
+---
+
+<img src="doc/images/shopware_business_partner.svg" height="200" style="display: block; margin: 0 auto" alt="shopware"/>
+
+## Community
+
+---
+
+For online communication, we invite you to chat with us & other users on [Shopware Slack](https://slack.shopware.com/).
 
 
+## Additional resources for developers
 
-## How it works
+---
 
-It wraps the raw communication between Shopware and your app. Mainly:
-- It can register and confirm [the registration of your app](https://developer.shopware.com/docs/guides/plugins/apps/app-base-guide#setup)
-- It stores API keys to be used later by auto-injectable client instances
-- It has a scaffolding for reacting to [app lifecycle events](https://developer.shopware.com/docs/guides/plugins/apps/app-base-guide#app-lifecycle-events)
-- It handles all authentication and authorization in the background:
-  - secret keys,
-  - hmac signatures,
-  - automatically refreshes OAuth tokens,
-  - basically it's a swiss knife.
+To learn more about our contribution workflow and more, we encourage ypu to use the following resources:
+* [Shopware Documentation](https://docs.shopware.com/en)
+* [Shopware Contribution Guide](https://developer.shopware.com/docs/guides/installation/overview)
+* [Shopware Online Course](https://academy.shopware.com/collections?category=developer-sw6)
 
-# Credits
+## License
 
-Inspired by the original [template](https://github.com/shopwareLabs/AppTemplate) by Shopware.
+---
+
+This plugin source code is completely free and released under the terms of the MIT license.
+
+[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen.)
+
+## Contact
+
+---
+
+If you want to contact us, the best way is to fill the form on [our website](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=dpd_app_shopware) or e-mail us to hello@bitbag.io with your question(s). We guarantee that we answer as soon as we can!
+
+[![](https://bitbag.io/wp-content/uploads/2021/08/badges-bitbag.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=dpd_app_shopware)
