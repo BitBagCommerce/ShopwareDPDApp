@@ -31,7 +31,7 @@ At BitBag we do believe in open source. However, we are able to do it just becau
 ![DPD order action buttons](./doc/images/bitbag-shopware-dpd-action-buttons.png)
 ![DPD API configuration](./doc/images/bitbag-shopware-dpd-app-api-configuration.png)
 
-This application allows customers to choose DPD during the checkout process.
+This application allows customers to choose DPD during the checkout process and create DPD packages in the back office.
 
 ## We are here to help
 This **open-source plugin was developed to help the Shopware community** and make DPD shipments method available to any Shopware store. If you have any additional questions, would like help with installing or configuring the app, or need any assistance with your Shopware project - let us know!
@@ -75,7 +75,7 @@ You need to set the phone number field as required.
 
 ![Required phone number in settings](./doc/images/bitbag-shopware-dpd-required-phone-number.png)
 
-### Products weight
+### Product weight
 You need to set the weight of all products in your store. Package weight is calculated automatically according to the products ordered.
 
 ![Product weight](./doc/images/bitbag-shopware-dpd-product-weight.png)
