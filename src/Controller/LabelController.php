@@ -34,6 +34,8 @@ final class LabelController extends AbstractController
 
     private OrderFinderInterface $orderFinder;
 
+    private ContextFactoryInterface $contextFactory;
+
     private ConfigRepositoryInterface $configRepository;
 
     public function __construct(
@@ -51,8 +53,6 @@ final class LabelController extends AbstractController
         $this->contextFactory = $contextFactory;
         $this->configRepository = $configRepository;
     }
-
-    private ContextFactoryInterface $contextFactory;
 
     public function getLabel(ActionInterface $action): Response
     {
