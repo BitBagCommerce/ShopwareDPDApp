@@ -1,0 +1,9 @@
+{% macro findShippingMethod(name) %}
+    {% set criteria = {
+        filter: {
+            'customFields.technical_name': name
+        }
+    } %}
+
+    {% return services.repository.search('shipping_method', criteria).first %}
+{% endmacro %}

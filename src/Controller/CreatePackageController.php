@@ -10,7 +10,6 @@ use BitBag\ShopwareDpdApp\Entity\Package as PackageEntity;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
-use BitBag\ShopwareDpdApp\Factory\ShippingMethodPayloadFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +20,8 @@ use Vin\ShopwareSdk\Repository\RepositoryInterface;
 
 final class CreatePackageController
 {
+    public const SHIPPING_KEY = 'DPD';
+
     private FeedbackResponseFactoryInterface $feedbackResponseFactory;
 
     private OrderFinderInterface $orderFinder;
@@ -71,7 +72,7 @@ final class CreatePackageController
 
         $technicalName = $shippingMethod->getTranslated()['customFields']['technical_name'] ?? null;
 
-        if (ShippingMethodPayloadFactoryInterface::SHIPPING_KEY !== $technicalName) {
+        if (self::SHIPPING_KEY !== $technicalName) {
             return $this->feedbackResponseFactory->createError(
                 'bitbag.shopware_dpd_app.order.shipping_method.not_dpd'
             );

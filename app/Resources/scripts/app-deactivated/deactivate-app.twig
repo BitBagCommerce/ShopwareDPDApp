@@ -1,0 +1,13 @@
+{% import 'include/repository/shipping-method.twig' as shippingMethodRepository %}
+{% import 'include/service/defaults.twig' as defaultsService %}
+
+{% set shippingMethod = shippingMethodRepository.findShippingMethod(defaultsService.shippingMethodKey()) %}
+
+{% if shippingMethod is not null %}
+    {% do services.writer.upsert('shipping_method', [
+        {
+            id: shippingMethod.id,
+            active: false
+        }
+    ]) %}
+{% endif %}

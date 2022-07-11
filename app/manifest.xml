@@ -6,7 +6,7 @@
         <label>DPD</label>
         <label lang="pl-PL">DPD</label>
         <description>BitBag Shopware app for DPD</description>
-        <description lang="pl-PL">BitBag Shopware aplikacja z metodą wysyłki DPD</description>
+        <description lang="pl-PL">Aplikacja umożliwiająca tworzenie przesyłek kurierem DPD dla platformy Shopware</description>
         <author>BitBag</author>
         <copyright>(c) by BitBag</copyright>
         <version>1.0.0</version>
@@ -20,24 +20,30 @@
     </setup>
 
     <permissions>
-        <create>shipping_method</create>
         <read>shipping_method</read>
+        <create>shipping_method</create>
         <update>shipping_method</update>
-        <create>delivery_time</create>
+        <create>shipping_method_price</create>
+
         <read>delivery_time</read>
+
         <read>order</read>
-        <read>order_delivery</read>
-        <update>order_delivery</update>
         <read>order_address</read>
         <read>order_line_item</read>
         <read>order_transaction</read>
         <read>order_payment_method</read>
+        <read>order_delivery</read>
+        <update>order_delivery</update>
+
         <read>product</read>
+
         <read>rule</read>
         <create>rule</create>
         <create>rule_condition</create>
+
         <read>payment_method</read>
-        <create>shipping_method_price</create>
+
+        <read>sales_channel</read>
     </permissions>
 
     <admin>
@@ -66,9 +72,8 @@
     </admin>
 
     <webhooks>
-        <!--  https://developer.shopware.com/docs/guides/plugins/apps/app-base-guide#webhooks-->
-        <webhook name="appLifecycleDeleted" url="http://example-app/app/lifecycle/deleted" event="app.deleted"/>
-        <webhook name="appLifecycleActivated" url="http://example-app/app/lifecycle/activated" event="app.activated"/>
+        <webhook name="appLifecycleDeleted" url="http://example-app/app/lifecycle/deleted" event="app.deleted" />
+        <webhook name="appLifecycleActivated" url="http://example-app/app/lifecycle/activated" event="app.activated" />
     </webhooks>
 
     <custom-fields>

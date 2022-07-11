@@ -1,0 +1,9 @@
+{% macro findByCashPayment() %}
+    {% set criteria = {
+        filter: {
+            'handlerIdentifier': 'Shopware\\Core\\Checkout\\Payment\\Cart\\PaymentHandler\\CashPayment'
+        }
+    } %}
+
+    {% return services.repository.search('payment_method', criteria).first %}
+{% endmacro %}
