@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Controller;
 
+use BitBag\ShopwareAppSystemBundle\Exception\ShopNotFoundException;
 use BitBag\ShopwareAppSystemBundle\Model\Action\ActionInterface;
 use BitBag\ShopwareAppSystemBundle\Model\Feedback\NewTab;
 use BitBag\ShopwareAppSystemBundle\Response\FeedbackResponse;
@@ -19,6 +20,7 @@ use BitBag\ShopwareDpdApp\Validator\ConfigValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use T3ko\Dpd\Request\GenerateProtocolRequest;
 
