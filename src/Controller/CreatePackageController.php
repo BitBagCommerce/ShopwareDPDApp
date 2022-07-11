@@ -10,7 +10,6 @@ use BitBag\ShopwareDpdApp\Entity\Package as PackageEntity;
 use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
-use BitBag\ShopwareDpdApp\Factory\ShippingMethodPayloadFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
