@@ -1,8 +1,8 @@
-{% import "include/repository/shipping-method.twig" as shippingMethodRepository %}
-{% import "include/repository/delivery-time.twig" as deliveryTimeRepository %}
-{% import "include/repository/rule.twig" as ruleRepository %}
-{% import "include/repository/payment-method.twig" as paymentMethodRepository %}
-{% import "include/defaults.twig" as defaultsService %}
+{% import 'include/repository/shipping-method.twig' as shippingMethodRepository %}
+{% import 'include/repository/delivery-time.twig' as deliveryTimeRepository %}
+{% import 'include/repository/rule.twig' as ruleRepository %}
+{% import 'include/repository/payment-method.twig' as paymentMethodRepository %}
+{% import 'include/service/defaults.twig' as defaultsService %}
 
 {% set shippingMethodName = defaultsService.shippingMethodKey() %}
 {% set shippingMethod = shippingMethodRepository.findShippingMethod(shippingMethodName) %}
@@ -24,7 +24,7 @@
             {
                 name: ruleName,
                 priority: 0,
-                createdAt: "now"|date("Y/m/d H:i:s"),
+                createdAt: 'now'|date('Y/m/d H:i:s'),
                 conditions: [{
                     type: 'paymentMethod',
                     value: {
@@ -53,7 +53,7 @@
                 },
                 availabilityRuleId: rule.id,
                 trackingUrl: 'https://tracktrace.dpd.com.pl/parcelDetails?typ=1&p1=%s',
-                createdAt: "now"|date("Y/m/d H:i:s"),
+                createdAt: 'now'|date("Y/m/d H:i:s"),
                 prices: [{
                     ruleId: rule.id,
                     calculation: 1,

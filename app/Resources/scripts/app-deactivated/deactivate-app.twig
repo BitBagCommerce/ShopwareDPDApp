@@ -1,5 +1,5 @@
-{% import "include/repository/shipping-method.twig" as shippingMethodRepository %}
-{% import "include/defaults.twig" as defaultsService %}
+{% import 'include/repository/shipping-method.twig' as shippingMethodRepository %}
+{% import 'include/service/defaults.twig' as defaultsService %}
 
 {% set shippingMethod = shippingMethodRepository.findShippingMethod(defaultsService.shippingMethodKey()) %}
 

@@ -6,7 +6,7 @@
         <label>DPD</label>
         <label lang="pl-PL">DPD</label>
         <description>BitBag Shopware app for DPD</description>
-        <description lang="pl-PL">BitBag Shopware aplikacja z metodą wysyłki DPD</description>
+        <description lang="pl-PL">Aplikacja umożliwiająca tworzenie przesyłek kurierem DPD dla platformy Shopware</description>
         <author>BitBag</author>
         <copyright>(c) by BitBag</copyright>
         <version>1.0.0</version>
@@ -85,7 +85,6 @@
             <related-entities>
                 <order/>
             </related-entities>
-
             <fields>
                 <int name="bitbag_shopware_dpd_app_package_details_height">
                     <position>1</position>

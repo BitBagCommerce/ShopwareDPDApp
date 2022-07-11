@@ -21,6 +21,8 @@ use Vin\ShopwareSdk\Repository\RepositoryInterface;
 
 final class CreatePackageController
 {
+    public const SHIPPING_KEY = 'DPD';
+
     private FeedbackResponseFactoryInterface $feedbackResponseFactory;
 
     private OrderFinderInterface $orderFinder;
@@ -71,7 +73,7 @@ final class CreatePackageController
 
         $technicalName = $shippingMethod->getTranslated()['customFields']['technical_name'] ?? null;
 
-        if (ShippingMethodPayloadFactoryInterface::SHIPPING_KEY !== $technicalName) {
+        if (self::SHIPPING_KEY !== $technicalName) {
             return $this->feedbackResponseFactory->createError(
                 'bitbag.shopware_dpd_app.order.shipping_method.not_dpd'
             );
