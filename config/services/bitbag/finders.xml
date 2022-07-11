@@ -2,22 +2,6 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="BitBag\ShopwareDpdApp\Finder\ShippingMethodFinder">
-            <argument type="service" id="shopware.repository.shipping_method" />
-        </service>
-
-        <service id="BitBag\ShopwareDpdApp\Finder\DeliveryTimeFinder">
-            <argument type="service" id="shopware.repository.delivery_time" />
-        </service>
-
-        <service id="BitBag\ShopwareDpdApp\Finder\RuleFinder">
-            <argument type="service" id="shopware.repository.rule" />
-        </service>
-
-        <service id="BitBag\ShopwareDpdApp\Finder\PaymentMethodFinder">
-            <argument type="service" id="shopware.repository.payment_method" />
-        </service>
-
         <service id="BitBag\ShopwareDpdApp\Finder\OrderFinder">
             <argument type="service" id="shopware.repository.order" />
         </service>

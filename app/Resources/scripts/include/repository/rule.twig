@@ -1,0 +1,9 @@
+{% macro findRule(name) %}
+    {% set criteria = {
+        filter: {
+            name: name
+        }
+    } %}
+
+    {% return services.repository.search('rule', criteria).first %}
+{% endmacro %}

@@ -1,0 +1,71 @@
+{% import "include/repository/shipping-method.twig" as shippingMethodRepository %}
+{% import "include/repository/delivery-time.twig" as deliveryTimeRepository %}
+{% import "include/repository/rule.twig" as ruleRepository %}
+{% import "include/repository/payment-method.twig" as paymentMethodRepository %}
+{% import "include/defaults.twig" as defaultsService %}
+
+{% set shippingMethodName = defaultsService.shippingMethodKey %}
+{% set shippingMethod = shippingMethodRepository.getShippingMethod(defaultsService.shippingMethodKey) %}
+
+{% if shippingMethod is not null %}
+    {% do services.writer.upsert('shipping_method', [
+        {
+            'id': shippingMethod.id,
+            'active': true
+        }
+    ]) %}
+{% else %}
+    {% set deliveryTime = deliveryTimeRepository.findDeliveryTime() %}
+    {% set rule = ruleRepository.findRuleByName(defaultsService.getRuleName()) %}
+
+    {% if rule is null %}
+        {% do services.writer.upsert('rule', [
+            {
+                name: defaultsService.getRuleName(),
+                priority: 0,
+                createdAt: "now"|date("Y/m/d H:i:s"),
+                conditions: [{
+                    type: 'paymentMethod',
+                    value: {
+                        paymentMethodIds: [paymentMethodRepository.findByCashPayment().id],
+                        operator: '!='
+                    }
+                }]
+            }
+        ]) %}
+    {% endif %}
+
+    {% set rule = ruleRepository.findRuleByName(defaultsService.getRuleName()) %}
+
+    {% if rule is not null %}
+        {% do services.writer.upsert('shipping_method', [
+            {
+                name: shippingMethodName,
+                active: true,
+                description: shippingMethodName ~ ' shipping method',
+                taxType: 'auto',
+                translated: [{
+                    name: shippingMethodName
+                }],
+                customFields: {
+                    technical_name: shippingMethodName
+                },
+                availabilityRuleId: rule.id,
+                trackingUrl: 'https://tracktrace.dpd.com.pl/parcelDetails?typ=1&p1=%s',
+                createdAt: "now"|date("Y/m/d H:i:s"),
+                prices: [{
+                    ruleId: rule.id,
+                    calculation: 1,
+                    quantityStart: 1,
+                    currencyPrice: [{
+                        net: 0.0,
+                        gross: 0.0,
+                        linked: false,
+                        currencyId: hook.context.currencyId
+                    }]
+                }],
+                deliveryTimeId: deliveryTime.id
+            }
+        ]) %}
+    {% endif %}
+{% endif %}
