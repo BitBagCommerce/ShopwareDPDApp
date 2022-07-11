@@ -14,9 +14,9 @@ use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\ContextFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
-use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
+use BitBag\ShopwareDpdApp\Validator\ConfigValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +36,7 @@ final class LabelController extends AbstractController
 
     private ContextFactoryInterface $contextFactory;
 
-    private ConfigRepositoryInterface $configRepository;
+    private ConfigValidatorInterface $configValidator;
 
     public function __construct(
         PackageRepositoryInterface $packageRepository,
@@ -44,14 +44,14 @@ final class LabelController extends AbstractController
         ApiClientResolverInterface $apiClientResolver,
         OrderFinderInterface $orderFinder,
         ContextFactoryInterface $contextFactory,
-        ConfigRepositoryInterface $configRepository
+        ConfigValidatorInterface $configValidator
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->apiClientResolver = $apiClientResolver;
         $this->orderFinder = $orderFinder;
         $this->contextFactory = $contextFactory;
-        $this->configRepository = $configRepository;
+        $this->configValidator = $configValidator;
     }
 
     public function getLabel(ActionInterface $action): Response
@@ -59,16 +59,8 @@ final class LabelController extends AbstractController
         $orderId = $action->getData()->getIds()[0] ?? '';
         $shopId = $action->getSource()->getShopId();
 
-        $context = $this->contextFactory->createByShopId($shopId);
-
         try {
-            $salesChannelId = $this->orderFinder->getSalesChannelIdByOrderId($orderId, $context);
-        } catch (OrderException $e) {
-            return $this->feedbackResponseFactory->createError($e->getMessage());
-        }
-
-        try {
-            $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
+            $this->configValidator->checkApiDataFilled($shopId, $orderId);
         } catch (ErrorNotificationException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
