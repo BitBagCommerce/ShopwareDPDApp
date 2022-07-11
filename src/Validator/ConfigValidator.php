@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Validator;
 
-use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
-use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use BitBag\ShopwareDpdApp\Factory\ContextFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
@@ -28,20 +26,12 @@ final class ConfigValidator implements ConfigValidatorInterface
         $this->configRepository = $configRepository;
     }
 
-    public function checkApiDataFilled(string $shopId, string $orderId): void
+    public function validateApiData(string $shopId, string $orderId): void
     {
         $context = $this->contextFactory->createByShopId($shopId);
 
-        try {
-            $salesChannelId = $this->orderFinder->getSalesChannelIdByOrderId($orderId, $context);
-        } catch (OrderException $e) {
-            throw new ErrorNotificationException($e->getMessage());
-        }
+        $salesChannelId = $this->orderFinder->getSalesChannelIdByOrderId($orderId, $context);
 
-        try {
-            $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
-        } catch (ErrorNotificationException $e) {
-            throw new ErrorNotificationException($e->getMessage());
-        }
+        $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
     }
 }

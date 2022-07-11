@@ -60,8 +60,8 @@ final class ProtocolController extends AbstractController
         $shopId = $action->getSource()->getShopId();
 
         try {
-            $this->configValidator->checkApiDataFilled($shopId, $orderId);
-        } catch (ErrorNotificationException $e) {
+            $this->configValidator->validateApiData($shopId, $orderId);
+        } catch (OrderException | ErrorNotificationException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 

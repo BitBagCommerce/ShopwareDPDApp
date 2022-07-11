@@ -6,5 +6,5 @@ namespace BitBag\ShopwareDpdApp\Validator;
 
 interface ConfigValidatorInterface
 {
-    public function checkApiDataFilled(string $shopId, string $orderId): void;
+    public function validateApiData(string $shopId, string $orderId): void;
 }
