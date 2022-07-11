@@ -14,6 +14,7 @@ use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\ContextFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
+use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,23 +36,42 @@ final class ProtocolController extends AbstractController
 
     private ContextFactoryInterface $contextFactory;
 
+    private ConfigRepositoryInterface $configRepository;
+
     public function __construct(
         PackageRepositoryInterface $packageRepository,
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
         ApiClientResolverInterface $apiClientResolver,
         OrderFinderInterface $orderFinder,
-        ContextFactoryInterface $contextFactory
+        ContextFactoryInterface $contextFactory,
+        ConfigRepositoryInterface $configRepository
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->apiClientResolver = $apiClientResolver;
         $this->orderFinder = $orderFinder;
         $this->contextFactory = $contextFactory;
+        $this->configRepository = $configRepository;
     }
 
     public function getProtocol(ActionInterface $action): Response
     {
         $orderId = $action->getData()->getIds()[0] ?? '';
+        $shopId = $action->getSource()->getShopId();
+
+        $context = $this->contextFactory->createByShopId($shopId);
+
+        try {
+            $salesChannelId = $this->orderFinder->getSalesChannelIdByOrderId($orderId, $context);
+        } catch (OrderException $e) {
+            return $this->feedbackResponseFactory->createError($e->getMessage());
+        }
+
+        try {
+            $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
+        } catch (ErrorNotificationException $e) {
+            return $this->feedbackResponseFactory->createError($e->getMessage());
+        }
 
         try {
             $this->packageRepository->getByOrderId($orderId);

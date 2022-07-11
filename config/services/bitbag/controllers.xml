@@ -34,6 +34,7 @@
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\ContextFactory" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />
@@ -48,6 +49,7 @@
             <argument type="service" id="BitBag\ShopwareDpdApp\Resolver\ApiClientResolver" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
             <argument type="service" id="BitBag\ShopwareDpdApp\Factory\ContextFactory" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container" />
