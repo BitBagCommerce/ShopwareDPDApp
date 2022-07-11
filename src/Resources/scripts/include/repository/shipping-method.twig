@@ -1,9 +1,0 @@
-{% macro getShippingMethod(shippingMethodKey) %}
-    {% set criteria = {
-        filter: {
-            'customFields.technical_name': shippingMethodKey
-        }
-    } %}
-
-    {% return services.repository.search('shipping_method', criteria).first %}
-{% endmacro %}
