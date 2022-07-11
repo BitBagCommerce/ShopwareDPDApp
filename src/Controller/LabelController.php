@@ -16,6 +16,7 @@ use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
+use BitBag\ShopwareDpdApp\Validator\ConfigValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,23 +36,34 @@ final class LabelController extends AbstractController
 
     private ContextFactoryInterface $contextFactory;
 
+    private ConfigValidatorInterface $configValidator;
+
     public function __construct(
         PackageRepositoryInterface $packageRepository,
         FeedbackResponseFactoryInterface $feedbackResponseFactory,
         ApiClientResolverInterface $apiClientResolver,
         OrderFinderInterface $orderFinder,
-        ContextFactoryInterface $contextFactory
+        ContextFactoryInterface $contextFactory,
+        ConfigValidatorInterface $configValidator
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->apiClientResolver = $apiClientResolver;
         $this->orderFinder = $orderFinder;
         $this->contextFactory = $contextFactory;
+        $this->configValidator = $configValidator;
     }
 
     public function getLabel(ActionInterface $action): Response
     {
         $orderId = $action->getData()->getIds()[0] ?? '';
+        $shopId = $action->getSource()->getShopId();
+
+        try {
+            $this->configValidator->validateApiData($shopId, $orderId);
+        } catch (OrderException | ErrorNotificationException $e) {
+            return $this->feedbackResponseFactory->createError($e->getMessage());
+        }
 
         $package = $this->packageRepository->findByOrderId($orderId);
 

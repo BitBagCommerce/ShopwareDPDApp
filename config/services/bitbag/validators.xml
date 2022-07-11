@@ -1,0 +1,11 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="BitBag\ShopwareDpdApp\Validator\ConfigValidator">
+            <argument type="service" id="BitBag\ShopwareDpdApp\Factory\ContextFactory" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Finder\OrderFinder" />
+            <argument type="service" id="BitBag\ShopwareDpdApp\Repository\ConfigRepository" />
+        </service>
+    </services>
+</container>
