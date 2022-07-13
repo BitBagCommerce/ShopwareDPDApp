@@ -52,6 +52,7 @@ final class ConfigurationModuleController extends AbstractController
 
     public function __invoke(Request $request): Response
     {
+        $session = $request->getSession();
         $shopId = $request->query->get('shop-id', '');
 
         $shop = $this->shopRepository->find($shopId);
@@ -68,6 +69,12 @@ final class ConfigurationModuleController extends AbstractController
 
         $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, '') ?? new Config();
 
+        if ($request->isMethod('POST')) {
+            $salesChannelId = (string) $request->request->get('salesChannelId');
+
+            $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, $salesChannelId) ?? new Config();
+        }
+
         $form = $this->createForm(ConfigType::class, $config, [
             'salesChannels' => $this->getSalesChannelsForForm($context),
         ]);
@@ -75,22 +82,11 @@ final class ConfigurationModuleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $salesChannelId = $form->get('salesChannelId')->getData();
-            $config = $this->configRepository->findByShopIdAndSalesChannelId($shopId, $salesChannelId);
-
-            if (null === $config) {
-                /** @var Config $formData */
-                $formData = $form->getData();
-
-                $config = '' === $salesChannelId ? $formData : clone $formData;
-            }
-
             $config->setShop($shop);
 
             $this->entityManager->persist($config);
             $this->entityManager->flush();
 
-            $session = $request->getSession();
             $session->getFlashBag()->add('success', $this->translator->trans('bitbag.shopware_dpd_app.config.saved'));
         }
 
