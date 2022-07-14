@@ -14,7 +14,7 @@ bitbag:
                 phone_number_empty: 'Phone number cannot be empty'
         config:
             sales_channel: 'Sales channel'
-            sales_channels: 'Sales channels'
+            sales_channels: 'All sales channels'
             api_login: 'API Login'
             api_password: 'API Password'
             api_fid: 'API FID'
@@ -38,7 +38,7 @@ bitbag:
         package:
             already_created: 'A package has already been created'
             fill_required_custom_fields: 'Fill in all required package details before creating the package (package contents is also required)'
-            not_found: 'Package was not found. Try to generate package one more time'
+            not_found: 'Package was not found. Try to create package one more time'
             created: 'Package has been created'
             too_large: 'Package is too large (area of height, width and depth cannot be larger than 300cm)'
             too_heavy: 'Package is too heavy (maximum 50 kg)'
