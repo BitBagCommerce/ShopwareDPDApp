@@ -92,6 +92,7 @@ final class ConfigurationModuleController extends AbstractController
 
         return $this->renderForm('configuration_module/index.html.twig', [
             'form' => $form,
+            'config' => $config,
         ]);
     }
 

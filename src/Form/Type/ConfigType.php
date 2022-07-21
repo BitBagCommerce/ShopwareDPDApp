@@ -8,6 +8,7 @@ use BitBag\ShopwareDpdApp\Entity\Config;
 use BitBag\ShopwareDpdApp\Entity\ConfigInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,7 +27,7 @@ final class ConfigType extends AbstractType
                 'label' => 'bitbag.shopware_dpd_app.config.api_login',
                 'required' => true,
             ])
-            ->add('apiPassword', TextType::class, [
+            ->add('apiPassword', PasswordType::class, [
                 'label' => 'bitbag.shopware_dpd_app.config.api_password',
                 'required' => true,
             ])
