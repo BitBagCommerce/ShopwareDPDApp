@@ -1,3 +1,5 @@
 bitbag_shopware_app_system:
     app_name: '%env(APP_NAME)%'
     app_secret: '%env(APP_SECRET)%'
+    app_url_backend: '%env(APP_URL_BACKEND)%'
+    app_url_client: '%env(APP_URL_CLIENT)%'
