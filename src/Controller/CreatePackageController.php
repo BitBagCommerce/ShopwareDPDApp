@@ -7,8 +7,7 @@ namespace BitBag\ShopwareDpdApp\Controller;
 use BitBag\ShopwareAppSystemBundle\Model\Action\ActionInterface;
 use BitBag\ShopwareDpdApp\Api\PackageServiceInterface;
 use BitBag\ShopwareDpdApp\Entity\Package as PackageEntity;
-use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
-use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
+use BitBag\ShopwareDpdApp\Exception\OrderException;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
@@ -103,7 +102,7 @@ final class CreatePackageController
                 $trackingCode,
                 $context
             );
-        } catch (ErrorNotificationException | OrderException $e) {
+        } catch (\Exception $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 

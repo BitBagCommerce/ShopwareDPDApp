@@ -8,21 +8,22 @@ use BitBag\ShopwareAppSystemBundle\Exception\ShopNotFoundException;
 use BitBag\ShopwareAppSystemBundle\Model\Action\ActionInterface;
 use BitBag\ShopwareAppSystemBundle\Model\Feedback\NewTab;
 use BitBag\ShopwareAppSystemBundle\Response\FeedbackResponse;
-use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
-use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
+use BitBag\ShopwareDpdApp\Exception\ConfigNotFoundException;
+use BitBag\ShopwareDpdApp\Exception\OrderException;
 use BitBag\ShopwareDpdApp\Exception\PackageException;
 use BitBag\ShopwareDpdApp\Factory\ContextFactoryInterface;
 use BitBag\ShopwareDpdApp\Factory\FeedbackResponseFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
+use BitBag\ShopwareDpdApp\Repository\ConfigRepositoryInterface;
 use BitBag\ShopwareDpdApp\Repository\PackageRepositoryInterface;
 use BitBag\ShopwareDpdApp\Resolver\ApiClientResolverInterface;
-use BitBag\ShopwareDpdApp\Validator\ConfigValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use T3ko\Dpd\Request\GenerateLabelsRequest;
+use Vin\ShopwareSdk\Data\Context;
 
 final class LabelController extends AbstractController
 {
@@ -36,7 +37,7 @@ final class LabelController extends AbstractController
 
     private ContextFactoryInterface $contextFactory;
 
-    private ConfigValidatorInterface $configValidator;
+    private ConfigRepositoryInterface $configRepository;
 
     public function __construct(
         PackageRepositoryInterface $packageRepository,
@@ -44,29 +45,30 @@ final class LabelController extends AbstractController
         ApiClientResolverInterface $apiClientResolver,
         OrderFinderInterface $orderFinder,
         ContextFactoryInterface $contextFactory,
-        ConfigValidatorInterface $configValidator
+        ConfigRepositoryInterface $configRepository
     ) {
         $this->packageRepository = $packageRepository;
         $this->feedbackResponseFactory = $feedbackResponseFactory;
         $this->apiClientResolver = $apiClientResolver;
         $this->orderFinder = $orderFinder;
         $this->contextFactory = $contextFactory;
-        $this->configValidator = $configValidator;
+        $this->configRepository = $configRepository;
     }
 
-    public function getLabel(ActionInterface $action): Response
+    public function getLabel(ActionInterface $action, Context $context): Response
     {
         $orderId = $action->getData()->getIds()[0] ?? '';
         $shopId = $action->getSource()->getShopId();
 
         try {
-            $this->configValidator->validateApiData($shopId, $orderId);
-        } catch (OrderException | ErrorNotificationException $e) {
+            $salesChannelId = $this->orderFinder->getSalesChannelIdByOrderId($orderId, $context);
+
+            $this->configRepository->getByShopIdAndSalesChannelId($shopId, $salesChannelId);
+        } catch (OrderException | ConfigNotFoundException $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 
         $package = $this->packageRepository->findByOrderId($orderId);
-
         if (null === $package) {
             return $this->feedbackResponseFactory->createError('bitbag.shopware_dpd_app.package.not_found');
         }
@@ -100,7 +102,7 @@ final class LabelController extends AbstractController
 
         try {
             $api = $this->apiClientResolver->getApi($shopId, $salesChannelId);
-        } catch (ErrorNotificationException  $e) {
+        } catch (ConfigNotFoundException  $e) {
             return $this->feedbackResponseFactory->createError($e->getMessage());
         }
 

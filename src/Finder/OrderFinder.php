@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Finder;
 
-use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
+use BitBag\ShopwareDpdApp\Exception\OrderException;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
@@ -35,7 +35,6 @@ final class OrderFinder implements OrderFinderInterface
 
         /** @var OrderEntity|null $order */
         $order = $searchOrder->first();
-
         if (null === $order) {
             throw new OrderException('bitbag.shopware_dpd_app.order.not_found');
         }
@@ -46,7 +45,6 @@ final class OrderFinder implements OrderFinderInterface
     public function getSalesChannelIdByOrder(OrderEntity $order, Context $context): string
     {
         $salesChannelId = $order->salesChannelId;
-
         if (null === $salesChannelId) {
             throw new OrderException('bitbag.shopware_dpd_app.order.sales_channel_id_not_found');
         }

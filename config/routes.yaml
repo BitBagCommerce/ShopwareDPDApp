@@ -29,7 +29,7 @@ show_protocol:
 configuration_module_index:
   methods: ['GET', 'POST']
   path: /app/module/configuration
-  controller: BitBag\ShopwareDpdApp\Controller\ConfigurationModuleController
+  controller: BitBag\ShopwareDpdApp\Controller\ConfigModuleController
 
 config:
   methods: ['GET']

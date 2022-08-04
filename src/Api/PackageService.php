@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace BitBag\ShopwareDpdApp\Api;
 
 use BitBag\ShopwareDpdApp\Exception\ApiException;
-use BitBag\ShopwareDpdApp\Exception\ErrorNotificationException;
-use BitBag\ShopwareDpdApp\Exception\Order\OrderAddressException;
-use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
-use BitBag\ShopwareDpdApp\Exception\PackageException;
+use BitBag\ShopwareDpdApp\Exception\PackageNotFoundException;
 use BitBag\ShopwareDpdApp\Factory\PackageFactoryInterface;
 use BitBag\ShopwareDpdApp\Finder\OrderFinderInterface;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
@@ -41,11 +38,7 @@ final class PackageService implements PackageServiceInterface
         string $shopId,
         Context $context
     ): array {
-        try {
-            $package = $this->packageFactory->create($shopId, $order, $context);
-        } catch (OrderException | OrderAddressException | PackageException $e) {
-            throw new ErrorNotificationException($e->getMessage());
-        }
+        $package = $this->packageFactory->create($shopId, $order, $context);
 
         $salesChannelId = $this->orderFinder->getSalesChannelIdByOrder($order, $context);
 
@@ -60,16 +53,16 @@ final class PackageService implements PackageServiceInterface
                 str_contains(Defaults::STATUS_INCORRECT_LOGIN_OR_PASSWORD, $e->getMessage()) ||
                 str_contains(Defaults::STATUS_ACCOUNT_IS_LOCKED, $e->getMessage())
             ) {
-                throw new ErrorNotificationException('bitbag.shopware_dpd_app.api.provided_data_not_valid');
+                throw new ApiException('bitbag.shopware_dpd_app.api.provided_data_not_valid');
             }
 
-            throw new ErrorNotificationException($e->getMessage());
+            throw new ApiException($e->getMessage());
         }
 
         $packages = $this->getPackagesFromResponse($response->getPackages());
 
         if (empty($packages)) {
-            throw new ErrorNotificationException('bitbag.shopware_dpd_app.package.not_found');
+            throw new PackageNotFoundException('bitbag.shopware_dpd_app.package.not_found');
         }
 
         return $packages;

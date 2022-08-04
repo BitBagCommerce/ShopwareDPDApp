@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Factory;
 
-use BitBag\ShopwareDpdApp\Exception\Order\OrderAddressException;
+use BitBag\ShopwareDpdApp\Exception\OrderAddressException;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
 use T3ko\Dpd\Objects\Receiver;
 use Vin\ShopwareSdk\Data\Entity\OrderAddress\OrderAddressEntity;
