@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\ShopwareDpdApp\Exception\Order;
+namespace BitBag\ShopwareDpdApp\Exception;
 
 use Symfony\Component\HttpFoundation\Response;
 

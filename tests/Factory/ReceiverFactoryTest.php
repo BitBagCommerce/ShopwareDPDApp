@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\ShopwareDpdApp\Tests\Factory;
 
-use BitBag\ShopwareDpdApp\Exception\Order\OrderAddressException;
+use BitBag\ShopwareDpdApp\Exception\OrderAddressException;
 use BitBag\ShopwareDpdApp\Factory\ReceiverFactory;
 use BitBag\ShopwareDpdApp\Provider\Defaults;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

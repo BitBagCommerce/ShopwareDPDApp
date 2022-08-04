@@ -20,7 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Entity\SalesChannel\SalesChannelEntity;
 
-final class ConfigurationModuleController extends AbstractController
+final class ConfigModuleController extends AbstractController
 {
     private ConfigRepositoryInterface $configRepository;
 
