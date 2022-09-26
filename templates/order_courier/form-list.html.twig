@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order courier{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/order-courier.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.js"></script>
+    <script src="{{ asset('assets/js/order-courier.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="bitbag-sw-container">
+        {{ form_start(form) }}
+        <div class="save-container">
+            <button type="submit" id="orderCourier" class="sw-button sw-button--primary">
+                {{ 'bitbag.shopware_dpd_app.order_courier.order_courier_btn'|trans }}
+            </button>
+        </div>
+
+        {% if app.session is not null and app.session.started %}
+            {% for label, messages in app.session.flashbag.all %}
+                {% for message in messages %}
+                    <div class="sw-card">
+                        <div class="sw-card__content">
+                            <div class="sw-container">{{ message }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        <div class="sw-card">
+            <div class="sw-card__content">
+                <div class="sw-container" style="margin-bottom: 30px;">
+                    <div class="sw-field" style="margin-bottom: 0;">
+                        <div class="sw-field__label">
+                            <div class="is--required">
+                                {{ form_label(form.orders) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="orders-container" class="sw-block-field__block">
+                        {{ form_widget(form.orders) }}
+                    </div>
+                </div>
+
+                <div class="sw-container"
+                     style="grid-template-columns: 3fr 3fr 3fr; gap: 0 32px; place-items: stretch;">
+                    <div id="pickupDateDiv" class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                        <div class="sw-field__label">
+                            <div class="is--required">
+                                {{ form_label(form.pickupDate) }}
+                            </div>
+                        </div>
+                        <div class="sw-block-field__block">
+                            {{ form_widget(form.pickupDate, {attr: {class: 'flatpickr-input'}}) }}
+                        </div>
+                    </div>
+                    <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                        <div class="sw-field__label">
+                            <div class="is--required">
+                                {{ form_label(form.pickupTimeFrom) }}
+                            </div>
+                        </div>
+                        <div class="sw-block-field__block">
+                            {{ form_widget(form.pickupTimeFrom) }}
+                        </div>
+                    </div>
+
+                    <div class="sw-field sw-block-field sw-contextual-field sw-field--text sw-field--default">
+                        <div class="sw-field__label">
+                            <div class="is--required">
+                                {{ form_label(form.pickupTimeTo) }}
+                            </div>
+                        </div>
+                        <div class="sw-block-field__block">
+                            {{ form_widget(form.pickupTimeTo) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

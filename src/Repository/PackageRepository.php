@@ -18,15 +18,13 @@ final class PackageRepository extends ServiceEntityRepository implements Package
 
     public function getByOrderId(string $orderId): Package
     {
-        $queryBuilder = $this->createQueryBuilder('o')
-                             ->where('o.orderId = :orderId')
-                             ->andWhere('o.parcelId IS NOT NULL')
-                             ->setParameter('orderId', $orderId)
-                             ->setMaxResults(1);
-
-        $result = $queryBuilder
-            ->getQuery()
-            ->getOneOrNullResult();
+        $result = $this->createQueryBuilder('o')
+                       ->where('o.orderId = :orderId')
+                       ->andWhere('o.parcelId IS NOT NULL')
+                       ->setParameter('orderId', $orderId)
+                       ->setMaxResults(1)
+                       ->getQuery()
+                       ->getOneOrNullResult();
 
         if (null === $result) {
             throw new PackageException('bitbag.shopware_dpd_app.package.not_found');
@@ -37,14 +35,22 @@ final class PackageRepository extends ServiceEntityRepository implements Package
 
     public function findByOrderId(string $orderId): ?Package
     {
-        $queryBuilder = $this->createQueryBuilder('o')
-                             ->where('o.orderId = :orderId')
-                             ->andWhere('o.parcelId IS NOT NULL')
-                             ->setParameter('orderId', $orderId)
-                             ->setMaxResults(1);
+        return $this->createQueryBuilder('o')
+                    ->where('o.orderId = :orderId')
+                    ->andWhere('o.parcelId IS NOT NULL')
+                    ->setParameter('orderId', $orderId)
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getOneOrNullResult();
+    }
 
-        return $queryBuilder
-            ->getQuery()
-            ->getOneOrNullResult();
+    public function findOrdersWithoutOrderCourier(): array
+    {
+        return $this->createQueryBuilder('p')
+                    ->where('p.orderCourierNumber IS NULL')
+                    ->andWhere('p.waybill IS NOT NULL')
+                    ->orderBy('p.parcelId', 'DESC')
+                    ->getQuery()
+                    ->getResult();
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="BitBag\ShopwareDpdApp\Entity\OrderCourier"
+            table="order_couriers"
+            repository-class="BitBag\ShopwareDpdApp\Repository\OrderCourierRepository"
+    >
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="pickupDate" column="pickup_date" type="date" />
+        <field name="pickupTimeFrom" column="pickup_time_from" type="string" length="5" />
+        <field name="pickupTimeTo" column="pickup_time_to" type="string" length="5" />
+
+        <one-to-one field="package" target-entity="BitBag\ShopwareDpdApp\Entity\Package">
+            <join-column name="package_id" unique="true" nullable="false" />
+        </one-to-one>
+    </entity>
+</doctrine-mapping>

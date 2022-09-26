@@ -7,7 +7,10 @@ namespace BitBag\ShopwareDpdApp\Finder;
 use BitBag\ShopwareDpdApp\Exception\Order\OrderException;
 use Vin\ShopwareSdk\Data\Context;
 use Vin\ShopwareSdk\Data\Criteria;
+use Vin\ShopwareSdk\Data\Entity\Order\OrderCollection;
 use Vin\ShopwareSdk\Data\Entity\Order\OrderEntity;
+use Vin\ShopwareSdk\Data\FieldSorting;
+use Vin\ShopwareSdk\Data\Filter\EqualsAnyFilter;
 use Vin\ShopwareSdk\Data\Filter\EqualsFilter;
 use Vin\ShopwareSdk\Repository\RepositoryInterface;
 
@@ -41,6 +44,27 @@ final class OrderFinder implements OrderFinderInterface
         }
 
         return $order;
+    }
+
+    public function getOrdersByPackagesIds(array $packagesIds, Context $context): OrderCollection
+    {
+        if ([] === $packagesIds) {
+            return new OrderCollection();
+        }
+
+        $ordersCriteria = (new Criteria())
+            ->addFilter(new EqualsAnyFilter('id', $packagesIds))
+            ->addAssociations([
+                'billingAddress',
+                'addresses',
+                'lineItems.product',
+            ])
+            ->addSorting(new FieldSorting('orderNumber', 'DESC'));
+
+        /** @var OrderCollection $collection */
+        $collection = $this->orderRepository->search($ordersCriteria, $context)->getEntities();
+
+        return $collection;
     }
 
     public function getSalesChannelIdByOrder(OrderEntity $order, Context $context): string

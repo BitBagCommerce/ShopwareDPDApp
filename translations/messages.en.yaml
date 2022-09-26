@@ -46,3 +46,14 @@ bitbag:
         api:
             provided_data_not_valid: 'Provided API data is invalid'
             wsdl_not_found: 'Problem with DPD connection. Try again'
+        order_courier:
+            orders: 'Orders'
+            pickup_date: 'Pickup date'
+            pickup_time_from: 'Pickup time from'
+            pickup_time_to: 'Pickup time to'
+            select_order: 'Select order(s)'
+            order_courier_btn: 'Order courier'
+            form_data_invalid: 'Provided data is not valid'
+            courier_ordered: 'Courier was ordered for selected orders'
+            billing_address_not_found: 'Billing address not found'
+            authorization_failed_context: 'Authorization failed for this shop'
